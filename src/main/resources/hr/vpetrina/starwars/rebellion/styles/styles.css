@@ -1,0 +1,7 @@
+.image-border {
+    -fx-border-color: orange;
+    -fx-border-width: 5;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, gray, 10, 0.5, 0, 0);
+}
