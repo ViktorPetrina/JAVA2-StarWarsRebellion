@@ -5,52 +5,51 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane id="background-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="background-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true">
          <image>
             <Image url="@images/background_1.png" />
          </image>
       </ImageView>
-      <Pane id="planet-kashyyyk-pane" layoutX="337.0" layoutY="520.0" prefHeight="200.0" prefWidth="200.0">
+      <Pane id="planet-kashyyyk-pane" layoutX="297.0" layoutY="567.0" prefHeight="140.0" prefWidth="140.0">
          <children>
-            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
-            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/planet_kashyyyk.png" />
                </image>
             </ImageView>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
          </children>
       </Pane>
-      <Pane id="planet-tatooine-pane" layoutX="437.0" layoutY="137.0" prefHeight="200.0" prefWidth="200.0">
+      <Pane id="planet-tatooine-pane" layoutX="437.0" layoutY="137.0" prefHeight="140.0" prefWidth="140.0">
          <children>
-            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
-            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/planet_tatooine.png" />
                </image>
             </ImageView>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
          </children>
       </Pane>
-      <Pane id="planet-coruscant-pane" layoutX="749.0" layoutY="509.0" prefHeight="200.0" prefWidth="200.0">
+      <Pane id="planet-coruscant-pane" layoutX="749.0" layoutY="509.0" prefHeight="140.0" prefWidth="140.0">
          <children>
-            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
-            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/planet_coruscant.png" />
                </image>
             </ImageView>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
          </children>
       </Pane>
-      <Pane id="planet-naboo-pane" layoutX="934.0" layoutY="175.0" prefHeight="200.0" prefWidth="200.0">
+      <Pane id="planet-naboo-pane" layoutX="934.0" layoutY="175.0" prefHeight="140.0" prefWidth="140.0">
          <children>
-            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
-            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/planet_naboo.png" />
                </image>
             </ImageView>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
          </children>
       </Pane>
       <ImageView id="time-tracker-image" fitHeight="770.0" fitWidth="141.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true">
@@ -58,5 +57,29 @@
             <Image url="@images/time_tracker.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="timePositionOne" fitHeight="70.0" fitWidth="67.0" layoutX="85.0" layoutY="712.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/time_marker.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="timePositionThree" fitHeight="70.0" fitWidth="67.0" layoutX="85.0" layoutY="615.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionFive" fitHeight="70.0" fitWidth="67.0" layoutX="85.0" layoutY="511.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionSeven" fitHeight="70.0" fitWidth="67.0" layoutX="85.0" layoutY="422.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionNine" fitHeight="70.0" fitWidth="67.0" layoutX="85.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionEleven" fitHeight="70.0" fitWidth="67.0" layoutX="85.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionThirteen" fitHeight="70.0" fitWidth="67.0" layoutX="85.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionFifteen" fitHeight="70.0" fitWidth="67.0" layoutX="85.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionTwo" fitHeight="70.0" fitWidth="67.0" layoutX="14.0" layoutY="662.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionFour" fitHeight="70.0" fitWidth="67.0" layoutX="14.0" layoutY="561.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionSix" fitHeight="70.0" fitWidth="67.0" layoutX="14.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionEight" fitHeight="70.0" fitWidth="67.0" layoutX="14.0" layoutY="376.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionTen" fitHeight="70.0" fitWidth="67.0" layoutX="14.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionTwelve" fitHeight="70.0" fitWidth="67.0" layoutX="14.0" layoutY="198.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="timePositionFourteen" fitHeight="70.0" fitWidth="67.0" layoutX="14.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/rebellion_marker.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="timePositionSixteen" fitHeight="70.0" fitWidth="67.0" layoutX="18.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>

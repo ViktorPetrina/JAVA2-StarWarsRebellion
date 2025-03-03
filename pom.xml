@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                hr.vpetrina.starwars.starwarsrebellion/hr.vpetrina.starwars.rebellion.HelloApplication
+                                hr.vpetrina.starwars.starwarsrebellion/hr.vpetrina.starwars.rebellion.StarWarsRebellionApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
