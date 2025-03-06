@@ -10,9 +10,11 @@ import java.io.IOException;
 public class StarWarsRebellionApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StarWarsRebellionApplication.class.getResource("main-board-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                StarWarsRebellionApplication.class.getResource("main-board-view.fxml")
+        );
         Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
-        stage.setTitle("Star Wars: Rebellion");
+        stage.setTitle("Choose a Leader");
         stage.setScene(scene);
         stage.show();
     }
