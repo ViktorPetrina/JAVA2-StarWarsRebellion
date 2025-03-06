@@ -3,6 +3,8 @@ module hr.vpetrina.starwars.rebellion {
     requires javafx.fxml;
 
 
-    opens hr.vpetrina.starwars.rebellion to javafx.fxml;
-    exports hr.vpetrina.starwars.rebellion;
+    opens hr.vpetrina.starwars to javafx.fxml;
+    exports hr.vpetrina.starwars;
+    exports hr.vpetrina.starwars.controller;
+    opens hr.vpetrina.starwars.controller to javafx.fxml;
 }
