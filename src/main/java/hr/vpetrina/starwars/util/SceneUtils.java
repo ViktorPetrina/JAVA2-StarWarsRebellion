@@ -9,10 +9,13 @@ import javafx.stage.Stage;
 import jdk.jshell.spi.ExecutionControl;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class SceneUtils {
 
     private static final String PATH = "/hr/vpetrina/starwars/";
+
+    private SceneUtils() {}
 
     public static void launchScene(String title, String resourceName, Integer width, Integer height) throws IOException {
         FXMLLoader loader = new FXMLLoader(SceneUtils.class.getResource(PATH + resourceName));
@@ -24,15 +27,7 @@ public class SceneUtils {
         newStage.toFront();
     }
 
-    public static void closeWindow() {
-        try {
-            throw new ExecutionControl.NotImplementedException("implementiraj zatvaranje prozora!!");
-        } catch (ExecutionControl.NotImplementedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static void setImage(ImageView imageView, String imagePath) {
-        imageView.setImage(new Image(SceneUtils.class.getResource(imagePath).toExternalForm()));
+        imageView.setImage(new Image(Objects.requireNonNull(SceneUtils.class.getResource(imagePath)).toExternalForm()));
     }
 }

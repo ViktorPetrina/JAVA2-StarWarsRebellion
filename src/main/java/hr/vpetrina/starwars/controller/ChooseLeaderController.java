@@ -94,11 +94,31 @@ public class ChooseLeaderController {
     ));
 
     @FXML
-    private ImageView leaderImage1, leaderImage2, leaderImage3, leaderImage4;
+    private ImageView leaderImage1;
     @FXML
-    private Label leaderName1, leaderName2, leaderName3, leaderName4;
+    private ImageView leaderImage2;
     @FXML
-    private Button chooseButton1, chooseButton2, chooseButton3, chooseButton4;
+    private ImageView leaderImage3;
+    @FXML
+    private ImageView leaderImage4;
+
+    @FXML
+    private Label leaderName1;
+    @FXML
+    private Label leaderName2;
+    @FXML
+    private Label leaderName3;
+    @FXML
+    private Label leaderName4;
+
+    @FXML
+    private Button chooseButton1;
+    @FXML
+    private Button chooseButton2;
+    @FXML
+    private Button chooseButton3;
+    @FXML
+    private Button chooseButton4;
 
     private List<ImageView> leaderImages;
     private List<Label> leaderNames;
@@ -110,9 +130,13 @@ public class ChooseLeaderController {
         leaderNames = Arrays.asList(leaderName1, leaderName2, leaderName3, leaderName4);
         chooseButtons = Arrays.asList(chooseButton1, chooseButton2, chooseButton3, chooseButton4);
 
-        initializeEmpireLeaders();
+        if (GameState.getPlayerOneFaction() == Faction.EMPIRE) {
+            initializeEmpireLeaders();
+        }
+        else {
+            initializeRebelLeaders();
+        }
     }
-
 
     private void initializeEmpireLeaders() {
         GameUtils.initializeLeaders(empireLeaders, leaderNames, leaderImages);
