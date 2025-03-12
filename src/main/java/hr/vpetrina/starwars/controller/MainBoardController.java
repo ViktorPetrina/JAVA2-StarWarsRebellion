@@ -7,12 +7,9 @@ import java.io.IOException;
 
 public class MainBoardController {
 
+    // 1200, 800 dimensions
     @FXML
     public void initialize() {
-        try {
-            SceneUtils.launch("Choose a leader", "choose-leader-view.fxml", 800, 600);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 }

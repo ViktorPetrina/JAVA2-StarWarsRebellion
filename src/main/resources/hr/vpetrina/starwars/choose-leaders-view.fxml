@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.ChooseLeaderController"
+            style=" -fx-background-color: #000000;">
+
+    <VBox alignment="CENTER" prefHeight="700" prefWidth="450" spacing="15"
+          style="-fx-padding: 20; -fx-background-color: #000000;"
+          AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ffffff;" text="Choose Your Leaders (Select 2)" />
+
+        <HBox alignment="CENTER" spacing="20">
+            <VBox fx:id="leaderBox1" alignment="CENTER" spacing="10" style="-fx-padding: 15; -fx-background-color: #ffffff; -fx-border-color: #444; -fx-border-width: 2px; -fx-border-radius: 12; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+                <ImageView fx:id="leaderImage1" fitHeight="140" fitWidth="140" />
+                <Label fx:id="leaderName1" style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-text-fill: #222;" text="Leader 1" />
+                <Label text="Diplomacy:" /> <Label fx:id="leaderStat1_1" text="0" />
+                <Label text="Tactics:" /> <Label fx:id="leaderStat1_2" text="0" />
+                <Label text="Espionage:" /> <Label fx:id="leaderStat1_3" text="0" />
+                <Label text="Logistics:" /> <Label fx:id="leaderStat1_4" text="0" />
+                <Button fx:id="chooseButton1" text="Choose" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white;" />
+            </VBox>
+
+            <VBox fx:id="leaderBox2" alignment="CENTER" spacing="10" style="-fx-padding: 15; -fx-background-color: #ffffff; -fx-border-color: #444; -fx-border-width: 2px; -fx-border-radius: 12; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+                <ImageView fx:id="leaderImage2" fitHeight="140" fitWidth="140" />
+                <Label fx:id="leaderName2" style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-text-fill: #222;" text="Leader 2" />
+                <Label text="Diplomacy:" /> <Label fx:id="leaderStat2_1" text="0" />
+                <Label text="Tactics:" /> <Label fx:id="leaderStat2_2" text="0" />
+                <Label text="Espionage:" /> <Label fx:id="leaderStat2_3" text="0" />
+                <Label text="Logistics:" /> <Label fx:id="leaderStat2_4" text="0" />
+                <Button fx:id="chooseButton2" text="Choose" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white;" />
+            </VBox>
+        </HBox>
+
+        <HBox alignment="CENTER" spacing="20">
+            <VBox fx:id="leaderBox3" alignment="CENTER" spacing="10" style="-fx-padding: 15; -fx-background-color: #ffffff; -fx-border-color: #444; -fx-border-width: 2px; -fx-border-radius: 12; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+                <ImageView fx:id="leaderImage3" fitHeight="140" fitWidth="140" />
+                <Label fx:id="leaderName3" style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-text-fill: #222;" text="Leader 3" />
+                <Label text="Diplomacy:" /> <Label fx:id="leaderStat3_1" text="0" />
+                <Label text="Tactics:" /> <Label fx:id="leaderStat3_2" text="0" />
+                <Label text="Espionage:" /> <Label fx:id="leaderStat3_3" text="0" />
+                <Label text="Logistics:" /> <Label fx:id="leaderStat3_4" text="0" />
+                <Button fx:id="chooseButton3" text="Choose" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white;" />
+            </VBox>
+
+            <VBox fx:id="leaderBox4" alignment="CENTER" spacing="10" style="-fx-padding: 15; -fx-background-color: #ffffff; -fx-border-color: #444; -fx-border-width: 2px; -fx-border-radius: 12; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+                <ImageView fx:id="leaderImage4" fitHeight="140" fitWidth="140" />
+                <Label fx:id="leaderName4" style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-text-fill: #222;" text="Leader 4" />
+                <Label text="Diplomacy:" /> <Label fx:id="leaderStat4_1" text="0" />
+                <Label text="Tactics:" /> <Label fx:id="leaderStat4_2" text="0" />
+                <Label text="Espionage:" /> <Label fx:id="leaderStat4_3" text="0" />
+                <Label text="Logistics:" /> <Label fx:id="leaderStat4_4" text="0" />
+                <Button fx:id="chooseButton4" text="Choose" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white;" />
+            </VBox>
+        </HBox>
+
+        <Button fx:id="readyButton" text="Ready" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" />
+    </VBox>
+</AnchorPane>
