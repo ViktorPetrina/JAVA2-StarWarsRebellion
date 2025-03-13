@@ -94,6 +94,12 @@ public class ChooseLeaderController {
     ));
 
     @FXML
+    public Label lblLeaders;
+
+    @FXML
+    public Button btnReady;
+
+    @FXML
     private ImageView leaderImage1;
     @FXML
     private ImageView leaderImage2;
@@ -124,6 +130,8 @@ public class ChooseLeaderController {
     private List<Label> leaderNames;
     private List<Button> chooseButtons;
 
+    private final List<Leader> selectedLeaders = new ArrayList<>();
+
     @FXML
     public void initialize() {
         leaderImages = Arrays.asList(leaderImage1, leaderImage2, leaderImage3, leaderImage4);
@@ -132,9 +140,11 @@ public class ChooseLeaderController {
 
         if (GameState.getPlayerOneFaction() == Faction.EMPIRE) {
             initializeEmpireLeaders();
+            addButtonEventListeners(empireLeaders);
         }
         else {
             initializeRebelLeaders();
+            addButtonEventListeners(rebelLeaders);
         }
     }
 
@@ -144,5 +154,15 @@ public class ChooseLeaderController {
 
     private void initializeRebelLeaders() {
         GameUtils.initializeLeaders(rebelLeaders, leaderNames, leaderImages);
+    }
+
+    private void addButtonEventListeners(List<Leader> leaders) {
+        for (int i = 0; i < chooseButtons.size(); i++) {
+            int index = i;
+            chooseButtons.get(i).setOnAction(event -> {
+                selectedLeaders.add(leaders.get(index));
+                lblLeaders.setText(selectedLeaders.toString());
+            });
+        }
     }
 }
