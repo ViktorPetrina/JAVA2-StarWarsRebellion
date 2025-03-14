@@ -93,8 +93,11 @@ public class DocumentationUtils {
                     htmlBuilder.append("<ul class=\"constructor-list\">");
 
                     for (Constructor<?> constructor : clazz.getConstructors()) {
-                        String constructorName = constructor.getName().substring(constructor.getName().lastIndexOf('.') + 1);
-                        htmlBuilder.append("<li><p class=\"constructor-item\">").append(constructorName).append("</p></li>");
+                        String constructorName = constructor.getName()
+                                .substring(constructor.getName().lastIndexOf('.') + 1);
+                        htmlBuilder.append("<li><p class=\"constructor-item\">")
+                                .append(constructorName)
+                                .append("</p></li>");
                     }
 
                     htmlBuilder.append("</ul>");
@@ -122,16 +125,11 @@ public class DocumentationUtils {
 
                     for (Method method : clazz.getMethods()) {
                         String methodName = method.getName();
-                        Class<?>[] parameterTypes = method.getParameterTypes();
-                        StringBuilder params = new StringBuilder("(");
-                        for (int i = 0; i < parameterTypes.length; i++) {
-                            params.append(parameterTypes[i].getSimpleName());
-                            if (i < parameterTypes.length - 1) {
-                                params.append(", ");
-                            }
-                        }
-                        params.append(")");
-                        htmlBuilder.append("<li><p class=\"method-item\">").append(methodName).append(params).append("</p></li>");
+                        StringBuilder params = getStringBuilder(method);
+                        htmlBuilder.append("<li><p class=\"method-item\">")
+                                .append(methodName)
+                                .append(params)
+                                .append("</p></li>");
                     }
 
                     htmlBuilder.append("</ul>");
@@ -153,5 +151,19 @@ public class DocumentationUtils {
         htmlBuilder.append(htmlEnd);
 
         return htmlBuilder.toString();
+    }
+
+    private static StringBuilder getStringBuilder(Method method) {
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        StringBuilder params = new StringBuilder("(");
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            params.append(parameterTypes[i].getSimpleName());
+            if (i < parameterTypes.length - 1) {
+                params.append(", ");
+            }
+        }
+        params.append(")");
+        return params;
     }
 }
