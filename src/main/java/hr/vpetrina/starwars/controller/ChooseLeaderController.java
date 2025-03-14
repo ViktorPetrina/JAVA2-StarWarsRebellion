@@ -109,6 +109,7 @@ public class ChooseLeaderController {
         if (leaders.isEmpty()) {
             return "No leaders selected";
         }
+
         StringBuilder builder = new StringBuilder("Selected: ");
         leaders.forEach(leader -> builder.append(leader.getName()).append(", "));
         return builder.substring(0, builder.length() - 2);
