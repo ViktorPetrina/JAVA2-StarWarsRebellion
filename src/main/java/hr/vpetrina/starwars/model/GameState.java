@@ -1,25 +1,23 @@
 package hr.vpetrina.starwars.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
 public class GameState {
 
     private GameState() {}
 
+    @Getter @Setter
     private static Faction playerOneFaction;
+
+    @Getter @Setter
     private static Faction playerTwoFaction;
 
-    public static Faction getPlayerOneFaction() {
-        return playerOneFaction;
-    }
+    @Getter @Setter
+    private static List<Leader> playerOneLeaders;
 
-    public static void setPlayerOneFaction(Faction playerOneFaction) {
-        GameState.playerOneFaction = playerOneFaction;
-    }
-
-    public static Faction getPlayerTwoFaction() {
-        return playerTwoFaction;
-    }
-
-    public static void setPlayerTwoFaction(Faction playerTwoFaction) {
-        GameState.playerTwoFaction = playerTwoFaction;
-    }
+    @Getter @Setter
+    private static List<Leader> playerTwoLeaders;
 }

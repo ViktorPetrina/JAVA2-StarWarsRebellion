@@ -2,11 +2,14 @@ package hr.vpetrina.starwars.controller;
 
 import hr.vpetrina.starwars.model.*;
 import hr.vpetrina.starwars.util.GameUtils;
+import hr.vpetrina.starwars.util.SceneUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,89 +18,16 @@ public class ChooseLeaderController {
 
     // 1000, 1200 dimensions
 
-    private static final List<Leader> rebelLeaders = new ArrayList<>(List.of(
-            new Leader(
-                    "Luke Skywalker",
-                    Faction.REBELLION,
-                    new Stats(0, 0, 0, 0),
-                    Health.ALIVE,
-                    null,
-                    false,
-                    "/hr/vpetrina/starwars/images/luke_skywalker.jpg"
-            ),
-            new Leader(
-                    "Leia Organa",
-                    Faction.REBELLION,
-                    new Stats(0, 0, 0, 0),
-                    Health.ALIVE,
-                    null,
-                    false,
-                    "/hr/vpetrina/starwars/images/leia_organa.jpg"
-            ),
-            new Leader(
-                    "Han Solo",
-                    Faction.REBELLION,
-                    new Stats(0, 0, 0, 0),
-                    Health.ALIVE,
-                    null,
-                    false,
-                    "/hr/vpetrina/starwars/images/han_solo.png"
-            ),
-            new Leader(
-                    "Jan Donna",
-                    Faction.REBELLION,
-                    new Stats(0, 0, 0, 0),
-                    Health.ALIVE,
-                    null,
-                    false,
-                    "/hr/vpetrina/starwars/images/jan_dodonna.png"
-            )
-    ));
-
-    private static final List<Leader> empireLeaders = new ArrayList<>(List.of(
-            new Leader(
-                    "Boba Fett",
-                    Faction.EMPIRE,
-                    new Stats(0, 0, 0, 0),
-                    Health.ALIVE,
-                    null,
-                    false,
-                    "/hr/vpetrina/starwars/images/boba_fett.jpg"
-            ),
-            new Leader(
-                    "Darth Sidious",
-                    Faction.EMPIRE,
-                    new Stats(0, 0, 0, 0),
-                    Health.ALIVE,
-                    null,
-                    false,
-                    "/hr/vpetrina/starwars/images/darth_sidious.jpeg"
-            ),
-            new Leader(
-                    "Darth Vader",
-                    Faction.EMPIRE,
-                    new Stats(0, 0, 0, 0),
-                    Health.ALIVE,
-                    null,
-                    false,
-                    "/hr/vpetrina/starwars/images/darth_vader.jpeg"
-            ),
-            new Leader(
-                    "General Tagge",
-                    Faction.REBELLION,
-                    new Stats(0, 0, 0, 0),
-                    Health.ALIVE,
-                    null,
-                    false,
-                    "/hr/vpetrina/starwars/images/general_tagge.png"
-            )
-    ));
+    private static final List<Leader> rebelLeaders = GameUtils.getRebelLeaders();
+    private static final List<Leader> empireLeaders = GameUtils.getEmpireLeaders();
 
     @FXML
     public Label lblLeaders;
 
     @FXML
     public Button btnReady;
+    @FXML
+    public Button btnReset;
 
     @FXML
     private ImageView leaderImage1;
@@ -126,43 +56,77 @@ public class ChooseLeaderController {
     @FXML
     private Button chooseButton4;
 
-    private List<ImageView> leaderImages;
-    private List<Label> leaderNames;
     private List<Button> chooseButtons;
 
     private final List<Leader> selectedLeaders = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        leaderImages = Arrays.asList(leaderImage1, leaderImage2, leaderImage3, leaderImage4);
-        leaderNames = Arrays.asList(leaderName1, leaderName2, leaderName3, leaderName4);
+        List<Label> leaderNames = Arrays.asList(leaderName1, leaderName2, leaderName3, leaderName4);
+        List<ImageView> leaderImages = Arrays.asList(leaderImage1, leaderImage2, leaderImage3, leaderImage4);
+
         chooseButtons = Arrays.asList(chooseButton1, chooseButton2, chooseButton3, chooseButton4);
 
         if (GameState.getPlayerOneFaction() == Faction.EMPIRE) {
-            initializeEmpireLeaders();
+            GameUtils.initializeLeaders(empireLeaders, leaderNames, leaderImages);
             addButtonEventListeners(empireLeaders);
         }
         else {
-            initializeRebelLeaders();
+            GameUtils.initializeLeaders(rebelLeaders, leaderNames, leaderImages);
             addButtonEventListeners(rebelLeaders);
         }
-    }
-
-    private void initializeEmpireLeaders() {
-        GameUtils.initializeLeaders(empireLeaders, leaderNames, leaderImages);
-    }
-
-    private void initializeRebelLeaders() {
-        GameUtils.initializeLeaders(rebelLeaders, leaderNames, leaderImages);
     }
 
     private void addButtonEventListeners(List<Leader> leaders) {
         for (int i = 0; i < chooseButtons.size(); i++) {
             int index = i;
             chooseButtons.get(i).setOnAction(event -> {
+
+                if (selectedLeaders.contains(leaders.get(index))) {
+                    SceneUtils.showDialog(
+                            null,
+                            "Leader selected",
+                            "The leader you choose is already selected"
+                    );
+                    return;
+
+                } else if (selectedLeaders.size() == 2) {
+                    SceneUtils.showDialog(
+                            null,
+                            "Too many leaders",
+                            "You can select only two leaders"
+                    );
+                    return;
+                }
+
                 selectedLeaders.add(leaders.get(index));
-                lblLeaders.setText(selectedLeaders.toString());
+                lblLeaders.setText(leadersToString(selectedLeaders));
             });
         }
+    }
+
+    private String leadersToString(List<Leader> leaders) {
+        if (leaders.isEmpty()) {
+            return "No leaders selected";
+        }
+        StringBuilder builder = new StringBuilder("Selected: ");
+        leaders.forEach(leader -> builder.append(leader.getName()).append(", "));
+        return builder.substring(0, builder.length() - 2);
+    }
+
+    @FXML
+    private void resetChoices() {
+        selectedLeaders.clear();
+        lblLeaders.setText(leadersToString(selectedLeaders));
+    }
+
+    @FXML
+    public void startGame(ActionEvent actionEvent) throws IOException {
+        GameState.setPlayerOneLeaders(selectedLeaders);
+        SceneUtils.launchScene(
+                "Star Wars: Rebellion",
+                "main-board-view.fxml",
+                1200, 800);
+        SceneUtils.closeWindow(lblLeaders);
     }
 }

@@ -33,7 +33,11 @@ public class PickASideController {
         GameState.setPlayerOneFaction(selectedFaction);
 
         if (selectedFaction == null) {
-            showUnselectedFactionDialog();
+            SceneUtils.showDialog(
+                    null,
+                    "Select a Faction",
+                    "A faction must be selected to start the game."
+            );
             return;
         }
 
@@ -42,13 +46,6 @@ public class PickASideController {
                 "choose-leaders-view.fxml",
                 1000, 800);
 
-        lblSide.getScene().getWindow().hide();
-    }
-
-    private void showUnselectedFactionDialog() {
-        Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.OK);
-        alert.setHeaderText("Select a Faction");
-        alert.setContentText("A faction must be selected to start the game.");
-        alert.showAndWait();
+        SceneUtils.closeWindow(lblSide);
     }
 }
