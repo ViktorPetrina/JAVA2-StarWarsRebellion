@@ -34,7 +34,7 @@ public class PickASideController {
 
         if (selectedFaction == null) {
             SceneUtils.showDialog(
-                    null,
+                    "Game error",
                     "Select a Faction",
                     "A faction must be selected to start the game."
             );

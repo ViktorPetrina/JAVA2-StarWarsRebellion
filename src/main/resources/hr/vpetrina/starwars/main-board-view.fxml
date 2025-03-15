@@ -5,15 +5,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane id="background-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0"
-      xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
+<Pane id="background-pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
    <children>
       <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true">
          <image>
             <Image url="@images/background_1.png" />
          </image>
       </ImageView>
-      <Pane id="planet-kashyyyk-pane" layoutX="226.0" layoutY="545.0" prefHeight="140.0" prefWidth="140.0">
+      <Pane id="planet-kashyyyk-pane" layoutX="287.0" layoutY="545.0" prefHeight="140.0" prefWidth="140.0">
          <children>
             <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -23,7 +22,7 @@
             <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
          </children>
       </Pane>
-      <Pane id="planet-tatooine-pane" layoutX="437.0" layoutY="137.0" prefHeight="140.0" prefWidth="140.0">
+      <Pane id="planet-tatooine-pane" layoutX="239.0" layoutY="104.0" prefHeight="140.0" prefWidth="140.0">
          <children>
             <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -33,7 +32,7 @@
             <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
          </children>
       </Pane>
-      <Pane id="planet-coruscant-pane" layoutX="877.0" layoutY="537.0" prefHeight="140.0" prefWidth="140.0">
+      <Pane id="planet-coruscant-pane" layoutX="906.0" layoutY="526.0" prefHeight="140.0" prefWidth="140.0">
          <children>
             <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -43,7 +42,7 @@
             <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
          </children>
       </Pane>
-      <Pane id="planet-naboo-pane" layoutX="934.0" layoutY="175.0" prefHeight="140.0" prefWidth="140.0">
+      <Pane id="planet-naboo-pane" layoutX="947.0" layoutY="187.0" prefHeight="140.0" prefWidth="140.0">
          <children>
             <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -82,11 +81,31 @@
          </image>
       </ImageView>
       <ImageView fx:id="timePositionSixteen" fitHeight="70.0" fitWidth="67.0" layoutX="18.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
-      <Pane id="planet-coruscant-pane" layoutX="548.0" layoutY="441.0" prefHeight="140.0" prefWidth="140.0">
+      <Pane id="planet-coruscant-pane" layoutX="440.0" layoutY="281.0" prefHeight="140.0" prefWidth="140.0">
          <children>
             <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/planet_mustafar.png" />
+               </image>
+            </ImageView>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
+         </children>
+      </Pane>
+      <Pane id="planet-ilum-pane" layoutX="658.0" layoutY="70.0" prefHeight="140.0" prefWidth="140.0">
+         <children>
+            <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/planet_hoth.png" />
+               </image>
+            </ImageView>
+            <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />
+         </children>
+      </Pane>
+      <Pane id="planet-kashyyyk-pane" layoutX="630.0" layoutY="580.0" prefHeight="140.0" prefWidth="140.0">
+         <children>
+            <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/planet_ilum.png" />
                </image>
             </ImageView>
             <Button alignment="BOTTOM_LEFT" mnemonicParsing="false" text="Button" />

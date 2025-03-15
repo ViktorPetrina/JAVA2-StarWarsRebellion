@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,45 +37,44 @@ public class DocumentationUtils {
     }
 
     private static String generateHtmlDocumentationCode(List<String> classList) {
-
         StringBuilder htmlBuilder = new StringBuilder();
 
         String htmlStart = """
-            <!DOCTYPE html>
-            <html>
-            <head>
-            <title>Star Wars: Rebellion documentation</title>
-            <style>
-                body {
-                    background-color: black;
-                    color: white;
-                    font-family: Arial, sans-serif;
-                }
-                p {
-                    margin: 10px 0;
-                }
-                .class-list-heading {
-                    font-size: 24px;
-                    font-weight: bold;
-                    color: #FFD700;
-                }
-                .class-name {
-                    font-size: 20px;
-                    font-weight: bold;
-                    color: #FFD700;
-                }
-                .constructor-list, .field-list, .method-list {
-                    margin-left: 20px;
-                }
-                .constructor-item, .field-item, .method-item {
-                    color: #ADD8E6;
-                }
-            </style>
-            </head>
-            <body>
-            
-            <p class="class-list-heading">List of classes:</p>
-            <ul>""";
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>Star Wars: Rebellion documentation</title>
+        <style>
+            body {
+                background-color: black;
+                color: white;
+                font-family: Arial, sans-serif;
+            }
+            p {
+                margin: 10px 0;
+            }
+            .class-list-heading {
+                font-size: 24px;
+                font-weight: bold;
+                color: #FFD700;
+            }
+            .class-name {
+                font-size: 20px;
+                font-weight: bold;
+                color: #FFD700;
+            }
+            .constructor-list, .field-list, .method-list {
+                margin-left: 20px;
+            }
+            .constructor-item, .field-item, .method-item {
+                color: #ADD8E6;
+            }
+        </style>
+        </head>
+        <body>
+        
+        <p class="class-list-heading">List of classes:</p>
+        <ul>""";
 
         htmlBuilder.append(htmlStart);
 
@@ -105,13 +105,18 @@ public class DocumentationUtils {
                     htmlBuilder.append("<p>No constructor</p>");
                 }
 
-                if (clazz.getFields().length > 0) {
+                Field[] fields = clazz.getDeclaredFields();
+                if (fields.length > 0) {
                     htmlBuilder.append("<p>List of fields:</p>");
                     htmlBuilder.append("<ul class=\"field-list\">");
 
-                    for (Field field : clazz.getFields()) {
+                    for (Field field : fields) {
                         String fieldName = field.getName();
-                        htmlBuilder.append("<li><p class=\"field-item\">").append(fieldName).append("</p></li>");
+                        String modifiers = Modifier.toString(field.getModifiers());
+                        htmlBuilder.append("<li><p class=\"field-item\">")
+                                .append(modifiers).append(" ")
+                                .append(fieldName)
+                                .append("</p></li>");
                     }
 
                     htmlBuilder.append("</ul>");
@@ -144,9 +149,9 @@ public class DocumentationUtils {
         }
 
         String htmlEnd = """
-            </ul>
-            </body>
-            </html>""";
+        </ul>
+        </body>
+        </html>""";
 
         htmlBuilder.append(htmlEnd);
 

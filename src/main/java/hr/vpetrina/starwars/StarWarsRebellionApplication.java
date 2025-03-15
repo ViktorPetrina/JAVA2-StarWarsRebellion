@@ -1,5 +1,6 @@
 package hr.vpetrina.starwars;
 
+import hr.vpetrina.starwars.util.DocumentationUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
