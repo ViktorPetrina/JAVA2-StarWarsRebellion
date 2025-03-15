@@ -8,7 +8,6 @@ import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -37,7 +36,16 @@ public class SceneUtils {
         imageView.setImage(new Image(Objects.requireNonNull(SceneUtils.class.getResource(imagePath)).toExternalForm()));
     }
 
-    public static void showDialog(String title, String header, String content) {
+    public static void showInformationDialog(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+
+        alert.showAndWait();
+    }
+
+    public static void showWarningDialog(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(header);

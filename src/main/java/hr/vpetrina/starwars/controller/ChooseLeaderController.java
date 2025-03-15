@@ -83,7 +83,7 @@ public class ChooseLeaderController {
             chooseButtons.get(i).setOnAction(event -> {
 
                 if (selectedLeaders.contains(leaders.get(index))) {
-                    SceneUtils.showDialog(
+                    SceneUtils.showWarningDialog(
                             "Game error",
                             "Leader selected",
                             "The leader you choose is already selected"
@@ -91,7 +91,7 @@ public class ChooseLeaderController {
                     return;
 
                 } else if (selectedLeaders.size() == 2) {
-                    SceneUtils.showDialog(
+                    SceneUtils.showWarningDialog(
                             "Game error",
                             "Too many leaders",
                             "You can select only two leaders"
@@ -124,7 +124,7 @@ public class ChooseLeaderController {
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
         if (selectedLeaders.size() < 2) {
-            SceneUtils.showDialog(
+            SceneUtils.showWarningDialog(
                     "Game error",
                     "Not enough leaders selected",
                     "Two leaders must be selected to start the game");
@@ -136,7 +136,7 @@ public class ChooseLeaderController {
         SceneUtils.launchScene(
                 "Star Wars: Rebellion",
                 "main-board-view.fxml",
-                1200, 800);
+                1500, 1000);
         SceneUtils.closeWindow(lblLeaders);
     }
 }

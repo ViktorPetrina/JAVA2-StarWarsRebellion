@@ -4,8 +4,6 @@ import hr.vpetrina.starwars.model.Faction;
 import hr.vpetrina.starwars.model.GameState;
 import hr.vpetrina.starwars.util.SceneUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
@@ -33,7 +31,7 @@ public class PickASideController {
         GameState.setPlayerOneFaction(selectedFaction);
 
         if (selectedFaction == null) {
-            SceneUtils.showDialog(
+            SceneUtils.showWarningDialog(
                     "Game error",
                     "Select a Faction",
                     "A faction must be selected to start the game."
