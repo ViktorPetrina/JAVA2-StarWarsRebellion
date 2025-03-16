@@ -2,6 +2,7 @@ package hr.vpetrina.starwars.controller;
 
 import hr.vpetrina.starwars.model.Faction;
 import hr.vpetrina.starwars.model.GameState;
+import hr.vpetrina.starwars.util.GameUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
 import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.fxml.FXML;
@@ -43,8 +44,8 @@ public class PickASideController {
         }
 
         SceneUtils.launchScene(
-                "Star Wars: Rebellion",
-                "choose-leaders-view.fxml",
+                GameUtils.TITLE,
+                SceneUtils.CHOOSE_A_LEADER_WINDOW_NAME,
                 1000, 800);
 
         SceneUtils.closeWindow(lblSide);

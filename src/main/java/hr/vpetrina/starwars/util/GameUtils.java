@@ -12,6 +12,9 @@ import java.util.List;
 
 public class GameUtils {
 
+    public static final String TITLE = "Star Wars: Rebellion";
+    public static final String GAME_ERROR = "Game error";
+
     private GameUtils() {}
 
     public static void initializeLeaders(List<Leader> leaders, List<Label> labels, List<ImageView> images) {

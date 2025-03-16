@@ -118,9 +118,9 @@
       </Pane>
             <Pane fx:id="menuPane" layoutX="376.0" layoutY="257.0" prefHeight="283.0" prefWidth="409.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
                <children>
-                  <Button layoutX="25.0" layoutY="98.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="360.0" text="Chat" />
-                  <Button layoutX="25.0" layoutY="155.0" mnemonicParsing="false" onAction="#generateDocumentation" prefHeight="35.0" prefWidth="360.0" text="Generate documentation" />
-                  <Button layoutX="25.0" layoutY="216.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="35.0" prefWidth="360.0" text="Exit" />
+                  <Button layoutX="25.0" layoutY="98.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Chat" />
+                  <Button layoutX="25.0" layoutY="155.0" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" onAction="#generateDocumentation" prefHeight="35.0" prefWidth="360.0" text="Generate documentation" />
+                  <Button layoutX="25.0" layoutY="216.0" mnemonicParsing="false" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" onAction="#exitGame" prefHeight="35.0" prefWidth="360.0" text="Exit" />
                   <Label layoutX="156.0" layoutY="39.0" prefHeight="43.0" prefWidth="98.0" text="Menu" textFill="WHITE">
                      <font>
                         <Font name="Arial" size="38.0" />

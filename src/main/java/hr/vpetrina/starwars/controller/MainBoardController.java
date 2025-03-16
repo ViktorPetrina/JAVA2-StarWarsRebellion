@@ -2,6 +2,7 @@ package hr.vpetrina.starwars.controller;
 
 import hr.vpetrina.starwars.util.DocumentationUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
+import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
@@ -34,7 +35,8 @@ public class MainBoardController {
     }
 
     private void openOrCloseMenu() {
-        if (!menuOpened) {
+        SoundUtils.playSound(SoundUtils.MENU_SOUND);
+        if (Boolean.FALSE.equals(menuOpened)) {
             menuPane.setVisible(true);
             menuOpened = true;
         }
@@ -44,12 +46,14 @@ public class MainBoardController {
         }
     }
 
+    @FXML
     private void showChat() {
-
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
     }
 
     @FXML
     private void generateDocumentation() {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         try {
             DocumentationUtils.generateDocumentation();
             SceneUtils.showInformationDialog(
@@ -68,6 +72,7 @@ public class MainBoardController {
 
     @FXML
     private void exitGame() {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         Platform.exit();
     }
 }

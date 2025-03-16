@@ -16,6 +16,10 @@ public class SceneUtils {
 
     private static final String PATH = "/hr/vpetrina/starwars/";
 
+    public static final String MAIN_WINDOW_NAME = "main-board-view.fxml";
+    public static final String PICK_SIDE_WINDOW_NAME = "pick-a-side-view.fxml";
+    public static final String CHOOSE_A_LEADER_WINDOW_NAME = "choose-leaders-view.fxml";
+
     private SceneUtils() {}
 
     public static void launchScene(String title, String resourceName, Integer width, Integer height) throws IOException {

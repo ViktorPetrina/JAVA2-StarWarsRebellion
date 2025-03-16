@@ -82,10 +82,10 @@ public class ChooseLeaderController {
         for (int i = 0; i < chooseButtons.size(); i++) {
             int index = i;
             chooseButtons.get(i).setOnAction(event -> {
-                SoundUtils.playSound("select_3.mp3");
+                SoundUtils.playSound(SoundUtils.SELECT_SOUND);
                 if (selectedLeaders.contains(leaders.get(index))) {
                     SceneUtils.showWarningDialog(
-                            "Game error",
+                            GameUtils.GAME_ERROR,
                             "Leader selected",
                             "The leader you choose is already selected"
                     );
@@ -93,7 +93,7 @@ public class ChooseLeaderController {
 
                 } else if (selectedLeaders.size() == 2) {
                     SceneUtils.showWarningDialog(
-                            "Game error",
+                            GameUtils.GAME_ERROR,
                             "Too many leaders",
                             "You can select only two leaders"
                     );
@@ -118,17 +118,17 @@ public class ChooseLeaderController {
 
     @FXML
     private void resetChoices() {
-        SoundUtils.playSound("select_1.mp3");
+        SoundUtils.playSound(SoundUtils.RESET_SOUND);
         selectedLeaders.clear();
         lblLeaders.setText(leadersToString(selectedLeaders));
     }
 
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
-        SoundUtils.playSound("select_2.mp3");
+        SoundUtils.playSound(SoundUtils.READY_SOUND);
         if (selectedLeaders.size() < 2) {
             SceneUtils.showWarningDialog(
-                    "Game error",
+                    GameUtils.GAME_ERROR,
                     "Not enough leaders selected",
                     "Two leaders must be selected to start the game");
 
@@ -137,8 +137,8 @@ public class ChooseLeaderController {
 
         GameState.setPlayerOneLeaders(selectedLeaders);
         SceneUtils.launchScene(
-                "Star Wars: Rebellion",
-                "main-board-view.fxml",
+                GameUtils.TITLE,
+                SceneUtils.MAIN_WINDOW_NAME,
                 1500, 1000);
         SceneUtils.closeWindow(lblLeaders);
     }
