@@ -3,6 +3,7 @@ package hr.vpetrina.starwars.controller;
 import hr.vpetrina.starwars.model.*;
 import hr.vpetrina.starwars.util.GameUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
+import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -81,7 +82,7 @@ public class ChooseLeaderController {
         for (int i = 0; i < chooseButtons.size(); i++) {
             int index = i;
             chooseButtons.get(i).setOnAction(event -> {
-
+                SoundUtils.playSound("select_3.mp3");
                 if (selectedLeaders.contains(leaders.get(index))) {
                     SceneUtils.showWarningDialog(
                             "Game error",
@@ -117,12 +118,14 @@ public class ChooseLeaderController {
 
     @FXML
     private void resetChoices() {
+        SoundUtils.playSound("select_1.mp3");
         selectedLeaders.clear();
         lblLeaders.setText(leadersToString(selectedLeaders));
     }
 
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
+        SoundUtils.playSound("select_2.mp3");
         if (selectedLeaders.size() < 2) {
             SceneUtils.showWarningDialog(
                     "Game error",

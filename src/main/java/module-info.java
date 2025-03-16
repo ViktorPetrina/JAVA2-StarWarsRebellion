@@ -3,6 +3,8 @@ module hr.vpetrina.starwars.rebellion {
     requires javafx.fxml;
     requires static lombok;
     requires jdk.jshell;
+    requires java.desktop;
+    requires javafx.media;
 
 
     opens hr.vpetrina.starwars to javafx.fxml;

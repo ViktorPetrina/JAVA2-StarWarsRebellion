@@ -4,10 +4,12 @@ import hr.vpetrina.starwars.util.DocumentationUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainBoardController {
 
@@ -26,13 +28,8 @@ public class MainBoardController {
 
     @FXML
     private void keyPressed(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case ESCAPE:
-                openOrCloseMenu();
-                break;
-            case T:
-                showChat();
-                break;
+        if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ESCAPE) {
+            openOrCloseMenu();
         }
     }
 

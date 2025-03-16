@@ -1,23 +1,22 @@
 package hr.vpetrina.starwars;
 
-import hr.vpetrina.starwars.util.DocumentationUtils;
+import hr.vpetrina.starwars.util.SceneUtils;
+import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class StarWarsRebellionApplication extends Application {
+
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException {
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                StarWarsRebellionApplication.class.getResource("pick-a-side-view.fxml")
-        );
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Star Wars: Rebellion");
-        stage.setScene(scene);
-        stage.show();
+        SceneUtils.launchScene(
+                "Star Wars: Rebellion",
+                "pick-a-side-view.fxml",
+                800, 600);
+
+        SoundUtils.playMusic("background_music.mp3");
     }
 
     public static void main(String[] args) {
