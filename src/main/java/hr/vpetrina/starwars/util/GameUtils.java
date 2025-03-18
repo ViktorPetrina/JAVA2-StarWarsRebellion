@@ -1,9 +1,6 @@
 package hr.vpetrina.starwars.util;
 
-import hr.vpetrina.starwars.model.Faction;
-import hr.vpetrina.starwars.model.Health;
-import hr.vpetrina.starwars.model.Leader;
-import hr.vpetrina.starwars.model.Stats;
+import hr.vpetrina.starwars.model.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
@@ -17,10 +14,19 @@ public class GameUtils {
 
     private GameUtils() {}
 
-    public static void initializeLeaders(List<Leader> leaders, List<Label> labels, List<ImageView> images) {
+    public static void initializeLeaders(
+            List<Leader> leaders,
+            List<Label> labels,
+            List<ImageView> images,
+            List<List<Label>> stats
+    ) {
         for (int i = 0; i < leaders.size(); i++) {
             labels.get(i).setText(leaders.get(i).getName());
             SceneUtils.setImage(images.get(i), leaders.get(i).getImagePath());
+            stats.get(i).get(0).setText(leaders.get(i).getSkills().getDiplomacy().toString());
+            stats.get(i).get(1).setText(leaders.get(i).getSkills().getTactics().toString());
+            stats.get(i).get(2).setText(leaders.get(i).getSkills().getEspionage().toString());
+            stats.get(i).get(3).setText(leaders.get(i).getSkills().getLogistics().toString());
         }
     }
 
@@ -29,7 +35,7 @@ public class GameUtils {
                 new Leader(
                         "Luke Skywalker",
                         Faction.REBELLION,
-                        new Stats(0, 0, 0, 0),
+                        new Stats(1, 2, 3, 1),
                         Health.ALIVE,
                         null,
                         false,
@@ -38,7 +44,7 @@ public class GameUtils {
                 new Leader(
                         "Leia Organa",
                         Faction.REBELLION,
-                        new Stats(0, 0, 0, 0),
+                        new Stats(3, 1, 2, 1),
                         Health.ALIVE,
                         null,
                         false,
@@ -47,7 +53,7 @@ public class GameUtils {
                 new Leader(
                         "Han Solo",
                         Faction.REBELLION,
-                        new Stats(0, 0, 0, 0),
+                        new Stats(1, 3, 1, 2),
                         Health.ALIVE,
                         null,
                         false,
@@ -56,7 +62,7 @@ public class GameUtils {
                 new Leader(
                         "Jan Donna",
                         Faction.REBELLION,
-                        new Stats(0, 0, 0, 0),
+                        new Stats(2, 1, 1, 3),
                         Health.ALIVE,
                         null,
                         false,
@@ -70,7 +76,7 @@ public class GameUtils {
                 new Leader(
                         "Boba Fett",
                         Faction.EMPIRE,
-                        new Stats(0, 0, 0, 0),
+                        new Stats(1, 2, 3, 1),
                         Health.ALIVE,
                         null,
                         false,
@@ -79,7 +85,7 @@ public class GameUtils {
                 new Leader(
                         "Darth Sidious",
                         Faction.EMPIRE,
-                        new Stats(0, 0, 0, 0),
+                        new Stats(3, 2, 1, 1),
                         Health.ALIVE,
                         null,
                         false,
@@ -88,7 +94,7 @@ public class GameUtils {
                 new Leader(
                         "Darth Vader",
                         Faction.EMPIRE,
-                        new Stats(0, 0, 0, 0),
+                        new Stats(2, 3, 1, 1),
                         Health.ALIVE,
                         null,
                         false,
@@ -97,12 +103,24 @@ public class GameUtils {
                 new Leader(
                         "General Tagge",
                         Faction.REBELLION,
-                        new Stats(0, 0, 0, 0),
+                        new Stats(1, 2, 1, 3),
                         Health.ALIVE,
                         null,
                         false,
                         "/hr/vpetrina/starwars/images/general_tagge.png"
                 )
+        ));
+    }
+
+    public static List<Planet> getPlanets() {
+        return new ArrayList<>(List.of(
+           new Planet("Naboo", ControlStatus.NEUTRAL, new ArrayList<>()),
+           new Planet("Kashyyyk", ControlStatus.NEUTRAL, new ArrayList<>()),
+           new Planet("Tatooine", ControlStatus.NEUTRAL, new ArrayList<>()),
+           new Planet("Hoth", ControlStatus.NEUTRAL, new ArrayList<>()),
+           new Planet("Coruscant", ControlStatus.NEUTRAL, new ArrayList<>()),
+           new Planet("Mustafar", ControlStatus.NEUTRAL, new ArrayList<>()),
+           new Planet("Ilum", ControlStatus.NEUTRAL, new ArrayList<>())
         ));
     }
 }

@@ -32,7 +32,7 @@ public class PickASideController {
 
     @FXML
     private void ready() throws IOException {
-        GameState.setPlayerOneFaction(selectedFaction);
+        GameState.setPlayerFaction(selectedFaction);
         SoundUtils.playSound("select_2.mp3");
         if (selectedFaction == null) {
             SceneUtils.showWarningDialog(

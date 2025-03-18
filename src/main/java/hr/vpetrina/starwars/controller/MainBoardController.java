@@ -1,30 +1,134 @@
 package hr.vpetrina.starwars.controller;
 
+import hr.vpetrina.starwars.model.Faction;
+import hr.vpetrina.starwars.model.GameState;
+import hr.vpetrina.starwars.model.Planet;
 import hr.vpetrina.starwars.util.DocumentationUtils;
+import hr.vpetrina.starwars.util.GameUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
 import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainBoardController {
 
     @FXML
-    Pane menuPane;
+    public Label lblMessage;
+
+    @FXML
+    public ImageView imgPlanetKashyyyk;
+    @FXML
+    public ImageView imgPlanetTatooine;
+    @FXML
+    public ImageView imgPlanetCoruscant;
+    @FXML
+    public ImageView imgPlanetNaboo;
+    @FXML
+    public ImageView imgPlanetMustafar;
+    @FXML
+    public ImageView imgPlanetHoth;
+    @FXML
+    public ImageView imgPlanetIlum;
+
+    private List<ImageView> planetImages;
+    private List<Planet> planets;
+
+    @FXML
+    private Pane menuPane;
+    @FXML
+    private Pane planetMenuPane;
+
+    @FXML
+    public Label lblPlanetName;
+    @FXML
+    public Label lblPlanetControl;
+    @FXML
+    public Label lblPlanetLeaders;
+
     private Boolean menuOpened = false;
+    private Boolean secretBaseSelected = false;
+    private Planet selectedPlanet;
+    private Planet secretBaseLocation;
+
 
     @FXML
     public void initialize() {
+        initializePlanets();
         initializeMenu();
+        initializeSecretBase();
+        initializeEventListeners();
+    }
+
+    private void initializePlanets() {
+        planetImages = List.of(
+                imgPlanetTatooine,
+                imgPlanetCoruscant,
+                imgPlanetNaboo,
+                imgPlanetMustafar,
+                imgPlanetHoth,
+                imgPlanetIlum,
+                imgPlanetKashyyyk
+        );
+
+        planets = GameUtils.getPlanets();
+    }
+
+    private void initializeEventListeners() {
+        if (GameState.getPlayerFaction() == Faction.EMPIRE || Boolean.TRUE.equals(secretBaseSelected)) {
+            planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> openPlanetMenu(planet)));
+        }
+    }
+
+    private void openPlanetMenu(ImageView planetImage) {
+        selectPlanet(planetImage);
+        lblPlanetName.setText(selectedPlanet.getName());
+        lblPlanetControl.setText(selectedPlanet.getControlStatus().toString());
+        //lblPlanetLeaders.setText(selectedPlanet.getLeaders().toString()); ili nesto slicno
+
+        planetMenuPane.setVisible(true);
+        SoundUtils.playSound(SoundUtils.MENU_SOUND);
+    }
+
+    private void initializeSecretBase() {
+        if (GameState.getPlayerFaction() != Faction.REBELLION) {
+            return;
+        }
+
+        lblMessage.setText("Choose a location for your secret base!");
+        planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> {
+            selectPlanet(planet);
+            SoundUtils.playSound(SoundUtils.READY_SOUND);
+            if (selectedPlanet != null) {
+                secretBaseLocation = selectedPlanet;
+                lblMessage.setText("Secret base selected!\nLocation: " + secretBaseLocation.getName());
+                secretBaseSelected = true;
+            }
+
+            initializeEventListeners();
+        }));
+    }
+
+    private void selectPlanet(ImageView planet) {
+        selectedPlanet = planets
+                .stream()
+                .filter(p -> p.getName().equals(planet.getUserData().toString()))
+                .toList()
+                .getFirst();
     }
 
     private void initializeMenu() {
         menuPane.setVisible(false);
+        planetMenuPane.setVisible(false);
     }
 
     @FXML
@@ -44,6 +148,12 @@ public class MainBoardController {
             menuPane.setVisible(false);
             menuOpened = false;
         }
+    }
+
+    @FXML
+    private void closePlanetMenu() {
+        planetMenuPane.setVisible(false);
+        SoundUtils.playSound(SoundUtils.RESET_SOUND);
     }
 
     @FXML

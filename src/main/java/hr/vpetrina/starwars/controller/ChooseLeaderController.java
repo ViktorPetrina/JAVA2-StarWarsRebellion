@@ -31,6 +31,42 @@ public class ChooseLeaderController {
     public Button btnReset;
 
     @FXML
+    public Label leaderStat1_1;
+    @FXML
+    public Label leaderStat1_2;
+    @FXML
+    public Label leaderStat1_3;
+    @FXML
+    public Label leaderStat1_4;
+
+    @FXML
+    public Label leaderStat2_1;
+    @FXML
+    public Label leaderStat2_2;
+    @FXML
+    public Label leaderStat2_3;
+    @FXML
+    public Label leaderStat2_4;
+
+    @FXML
+    public Label leaderStat3_1;
+    @FXML
+    public Label leaderStat3_2;
+    @FXML
+    public Label leaderStat3_3;
+    @FXML
+    public Label leaderStat3_4;
+
+    @FXML
+    public Label leaderStat4_1;
+    @FXML
+    public Label leaderStat4_2;
+    @FXML
+    public Label leaderStat4_3;
+    @FXML
+    public Label leaderStat4_4;
+
+    @FXML
     private ImageView leaderImage1;
     @FXML
     private ImageView leaderImage2;
@@ -65,17 +101,26 @@ public class ChooseLeaderController {
     public void initialize() {
         List<Label> leaderNames = Arrays.asList(leaderName1, leaderName2, leaderName3, leaderName4);
         List<ImageView> leaderImages = Arrays.asList(leaderImage1, leaderImage2, leaderImage3, leaderImage4);
+        List<List<Label>> stats = getStats();
 
         chooseButtons = Arrays.asList(chooseButton1, chooseButton2, chooseButton3, chooseButton4);
 
-        if (GameState.getPlayerOneFaction() == Faction.EMPIRE) {
-            GameUtils.initializeLeaders(empireLeaders, leaderNames, leaderImages);
+        if (GameState.getPlayerFaction() == Faction.EMPIRE) {
+            GameUtils.initializeLeaders(empireLeaders, leaderNames, leaderImages, stats);
             addButtonEventListeners(empireLeaders);
         }
         else {
-            GameUtils.initializeLeaders(rebelLeaders, leaderNames, leaderImages);
+            GameUtils.initializeLeaders(rebelLeaders, leaderNames, leaderImages, stats);
             addButtonEventListeners(rebelLeaders);
         }
+    }
+
+    private List<List<Label>> getStats() {
+        List<Label> leader1Stats = Arrays.asList(leaderStat1_1, leaderStat1_2, leaderStat1_3, leaderStat1_4);
+        List<Label> leader2Stats = Arrays.asList(leaderStat2_1, leaderStat2_2, leaderStat2_3, leaderStat2_4);
+        List<Label> leader3Stats = Arrays.asList(leaderStat3_1, leaderStat3_2, leaderStat3_3, leaderStat3_4);
+        List<Label> leader4Stats = Arrays.asList(leaderStat4_1, leaderStat4_2, leaderStat4_3, leaderStat4_4);
+        return Arrays.asList(leader1Stats, leader2Stats, leader3Stats, leader4Stats);
     }
 
     private void addButtonEventListeners(List<Leader> leaders) {
@@ -135,7 +180,7 @@ public class ChooseLeaderController {
             return;
         }
 
-        GameState.setPlayerOneLeaders(selectedLeaders);
+        GameState.setPlayerLeaders(selectedLeaders);
         SceneUtils.launchScene(
                 GameUtils.TITLE,
                 SceneUtils.MAIN_WINDOW_NAME,
