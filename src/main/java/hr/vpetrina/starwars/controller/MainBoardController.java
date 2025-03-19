@@ -166,7 +166,7 @@ public class MainBoardController {
             SoundUtils.playSound(SoundUtils.READY_SOUND);
             if (selectedPlanet != null) {
                 secretBaseLocation = selectedPlanet;
-                lblMessage.setText("Secret base selected!\nLocation: " + secretBaseLocation.getName());
+                lblMessage.setText("Secret base selected! Location: " + secretBaseLocation.getName());
                 secretBaseSelected = true;
             }
 
@@ -191,15 +191,6 @@ public class MainBoardController {
     private void keyPressed(KeyEvent keyEvent) {
         if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ESCAPE) {
             openOrCloseMenu();
-        }
-        else if (keyEvent.getCode() == KeyCode.ENTER) {
-            nextTurn(); // for testing
-        }
-        else if (keyEvent.getCode() == KeyCode.UP) {
-            reputationUp();
-        }
-        else if (keyEvent.getCode() == KeyCode.DOWN) {
-            reputationDown();
         }
     }
 
@@ -263,22 +254,33 @@ public class MainBoardController {
         if (currentTurn == timePositions.size() - 1) {
             return; // game over
         }
-
         currentTurn++;
         ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
         timePositions.get(currentTurn - 1).setImage(null);
+
+        if (currentTurn == rebelReputation) {
+            // game over
+        }
     }
 
     private void reputationUp() {
         rebelReputation++;
         ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
         timePositions.get(rebelReputation - 1).setImage(null);
+
+        if (currentTurn == rebelReputation) {
+            // game over
+        }
     }
 
     private void reputationDown() {
         rebelReputation--;
         ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
         timePositions.get(rebelReputation + 1).setImage(null);
+
+        if (currentTurn == rebelReputation) {
+            // game over
+        }
     }
 
     @FXML
