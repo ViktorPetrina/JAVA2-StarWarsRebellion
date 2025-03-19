@@ -3,14 +3,12 @@ package hr.vpetrina.starwars.controller;
 import hr.vpetrina.starwars.model.Faction;
 import hr.vpetrina.starwars.model.GameState;
 import hr.vpetrina.starwars.model.Planet;
-import hr.vpetrina.starwars.util.DocumentationUtils;
-import hr.vpetrina.starwars.util.GameUtils;
-import hr.vpetrina.starwars.util.SceneUtils;
-import hr.vpetrina.starwars.util.SoundUtils;
+import hr.vpetrina.starwars.util.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -54,6 +52,39 @@ public class MainBoardController {
     public Button btnLeader2;
 
     @FXML
+    public ImageView timePositionOne;
+    @FXML
+    public ImageView timePositionThree;
+    @FXML
+    public ImageView timePositionFive;
+    @FXML
+    public ImageView timePositionSeven;
+    @FXML
+    public ImageView timePositionNine;
+    @FXML
+    public ImageView timePositionEleven;
+    @FXML
+    public ImageView timePositionThirteen;
+    @FXML
+    public ImageView timePositionFifteen;
+    @FXML
+    public ImageView timePositionTwo;
+    @FXML
+    public ImageView timePositionFour;
+    @FXML
+    public ImageView timePositionSix;
+    @FXML
+    public ImageView timePositionEight;
+    @FXML
+    public ImageView timePositionTwelve;
+    @FXML
+    public ImageView timePositionTen;
+    @FXML
+    public ImageView timePositionFourteen;
+    @FXML
+    public ImageView timePositionSixteen;
+
+    @FXML
     private Pane menuPane;
     @FXML
     private Pane planetMenuPane;
@@ -70,7 +101,9 @@ public class MainBoardController {
 
     private List<ImageView> planetImages;
     private List<Planet> planets;
+    private List<ImageView> timePositions;
 
+    private int currentTurn = 0;
     private Boolean menuOpened = false;
     private Boolean secretBaseSelected = false;
     private Planet selectedPlanet;
@@ -79,6 +112,7 @@ public class MainBoardController {
     @FXML
     public void initialize() {
         initializePlanets();
+        initializeTimePositions();
         initializeMenu();
         initializeSecretBase();
         initializeEventListeners();
@@ -157,6 +191,9 @@ public class MainBoardController {
         if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ESCAPE) {
             openOrCloseMenu();
         }
+        else if (keyEvent.getCode() == KeyCode.ENTER) {
+            nextTurn(); // for testing
+        }
     }
 
     private void openOrCloseMenu() {
@@ -200,6 +237,29 @@ public class MainBoardController {
                     "Something went wrong while generating html documentation."
             );
         }
+    }
+
+    private void initializeTimePositions() {
+        timePositions = List.of(
+                timePositionOne, timePositionTwo, timePositionThree, timePositionFour,
+                timePositionFive, timePositionSix, timePositionSeven, timePositionEight,
+                timePositionNine, timePositionTen, timePositionEleven, timePositionTwelve,
+                timePositionThirteen, timePositionFourteen, timePositionFifteen, timePositionSixteen
+        );
+
+        ImageUtils.setImage(timePositions.getFirst(), ImageUtils.TIME_TRACKER_IMAGE);
+        ImageUtils.setImage(timePositions.get(13), ImageUtils.REPUTATION_TRACKER_IMAGE);
+    }
+
+
+    private void nextTurn() {
+        if (currentTurn == timePositions.size() - 1) {
+            return; // game over
+        }
+
+        currentTurn++;
+        ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
+        timePositions.get(currentTurn - 1).setImage(null);
     }
 
     @FXML

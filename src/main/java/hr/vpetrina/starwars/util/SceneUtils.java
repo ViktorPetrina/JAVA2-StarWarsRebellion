@@ -47,10 +47,6 @@ public class SceneUtils {
         control.getScene().getWindow().hide();
     }
 
-    public static void setImage(ImageView imageView, String imagePath) {
-        imageView.setImage(new Image(Objects.requireNonNull(SceneUtils.class.getResource(imagePath)).toExternalForm()));
-    }
-
     public static void showInformationDialog(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
