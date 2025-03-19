@@ -4,7 +4,6 @@ import hr.vpetrina.starwars.model.*;
 import hr.vpetrina.starwars.util.GameUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
 import hr.vpetrina.starwars.util.SoundUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,40 +30,24 @@ public class ChooseLeaderController {
     public Button btnReset;
 
     @FXML
-    public Label leaderStat1_1;
+    public Label leaderStat11;
     @FXML
-    public Label leaderStat1_2;
-    @FXML
-    public Label leaderStat1_3;
-    @FXML
-    public Label leaderStat1_4;
+    public Label leaderStat12;
 
     @FXML
-    public Label leaderStat2_1;
+    public Label leaderStat21;
     @FXML
-    public Label leaderStat2_2;
-    @FXML
-    public Label leaderStat2_3;
-    @FXML
-    public Label leaderStat2_4;
+    public Label leaderStat22;
 
     @FXML
-    public Label leaderStat3_1;
+    public Label leaderStat31;
     @FXML
-    public Label leaderStat3_2;
-    @FXML
-    public Label leaderStat3_3;
-    @FXML
-    public Label leaderStat3_4;
+    public Label leaderStat32;
 
     @FXML
-    public Label leaderStat4_1;
+    public Label leaderStat41;
     @FXML
-    public Label leaderStat4_2;
-    @FXML
-    public Label leaderStat4_3;
-    @FXML
-    public Label leaderStat4_4;
+    public Label leaderStat42;
 
     @FXML
     private ImageView leaderImage1;
@@ -116,17 +99,17 @@ public class ChooseLeaderController {
     }
 
     private List<List<Label>> getStats() {
-        List<Label> leader1Stats = Arrays.asList(leaderStat1_1, leaderStat1_2, leaderStat1_3, leaderStat1_4);
-        List<Label> leader2Stats = Arrays.asList(leaderStat2_1, leaderStat2_2, leaderStat2_3, leaderStat2_4);
-        List<Label> leader3Stats = Arrays.asList(leaderStat3_1, leaderStat3_2, leaderStat3_3, leaderStat3_4);
-        List<Label> leader4Stats = Arrays.asList(leaderStat4_1, leaderStat4_2, leaderStat4_3, leaderStat4_4);
+        List<Label> leader1Stats = Arrays.asList(leaderStat11, leaderStat12);
+        List<Label> leader2Stats = Arrays.asList(leaderStat21, leaderStat22);
+        List<Label> leader3Stats = Arrays.asList(leaderStat31, leaderStat32);
+        List<Label> leader4Stats = Arrays.asList(leaderStat41, leaderStat42);
         return Arrays.asList(leader1Stats, leader2Stats, leader3Stats, leader4Stats);
     }
 
     private void addButtonEventListeners(List<Leader> leaders) {
         for (int i = 0; i < chooseButtons.size(); i++) {
             int index = i;
-            chooseButtons.get(i).setOnAction(event -> {
+            chooseButtons.get(i).setOnAction(_ -> {
                 SoundUtils.playSound(SoundUtils.SELECT_SOUND);
                 if (selectedLeaders.contains(leaders.get(index))) {
                     SceneUtils.showWarningDialog(
@@ -169,7 +152,7 @@ public class ChooseLeaderController {
     }
 
     @FXML
-    public void startGame(ActionEvent actionEvent) throws IOException {
+    public void startGame() throws IOException {
         SoundUtils.playSound(SoundUtils.READY_SOUND);
         if (selectedLeaders.size() < 2) {
             SceneUtils.showWarningDialog(
@@ -181,10 +164,7 @@ public class ChooseLeaderController {
         }
 
         GameState.setPlayerLeaders(selectedLeaders);
-        SceneUtils.launchScene(
-                GameUtils.TITLE,
-                SceneUtils.MAIN_WINDOW_NAME,
-                1500, 1000);
+        SceneUtils.launchSceneFullscreen(GameUtils.TITLE, SceneUtils.MAIN_WINDOW_NAME);
         SceneUtils.closeWindow(lblLeaders);
     }
 }

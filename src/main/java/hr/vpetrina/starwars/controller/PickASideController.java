@@ -7,6 +7,7 @@ import hr.vpetrina.starwars.util.SceneUtils;
 import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 
@@ -46,7 +47,7 @@ public class PickASideController {
         SceneUtils.launchScene(
                 GameUtils.TITLE,
                 SceneUtils.CHOOSE_A_LEADER_WINDOW_NAME,
-                1000, 800);
+                1000, 700);
 
         SceneUtils.closeWindow(lblSide);
     }

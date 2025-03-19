@@ -23,10 +23,19 @@ public class GameUtils {
         for (int i = 0; i < leaders.size(); i++) {
             labels.get(i).setText(leaders.get(i).getName());
             SceneUtils.setImage(images.get(i), leaders.get(i).getImagePath());
-            stats.get(i).get(0).setText(leaders.get(i).getSkills().getDiplomacy().toString());
-            stats.get(i).get(1).setText(leaders.get(i).getSkills().getTactics().toString());
-            stats.get(i).get(2).setText(leaders.get(i).getSkills().getEspionage().toString());
-            stats.get(i).get(3).setText(leaders.get(i).getSkills().getLogistics().toString());
+            stats.get(i).get(0).setText(leaders.get(i).getSkills().getCombat().toString());
+            stats.get(i).get(1).setText(leaders.get(i).getSkills().getEspionage().toString());
+        }
+    }
+
+    public static void initializeLeadersSimple(
+            List<Leader> leaders,
+            List<Label> labels,
+            List<ImageView> images
+    ) {
+        for (int i = 0; i < leaders.size(); i++) {
+            labels.get(i).setText(leaders.get(i).getName());
+            SceneUtils.setImage(images.get(i), leaders.get(i).getImagePath());
         }
     }
 
@@ -35,7 +44,7 @@ public class GameUtils {
                 new Leader(
                         "Luke Skywalker",
                         Faction.REBELLION,
-                        new Stats(1, 2, 3, 1),
+                        new Stats(3, 2),
                         Health.ALIVE,
                         null,
                         false,
@@ -44,7 +53,7 @@ public class GameUtils {
                 new Leader(
                         "Leia Organa",
                         Faction.REBELLION,
-                        new Stats(3, 1, 2, 1),
+                        new Stats(1, 3),
                         Health.ALIVE,
                         null,
                         false,
@@ -53,7 +62,7 @@ public class GameUtils {
                 new Leader(
                         "Han Solo",
                         Faction.REBELLION,
-                        new Stats(1, 3, 1, 2),
+                        new Stats(3, 1),
                         Health.ALIVE,
                         null,
                         false,
@@ -62,7 +71,7 @@ public class GameUtils {
                 new Leader(
                         "Jan Donna",
                         Faction.REBELLION,
-                        new Stats(2, 1, 1, 3),
+                        new Stats(0, 4),
                         Health.ALIVE,
                         null,
                         false,
@@ -76,7 +85,7 @@ public class GameUtils {
                 new Leader(
                         "Boba Fett",
                         Faction.EMPIRE,
-                        new Stats(1, 2, 3, 1),
+                        new Stats(3, 1),
                         Health.ALIVE,
                         null,
                         false,
@@ -85,7 +94,7 @@ public class GameUtils {
                 new Leader(
                         "Darth Sidious",
                         Faction.EMPIRE,
-                        new Stats(3, 2, 1, 1),
+                        new Stats(2, 3),
                         Health.ALIVE,
                         null,
                         false,
@@ -94,7 +103,7 @@ public class GameUtils {
                 new Leader(
                         "Darth Vader",
                         Faction.EMPIRE,
-                        new Stats(2, 3, 1, 1),
+                        new Stats(3, 2),
                         Health.ALIVE,
                         null,
                         false,
@@ -103,7 +112,7 @@ public class GameUtils {
                 new Leader(
                         "General Tagge",
                         Faction.REBELLION,
-                        new Stats(1, 2, 1, 3),
+                        new Stats(0, 4),
                         Health.ALIVE,
                         null,
                         false,

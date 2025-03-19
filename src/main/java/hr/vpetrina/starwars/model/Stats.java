@@ -6,8 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class Stats {
-    private Integer diplomacy;
-    private Integer tactics;
+    private Integer combat;
     private Integer espionage;
-    private Integer logistics;
 }

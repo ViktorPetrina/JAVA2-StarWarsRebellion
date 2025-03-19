@@ -26,7 +26,12 @@ public class StarWarsRebellionApplication extends Application {
 
     public static void main(String[] args) {
         // promijeniti nacin prepoznavanja igraca
-        GameState.setCurrentPlayer(Player.valueOf(args[0]));
+        try {
+            GameState.setCurrentPlayer(Player.valueOf(args[0]));
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid player type!");
+            return;
+        }
         launch();
     }
 }

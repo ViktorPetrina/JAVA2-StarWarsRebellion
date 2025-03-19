@@ -32,6 +32,17 @@ public class SceneUtils {
         newStage.toFront();
     }
 
+    public static void launchSceneFullscreen(String title, String resourceName) throws IOException {
+        FXMLLoader loader = new FXMLLoader(SceneUtils.class.getResource(PATH + resourceName));
+        Parent root = loader.load();
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(root));
+        newStage.setTitle(title);
+        newStage.show();
+        newStage.toFront();
+        newStage.setMaximized(true);
+    }
+
     public static void closeWindow(Control control) {
         control.getScene().getWindow().hide();
     }

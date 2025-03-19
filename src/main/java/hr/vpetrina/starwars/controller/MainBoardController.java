@@ -9,6 +9,7 @@ import hr.vpetrina.starwars.util.SceneUtils;
 import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -16,7 +17,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,8 +40,18 @@ public class MainBoardController {
     @FXML
     public ImageView imgPlanetIlum;
 
-    private List<ImageView> planetImages;
-    private List<Planet> planets;
+    @FXML
+    public ImageView leaderImage1;
+    @FXML
+    public Label leaderName1;
+    @FXML
+    public Button btnLeader1;
+    @FXML
+    public ImageView leaderImage2;
+    @FXML
+    public Label leaderName2;
+    @FXML
+    public Button btnLeader2;
 
     @FXML
     private Pane menuPane;
@@ -55,11 +65,16 @@ public class MainBoardController {
     @FXML
     public Label lblPlanetLeaders;
 
+    @FXML
+    private Pane mainPane;
+
+    private List<ImageView> planetImages;
+    private List<Planet> planets;
+
     private Boolean menuOpened = false;
     private Boolean secretBaseSelected = false;
     private Planet selectedPlanet;
     private Planet secretBaseLocation;
-
 
     @FXML
     public void initialize() {
@@ -67,6 +82,11 @@ public class MainBoardController {
         initializeMenu();
         initializeSecretBase();
         initializeEventListeners();
+        GameUtils.initializeLeadersSimple(
+                GameState.getPlayerLeaders(),
+                List.of(leaderName1, leaderName2),
+                List.of(leaderImage1, leaderImage2)
+        );
     }
 
     private void initializePlanets() {
@@ -87,6 +107,7 @@ public class MainBoardController {
         if (GameState.getPlayerFaction() == Faction.EMPIRE || Boolean.TRUE.equals(secretBaseSelected)) {
             planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> openPlanetMenu(planet)));
         }
+        mainPane.requestFocus();
     }
 
     private void openPlanetMenu(ImageView planetImage) {
@@ -154,6 +175,7 @@ public class MainBoardController {
     private void closePlanetMenu() {
         planetMenuPane.setVisible(false);
         SoundUtils.playSound(SoundUtils.RESET_SOUND);
+        mainPane.requestFocus();
     }
 
     @FXML
