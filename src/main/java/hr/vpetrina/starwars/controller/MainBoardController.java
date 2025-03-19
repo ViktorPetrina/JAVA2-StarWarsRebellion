@@ -104,6 +104,7 @@ public class MainBoardController {
     private List<ImageView> timePositions;
 
     private int currentTurn = 0;
+    private int rebelReputation = 13;
     private Boolean menuOpened = false;
     private Boolean secretBaseSelected = false;
     private Planet selectedPlanet;
@@ -194,6 +195,12 @@ public class MainBoardController {
         else if (keyEvent.getCode() == KeyCode.ENTER) {
             nextTurn(); // for testing
         }
+        else if (keyEvent.getCode() == KeyCode.UP) {
+            reputationUp();
+        }
+        else if (keyEvent.getCode() == KeyCode.DOWN) {
+            reputationDown();
+        }
     }
 
     private void openOrCloseMenu() {
@@ -247,8 +254,8 @@ public class MainBoardController {
                 timePositionThirteen, timePositionFourteen, timePositionFifteen, timePositionSixteen
         );
 
-        ImageUtils.setImage(timePositions.getFirst(), ImageUtils.TIME_TRACKER_IMAGE);
-        ImageUtils.setImage(timePositions.get(13), ImageUtils.REPUTATION_TRACKER_IMAGE);
+        ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
+        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
     }
 
 
@@ -260,6 +267,18 @@ public class MainBoardController {
         currentTurn++;
         ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
         timePositions.get(currentTurn - 1).setImage(null);
+    }
+
+    private void reputationUp() {
+        rebelReputation++;
+        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
+        timePositions.get(rebelReputation - 1).setImage(null);
+    }
+
+    private void reputationDown() {
+        rebelReputation--;
+        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
+        timePositions.get(rebelReputation + 1).setImage(null);
     }
 
     @FXML
