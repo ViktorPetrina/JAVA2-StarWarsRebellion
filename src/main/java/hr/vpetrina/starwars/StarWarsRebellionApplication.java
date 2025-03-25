@@ -1,8 +1,11 @@
 package hr.vpetrina.starwars;
 
+import hr.vpetrina.starwars.jndi.ConfigurationKey;
+import hr.vpetrina.starwars.jndi.ConfigurationReader;
 import hr.vpetrina.starwars.model.GameState;
 import hr.vpetrina.starwars.model.Player;
 import hr.vpetrina.starwars.util.GameUtils;
+import hr.vpetrina.starwars.util.NetworkUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
 import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.application.Application;
@@ -15,21 +18,27 @@ public class StarWarsRebellionApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         SceneUtils.launchScene(
-                GameUtils.TITLE,
+                GameUtils.TITLE + " " + GameState.getCurrentPlayer(),
                 SceneUtils.PICK_SIDE_WINDOW_NAME,
                 800, 600);
 
-        if (GameState.getCurrentPlayer() == Player.PLAYER_ONE) {
-            SoundUtils.playMusic(SoundUtils.MUSIC_SOUND);
+        if (Player.PLAYER_ONE.equals(GameState.getCurrentPlayer())) {
+            //SoundUtils.playMusic(SoundUtils.MUSIC_SOUND);
+            Thread serverThread = new Thread(() -> NetworkUtils.acceptRequests(
+                    ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_1_SERVER_PORT)));
+            serverThread.start();
+        }
+        else {
+            Thread serverThread = new Thread(() -> NetworkUtils.acceptRequests(
+                    ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_2_SERVER_PORT)));
+            serverThread.start();
         }
     }
 
     public static void main(String[] args) {
-        // promijeniti nacin prepoznavanja igraca
         try {
             GameState.setCurrentPlayer(Player.valueOf(args[0]));
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid player type!");
             return;
         }
         launch();

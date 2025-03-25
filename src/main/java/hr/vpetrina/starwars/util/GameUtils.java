@@ -28,17 +28,6 @@ public class GameUtils {
         }
     }
 
-    public static void initializeLeadersSimple(
-            List<Leader> leaders,
-            List<Label> labels,
-            List<ImageView> images
-    ) {
-        for (int i = 0; i < leaders.size(); i++) {
-            labels.get(i).setText(leaders.get(i).getName());
-            ImageUtils.setImage(images.get(i), leaders.get(i).getImagePath());
-        }
-    }
-
     public static List<Leader> getRebelLeaders() {
         return new ArrayList<>(List.of(
                 new Leader(
@@ -131,5 +120,9 @@ public class GameUtils {
            new Planet("Mustafar", ControlStatus.NEUTRAL, new ArrayList<>()),
            new Planet("Ilum", ControlStatus.NEUTRAL, new ArrayList<>())
         ));
+    }
+
+    public static Boolean gameOver() {
+        return GameState.getCurrentTurnStatic() >= GameState.getRebelReputationStatic();
     }
 }

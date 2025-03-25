@@ -49,6 +49,11 @@
             <version>1.18.36</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.sun.messaging.mq</groupId>
+            <artifactId>fscontext</artifactId>
+            <version>4.6-b01</version>
+        </dependency>
     </dependencies>
 
     <build>
