@@ -134,27 +134,27 @@
    <left>
       <VBox>
          <VBox alignment="CENTER" prefWidth="327.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #ffffff; -fx-border-color: #444; -fx-border-width: 2px; -fx-border-radius: 12; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);">
-            <ImageView fx:id="leaderImage1" fitHeight="140" fitWidth="140" />
+            <ImageView fx:id="leaderImage1" fitHeight="90.0" fitWidth="90.0" />
             <Label fx:id="leaderName1" style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-text-fill: #222;" text="Leader 3" />
-            <HBox spacing="10" alignment="CENTER_LEFT">
-               <Label text="Combat:" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-               <Label fx:id="leaderStat11" text="0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-               <Label text="Espionage:" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-               <Label fx:id="leaderStat12" text="0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
+            <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="275.0" spacing="10">
+               <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Combat:" />
+               <Label fx:id="leaderStat11" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="0" />
+               <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Espionage:" />
+               <Label fx:id="leaderStat12" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="0" />
             </HBox>
             <Button fx:id="btnLeader1" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Choose" />
             <VBox.margin>
                <Insets top="20.0" />
             </VBox.margin>
          </VBox>
-         <VBox alignment="CENTER" prefWidth="327.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #ffffff; -fx-border-color: #444; -fx-border-width: 2px; -fx-border-radius: 12; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);">
-            <ImageView fx:id="leaderImage2" fitHeight="140" fitWidth="140" />
+         <VBox alignment="CENTER" prefHeight="265.0" prefWidth="327.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #ffffff; -fx-border-color: #444; -fx-border-width: 2px; -fx-border-radius: 12; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);">
+            <ImageView fx:id="leaderImage2" fitHeight="90.0" fitWidth="90.0" />
             <Label fx:id="leaderName2" style="-fx-font-weight: bold; -fx-font-size: 20px; -fx-text-fill: #222;" text="Leader 3" />
-            <HBox spacing="10" alignment="CENTER_LEFT">
-               <Label text="Combat:" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-               <Label fx:id="leaderStat21" text="0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-               <Label text="Espionage:" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
-               <Label fx:id="leaderStat22" text="0" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
+            <HBox alignment="CENTER_LEFT" spacing="10">
+               <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Combat:" />
+               <Label fx:id="leaderStat21" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="0" />
+               <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Espionage:" />
+               <Label fx:id="leaderStat22" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="0" />
             </HBox>
             <Button fx:id="btnLeader2" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Choose" />
             <VBox.margin>
@@ -164,13 +164,13 @@
 
          <HBox prefHeight="49.0" prefWidth="327.0">
             <children>
-               <Button onAction="#searchPlanet" mnemonicParsing="false" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search">
+               <Button mnemonicParsing="false" onAction="#searchPlanet" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search">
                   <HBox.margin>
                      <Insets left="10.0" />
                   </HBox.margin>
                </Button>
-               <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
-               <Button onAction="#attackPlanet" mnemonicParsing="false" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Attack">
+               <Region HBox.hgrow="ALWAYS" />
+               <Button mnemonicParsing="false" onAction="#attackPlanet" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Deploy">
                   <HBox.margin>
                      <Insets right="10.0" />
                   </HBox.margin>

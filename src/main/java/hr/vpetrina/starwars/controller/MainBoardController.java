@@ -2,6 +2,7 @@ package hr.vpetrina.starwars.controller;
 
 import hr.vpetrina.starwars.model.Faction;
 import hr.vpetrina.starwars.model.GameState;
+import hr.vpetrina.starwars.model.Leader;
 import hr.vpetrina.starwars.model.Planet;
 import hr.vpetrina.starwars.util.*;
 import javafx.application.Platform;
@@ -109,7 +110,7 @@ public class MainBoardController {
     private Pane mainPane;
 
     private List<ImageView> planetImages;
-    private List<Planet> planets;
+    private static List<Planet> planets;
     private List<ImageView> timePositions;
 
     private static int currentTurn = 0;
@@ -117,6 +118,7 @@ public class MainBoardController {
     private Boolean menuOpened = false;
     private static Boolean secretBaseSelected = false;
     private static Planet selectedPlanet;
+    private Leader selectedLeader;
 
     public static void disableControls(boolean b) {
 
@@ -155,14 +157,28 @@ public class MainBoardController {
         if (GameState.getPlayerFaction() == Faction.EMPIRE || Boolean.TRUE.equals(secretBaseSelected)) {
             planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> openPlanetMenu(planet)));
         }
+
         mainPane.requestFocus();
+
+        btnLeader1.setOnAction(_ -> {
+            var leader = GameState.getPlayerLeaders().getFirst();
+            selectedPlanet.getLeaders().add(leader);
+            leader.setLocation(selectedPlanet);
+            GameState.setRebelLeadersStatic(List.of(leader));
+            NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
+        });
+        btnLeader2.setOnAction(_ -> selectedPlanet.getLeaders().add(GameState.getPlayerLeaders().get(1)));
     }
 
     private void openPlanetMenu(ImageView planetImage) {
         selectPlanet(planetImage);
         lblPlanetName.setText(selectedPlanet.getName());
         lblPlanetControl.setText(selectedPlanet.getControlStatus().toString());
-        //lblPlanetLeaders.setText(selectedPlanet.getLeaders().toString()); ili nesto slicno
+
+        StringBuilder sb = new StringBuilder();
+        selectedPlanet.getLeaders().forEach(leader -> sb.append(leader.getName()).append(" | "));
+
+        lblPlanetLeaders.setText(sb.toString());
 
         planetMenuPane.setVisible(true);
         SoundUtils.playSound(SoundUtils.MENU_SOUND);
@@ -302,11 +318,14 @@ public class MainBoardController {
         GameState.setSecretBaseLocationStatic(gameState.getSecretBaseLocation());
         GameState.setCurrentTurnStatic(gameState.getCurrentTurn());
         GameState.setRebelReputationStatic(gameState.getRebelReputation());
+        GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
         secretBaseSelected = true;
         currentTurn = gameState.getCurrentTurn();
         rebelReputation = gameState.getRebelReputation();
 
-        System.out.println("Secret base location: " + GameState.getSecretBaseLocationStatic().getName());
+        gameState.getRebelLeaders().forEach(leader -> planets.stream()
+                .filter(planet -> planet.getName().equals(leader.getLocation().getName()))
+                .forEach(planet -> planet.getLeaders().add(leader)));
     }
 
     @FXML
@@ -316,17 +335,40 @@ public class MainBoardController {
         }
 
         if (Faction.EMPIRE.equals(GameState.getPlayerFaction())) {
-            if (selectedPlanet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
-                GameState.setSearchingPlanetStatic(selectedPlanet);
-                System.out.println("Secret base found!");
-            }
-            else {
-
-                System.out.println("No rebel base.");
-            }
+            searchPlanetEmpire();
         }
         else {
+            searchPlanetRebellion();
+        }
+    }
 
+    private void searchPlanetRebellion() {
+
+    }
+
+    private static void searchPlanetEmpire() {
+        if (!selectedPlanet.getLeaders().isEmpty()) {
+            GameState.setSearchingPlanetStatic(selectedPlanet);
+            SceneUtils.showInformationDialog(
+                    "Combat!",
+                    "Combat",
+                    "Combat"
+            );
+        }
+
+        if (selectedPlanet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
+            SceneUtils.showInformationDialog(
+                    "Success!",
+                    "Rebel base found.",
+                    "You have found secret rebel base and won the game!"
+            );
+        }
+        else {
+            SceneUtils.showInformationDialog(
+                    "Fail!",
+                    "No rebel base found.",
+                    "You have not found secret rebel base and haven't won the game!"
+            );
         }
     }
 
