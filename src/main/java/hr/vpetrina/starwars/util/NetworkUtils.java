@@ -32,7 +32,7 @@ public class NetworkUtils {
         try (ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
              ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());){
             GameState gameState = (GameState)ois.readObject();
-            MainBoardController.restoreGameState(gameState);
+            GameUtils.restoreGameState(gameState);
 
             Boolean gameOver = GameUtils.gameOver();
 
@@ -46,8 +46,8 @@ public class NetworkUtils {
             if(gameOver) {
                 Platform.runLater(() -> SceneUtils.showInformationDialog(
                         "Game Over",
-                        "Pobijedio je " + gameState.getFactionTurn().name(),
-                        "Pobjednik je igrač koji koristi simbol " + gameState.getFactionTurn().name()
+                        gameState.getFactionTurn().name() + " won.",
+                        "Player that is " + gameState.getFactionTurn().name() + " faction wins!"
                 ));
 
                 MainBoardController.disableControls(true);
@@ -94,7 +94,7 @@ public class NetworkUtils {
         ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
         ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
         oos.writeObject(gameState);
-        System.out.println("GameState sent to Player2");
+        System.out.println("GameState sent to Player 2");
         System.out.println(ois.readObject());
     }
 }

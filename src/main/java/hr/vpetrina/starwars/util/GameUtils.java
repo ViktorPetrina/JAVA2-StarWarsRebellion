@@ -3,6 +3,8 @@ package hr.vpetrina.starwars.util;
 import hr.vpetrina.starwars.model.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,17 @@ public class GameUtils {
 
     public static final String TITLE = "Star Wars: Rebellion";
     public static final String GAME_ERROR = "Game error";
+
+    @Getter @Setter
+    private static int currentTurn = 0;
+    @Getter @Setter
+    private static int rebelReputation = 13;
+    @Getter @Setter
+    private static List<ImageView> timePositions;
+    @Getter @Setter
+    private static boolean secretBaseSelected = false;
+    @Getter @Setter
+    private static List<Planet> planets;
 
     private GameUtils() {}
 
@@ -110,7 +123,7 @@ public class GameUtils {
         ));
     }
 
-    public static List<Planet> getPlanets() {
+    public static List<Planet> generatePlanets() {
         return new ArrayList<>(List.of(
            new Planet("Naboo", ControlStatus.NEUTRAL, new ArrayList<>()),
            new Planet("Kashyyyk", ControlStatus.NEUTRAL, new ArrayList<>()),
@@ -122,7 +135,57 @@ public class GameUtils {
         ));
     }
 
+    public static void restoreGameState(GameState gameState) {
+        GameState.setSecretBaseLocationStatic(gameState.getSecretBaseLocation());
+        GameUtils.setCurrentTurn(gameState.getCurrentTurn());
+        GameUtils.setRebelReputation(gameState.getRebelReputation());
+        GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
+        secretBaseSelected = true;
+
+        gameState.getRebelLeaders().forEach(leader -> planets.stream()
+                .filter(planet -> planet.getName().equals(leader.getLocation().getName()))
+                .forEach(planet -> {
+                    if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
+                        planet.getLeaders().add(leader);
+                    }
+                }));
+    }
+
+    public static void nextTurn() {
+        if (currentTurn == timePositions.size() - 1) {
+            return; // game over
+        }
+        currentTurn++;
+        ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
+        timePositions.get(currentTurn - 1).setImage(null);
+
+        if (GameUtils.gameOver()) {
+            // game over
+        }
+    }
+
+    private void reputationUp() {
+        currentTurn++;
+        rebelReputation++;
+        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
+        timePositions.get(rebelReputation - 1).setImage(null);
+
+        if (gameOver()) {
+            // game over
+        }
+    }
+
+    private void reputationDown() {
+        rebelReputation--;
+        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
+        timePositions.get(rebelReputation + 1).setImage(null);
+
+        if (gameOver()) {
+            // game over
+        }
+    }
+
     public static Boolean gameOver() {
-        return GameState.getCurrentTurnStatic() >= GameState.getRebelReputationStatic();
+        return currentTurn >= rebelReputation;
     }
 }

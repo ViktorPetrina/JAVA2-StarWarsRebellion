@@ -110,19 +110,9 @@ public class MainBoardController {
     private Pane mainPane;
 
     private List<ImageView> planetImages;
-    private static List<Planet> planets;
-    private List<ImageView> timePositions;
-
-    private static int currentTurn = 0;
-    private static int rebelReputation = 13;
     private Boolean menuOpened = false;
-    private static Boolean secretBaseSelected = false;
     private static Planet selectedPlanet;
     private Leader selectedLeader;
-
-    public static void disableControls(boolean b) {
-
-    }
 
     @FXML
     public void initialize() {
@@ -150,17 +140,17 @@ public class MainBoardController {
                 imgPlanetKashyyyk
         );
 
-        planets = GameUtils.getPlanets();
+        GameUtils.setPlanets(GameUtils.generatePlanets());
     }
 
     private void initializeEventListeners() {
-        if (GameState.getPlayerFaction() == Faction.EMPIRE || Boolean.TRUE.equals(secretBaseSelected)) {
+        if (GameState.getPlayerFaction() == Faction.EMPIRE || Boolean.TRUE.equals(GameUtils.isSecretBaseSelected())) {
             planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> openPlanetMenu(planet)));
         }
-
-        mainPane.requestFocus();
         btnLeader1.setOnAction(_ -> addLeaderToPlanet(0));
         btnLeader2.setOnAction(_ -> addLeaderToPlanet(1));
+
+        mainPane.requestFocus();
     }
 
     private static void addLeaderToPlanet(int leaderIndex) {
@@ -175,6 +165,7 @@ public class MainBoardController {
         }
 
         leader.setLocation(selectedPlanet);
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
     }
 
@@ -185,7 +176,6 @@ public class MainBoardController {
 
         StringBuilder sb = new StringBuilder();
         selectedPlanet.getLeaders().forEach(leader -> sb.append(leader.getName()).append('\n'));
-
         lblPlanetLeaders.setText(sb.toString());
 
         planetMenuPane.setVisible(true);
@@ -204,7 +194,7 @@ public class MainBoardController {
             if (selectedPlanet != null) {
                 GameState.setSecretBaseLocationStatic(selectedPlanet);
                 lblMessage.setText("Secret base selected! Location: " + selectedPlanet.getName());
-                secretBaseSelected = true;
+                GameUtils.setSecretBaseSelected(true);
             }
 
             initializeEventListeners();
@@ -214,7 +204,7 @@ public class MainBoardController {
     }
 
     private void selectPlanet(ImageView planet) {
-        selectedPlanet = planets
+        selectedPlanet = GameUtils.getPlanets()
                 .stream()
                 .filter(p -> p.getName().equals(planet.getUserData().toString()))
                 .toList()
@@ -270,74 +260,27 @@ public class MainBoardController {
     }
 
     private void initializeTimePositions() {
-        timePositions = List.of(
+        GameUtils.setTimePositions(List.of(
                 timePositionOne, timePositionTwo, timePositionThree, timePositionFour,
                 timePositionFive, timePositionSix, timePositionSeven, timePositionEight,
                 timePositionNine, timePositionTen, timePositionEleven, timePositionTwelve,
                 timePositionThirteen, timePositionFourteen, timePositionFifteen, timePositionSixteen
+        ));
+
+        ImageUtils.setImage(
+                GameUtils.getTimePositions().get(GameUtils.getCurrentTurn()),
+                ImageUtils.TIME_TRACKER_IMAGE
         );
-
-        ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
-        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
-    }
-
-
-    private void nextTurn() {
-        if (currentTurn == timePositions.size() - 1) {
-            return; // game over
-        }
-        currentTurn++;
-        ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
-        timePositions.get(currentTurn - 1).setImage(null);
-
-        if (GameUtils.gameOver()) {
-            // game over
-        }
-    }
-
-    private void reputationUp() {
-        GameState.setCurrentTurnStatic(GameState.getCurrentTurnStatic() + 1);
-        rebelReputation++;
-        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
-        timePositions.get(rebelReputation - 1).setImage(null);
-
-        if (GameUtils.gameOver()) {
-            // game over
-        }
-    }
-
-    private void reputationDown() {
-        rebelReputation--;
-        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
-        timePositions.get(rebelReputation + 1).setImage(null);
-
-        if (GameUtils.gameOver()) {
-            // game over
-        }
+        ImageUtils.setImage(
+                GameUtils.getTimePositions().get(GameUtils.getRebelReputation()),
+                ImageUtils.REPUTATION_TRACKER_IMAGE
+        );
     }
 
     private List<List<Label>> getStats() {
         List<Label> leader1Stats = Arrays.asList(leaderStat11, leaderStat12);
         List<Label> leader2Stats = Arrays.asList(leaderStat21, leaderStat22);
         return Arrays.asList(leader1Stats, leader2Stats);
-    }
-
-    public static void restoreGameState(GameState gameState) {
-        GameState.setSecretBaseLocationStatic(gameState.getSecretBaseLocation());
-        GameState.setCurrentTurnStatic(gameState.getCurrentTurn());
-        GameState.setRebelReputationStatic(gameState.getRebelReputation());
-        GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
-        secretBaseSelected = true;
-        currentTurn = gameState.getCurrentTurn();
-        rebelReputation = gameState.getRebelReputation();
-
-        gameState.getRebelLeaders().forEach(leader -> planets.stream()
-                .filter(planet -> planet.getName().equals(leader.getLocation().getName()))
-                .forEach(planet -> {
-                    if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
-                        planet.getLeaders().add(leader);
-                    }
-                }));
     }
 
     @FXML
@@ -389,6 +332,9 @@ public class MainBoardController {
         if (selectedPlanet == null) {
             return;
         }
+    }
+
+    public static void disableControls(boolean b) {
     }
 
     @FXML

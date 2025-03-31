@@ -1,5 +1,6 @@
 package hr.vpetrina.starwars.model;
 
+import hr.vpetrina.starwars.util.GameUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,10 +48,6 @@ public class GameState implements Serializable {
     @Getter @Setter
     private static Faction factionTurnStatic = Faction.REBELLION;
     @Getter @Setter
-    private static int currentTurnStatic = 0;
-    @Getter @Setter
-    private static int rebelReputationStatic = 13;
-    @Getter @Setter
     private static List<Leader> rebelLeadersStatic = new ArrayList<>();
     @Getter @Setter
     private static List<Leader> empireLeadersStatic = new ArrayList<>();
@@ -60,8 +57,8 @@ public class GameState implements Serializable {
         return new GameState(
                 factionTurnStatic,
                 secretBaseLocationStatic,
-                currentTurnStatic,
-                rebelReputationStatic,
+                GameUtils.getCurrentTurn(),
+                GameUtils.getRebelReputation(),
                 searchingPlanetStatic,
                 rebelLeadersStatic,
                 empireLeadersStatic
