@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" onKeyPressed="#keyPressed" prefHeight="1001.0" prefWidth="1501.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
+<BorderPane fx:id="mainPane" onKeyPressed="#keyPressed" prefHeight="1001.0" prefWidth="1571.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
 <center>
-   <Pane id="background-pane" maxHeight="800" maxWidth="1200" minHeight="800" minWidth="1200" prefHeight="800.0" prefWidth="1200.0" style=" -fx-padding: 5px; -fx-border-color: orange; -fx-border-width: 5px; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+   <Pane id="background-pane" maxHeight="800" maxWidth="1200" minHeight="800" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style=" -fx-padding: 5px; -fx-border-color: orange; -fx-border-width: 5px; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="784.0" fitWidth="1185.0" layoutX="5.0" layoutY="6.0" pickOnBounds="true">
          <image>
@@ -180,7 +180,7 @@
                <Insets top="20.0" />
             </VBox.margin>
          </HBox>
-         <Pane fx:id="planetMenuPane" prefHeight="178.0" prefWidth="327.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
+         <Pane fx:id="planetMenuPane" prefHeight="214.0" prefWidth="357.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
             <children>
                <Label layoutX="39.0" layoutY="25.0" text="Name:" textFill="WHITE">
                   <font>
@@ -209,7 +209,7 @@
                </Label>
                <Label fx:id="lblPlanetLeaders" layoutX="197.0" layoutY="117.0" text="Label" textFill="WHITE">
                   <font>
-                     <Font name="System Bold" size="24.0" />
+                     <Font name="System Bold" size="16.0" />
                   </font>
                </Label>
             </children>

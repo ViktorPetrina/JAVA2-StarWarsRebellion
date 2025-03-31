@@ -22,17 +22,17 @@ public class StarWarsRebellionApplication extends Application {
                 SceneUtils.PICK_SIDE_WINDOW_NAME,
                 800, 600);
 
+        Thread serverThread;
         if (Player.PLAYER_ONE.equals(GameState.getCurrentPlayer())) {
             //SoundUtils.playMusic(SoundUtils.MUSIC_SOUND);
-            Thread serverThread = new Thread(() -> NetworkUtils.acceptRequests(
+            serverThread = new Thread(() -> NetworkUtils.acceptRequests(
                     ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_1_SERVER_PORT)));
-            serverThread.start();
         }
         else {
-            Thread serverThread = new Thread(() -> NetworkUtils.acceptRequests(
+            serverThread = new Thread(() -> NetworkUtils.acceptRequests(
                     ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_2_SERVER_PORT)));
-            serverThread.start();
         }
+        serverThread.start();
     }
 
     public static void main(String[] args) {

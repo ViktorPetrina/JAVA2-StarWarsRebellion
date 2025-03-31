@@ -159,15 +159,23 @@ public class MainBoardController {
         }
 
         mainPane.requestFocus();
+        btnLeader1.setOnAction(_ -> addLeaderToPlanet(0));
+        btnLeader2.setOnAction(_ -> addLeaderToPlanet(1));
+    }
 
-        btnLeader1.setOnAction(_ -> {
-            var leader = GameState.getPlayerLeaders().getFirst();
+    private static void addLeaderToPlanet(int leaderIndex) {
+        var leader = GameState.getPlayerLeaders().get(leaderIndex);
+
+        if (selectedPlanet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
             selectedPlanet.getLeaders().add(leader);
-            leader.setLocation(selectedPlanet);
-            GameState.setRebelLeadersStatic(List.of(leader));
-            NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
-        });
-        btnLeader2.setOnAction(_ -> selectedPlanet.getLeaders().add(GameState.getPlayerLeaders().get(1)));
+        }
+
+        if(GameState.getRebelLeadersStatic().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
+            GameState.getRebelLeadersStatic().add(leader);
+        }
+
+        leader.setLocation(selectedPlanet);
+        NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
     }
 
     private void openPlanetMenu(ImageView planetImage) {
@@ -176,7 +184,7 @@ public class MainBoardController {
         lblPlanetControl.setText(selectedPlanet.getControlStatus().toString());
 
         StringBuilder sb = new StringBuilder();
-        selectedPlanet.getLeaders().forEach(leader -> sb.append(leader.getName()).append(" | "));
+        selectedPlanet.getLeaders().forEach(leader -> sb.append(leader.getName()).append('\n'));
 
         lblPlanetLeaders.setText(sb.toString());
 
@@ -325,7 +333,11 @@ public class MainBoardController {
 
         gameState.getRebelLeaders().forEach(leader -> planets.stream()
                 .filter(planet -> planet.getName().equals(leader.getLocation().getName()))
-                .forEach(planet -> planet.getLeaders().add(leader)));
+                .forEach(planet -> {
+                    if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
+                        planet.getLeaders().add(leader);
+                    }
+                }));
     }
 
     @FXML
