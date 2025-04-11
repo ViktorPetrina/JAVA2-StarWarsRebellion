@@ -18,13 +18,19 @@ public class GameState implements Serializable {
     private final Planet searchingPlanet;
     private final List<Leader> rebelLeaders = new ArrayList<>();
     private final List<Leader> empireLeaders = new ArrayList<>();
+    private final Faction playerFaction;
+    private final List<Leader> playerLeaders = new ArrayList<>();
 
     private GameState(
             Faction turn,
             Planet secretBaseLocation,
             int currentTurn,
             int rebelReputation,
-            Planet searchingPlanet, List<Leader> rebelLeaders_, List<Leader> empireLeaders_
+            Planet searchingPlanet,
+            List<Leader> rebelLeaders_,
+            List<Leader> empireLeaders_,
+            Faction playerFaction,
+            List<Leader> playerLeaders
     ) {
         this.secretBaseLocation = secretBaseLocation;
         this.factionTurn = turn;
@@ -33,6 +39,8 @@ public class GameState implements Serializable {
         this.searchingPlanet = searchingPlanet;
         rebelLeaders.addAll(rebelLeaders_);
         empireLeaders.addAll(empireLeaders_);
+        this.playerFaction = playerFaction;
+        this.playerLeaders.addAll(playerLeaders);
     }
 
     @Getter @Setter
@@ -40,9 +48,9 @@ public class GameState implements Serializable {
     @Getter @Setter
     private static Planet searchingPlanetStatic;
     @Getter @Setter
-    private static Faction playerFaction;
+    private static Faction playerFactionStatic;
     @Getter @Setter
-    private static List<Leader> playerLeaders;
+    private static List<Leader> playerLeadersStatic;
     @Getter @Setter
     private static Player currentPlayer;
     @Getter @Setter
@@ -61,7 +69,9 @@ public class GameState implements Serializable {
                 GameUtils.getRebelReputation(),
                 searchingPlanetStatic,
                 rebelLeadersStatic,
-                empireLeadersStatic
+                empireLeadersStatic,
+                playerFactionStatic,
+                playerLeadersStatic
         );
     }
 }

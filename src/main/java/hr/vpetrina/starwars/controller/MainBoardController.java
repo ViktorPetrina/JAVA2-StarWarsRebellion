@@ -259,6 +259,16 @@ public class MainBoardController {
         }
     }
 
+    @FXML
+    private void saveGame() {
+        FileUtils.saveGameState(GameState.getGameState());
+    }
+
+    @FXML
+    private void loadGame() {
+        GameUtils.restoreGameState(FileUtils.loadGameState());
+    }
+
     private void initializeTimePositions() {
         GameUtils.setTimePositions(List.of(
                 timePositionOne, timePositionTwo, timePositionThree, timePositionFour,
@@ -292,14 +302,8 @@ public class MainBoardController {
         if (Faction.EMPIRE.equals(GameState.getPlayerFaction())) {
             searchPlanetEmpire();
         }
-        else {
-            searchPlanetRebellion();
-        }
     }
 
-    private void searchPlanetRebellion() {
-
-    }
 
     private static void searchPlanetEmpire() {
         if (!selectedPlanet.getLeaders().isEmpty() && GameUtils.initiateCombat(selectedPlanet).equals(Faction.REBELLION)) {
