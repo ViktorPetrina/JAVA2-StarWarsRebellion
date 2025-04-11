@@ -164,6 +164,29 @@ public class GameUtils {
         }
     }
 
+    public static Faction initiateCombat(Planet planet) {
+        GameState.setSearchingPlanetStatic(planet);
+
+        Faction winner = CombatUtils.doCombat(planet.getLeaders());
+
+        if (winner == Faction.REBELLION) {
+            SceneUtils.showInformationDialog(
+                    "Mission fail!",
+                    "You lost.",
+                    "The empire lost this combat mission."
+            );
+        }
+        else {
+            SceneUtils.showInformationDialog(
+                    "Mission success!",
+                    "You won.",
+                    "Now searching the planet for rebel base."
+            );
+        }
+
+        return winner;
+    }
+
     private void reputationUp() {
         currentTurn++;
         rebelReputation++;

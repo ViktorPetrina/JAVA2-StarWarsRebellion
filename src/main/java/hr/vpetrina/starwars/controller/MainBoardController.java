@@ -302,13 +302,8 @@ public class MainBoardController {
     }
 
     private static void searchPlanetEmpire() {
-        if (!selectedPlanet.getLeaders().isEmpty()) {
-            GameState.setSearchingPlanetStatic(selectedPlanet);
-            SceneUtils.showInformationDialog(
-                    "Combat!",
-                    "Combat",
-                    "Combat"
-            );
+        if (!selectedPlanet.getLeaders().isEmpty() && GameUtils.initiateCombat(selectedPlanet).equals(Faction.REBELLION)) {
+            return;
         }
 
         if (selectedPlanet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
@@ -322,7 +317,7 @@ public class MainBoardController {
             SceneUtils.showInformationDialog(
                     "Fail!",
                     "No rebel base found.",
-                    "You have not found secret rebel base and haven't won the game!"
+                    "You have not found secret rebel base and must continue searching."
             );
         }
     }

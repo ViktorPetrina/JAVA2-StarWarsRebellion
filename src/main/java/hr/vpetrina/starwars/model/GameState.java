@@ -24,15 +24,15 @@ public class GameState implements Serializable {
             Planet secretBaseLocation,
             int currentTurn,
             int rebelReputation,
-            Planet searchingPlanet, List<Leader> _rebelLeaders, List<Leader> _empireLeaders
+            Planet searchingPlanet, List<Leader> rebelLeaders_, List<Leader> empireLeaders_
     ) {
         this.secretBaseLocation = secretBaseLocation;
         this.factionTurn = turn;
         this.currentTurn = currentTurn;
         this.rebelReputation = rebelReputation;
         this.searchingPlanet = searchingPlanet;
-        rebelLeaders.addAll(_rebelLeaders);
-        empireLeaders.addAll(_empireLeaders);
+        rebelLeaders.addAll(rebelLeaders_);
+        empireLeaders.addAll(empireLeaders_);
     }
 
     @Getter @Setter

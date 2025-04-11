@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" onKeyPressed="#keyPressed" prefHeight="1001.0" prefWidth="1571.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
+<BorderPane fx:id="mainPane" onKeyPressed="#keyPressed" prefHeight="1001.0" prefWidth="1571.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
 <center>
    <Pane id="background-pane" maxHeight="800" maxWidth="1200" minHeight="800" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style=" -fx-padding: 5px; -fx-border-color: orange; -fx-border-width: 5px; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -142,7 +142,7 @@
                <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Espionage:" />
                <Label fx:id="leaderStat12" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="0" />
             </HBox>
-            <Button fx:id="btnLeader1" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Choose" />
+            <Button fx:id="btnLeader1" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Deploy" />
             <VBox.margin>
                <Insets top="20.0" />
             </VBox.margin>
@@ -156,7 +156,7 @@
                <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Espionage:" />
                <Label fx:id="leaderStat22" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="0" />
             </HBox>
-            <Button fx:id="btnLeader2" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Choose" />
+            <Button fx:id="btnLeader2" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Deploy" />
             <VBox.margin>
                <Insets top="20.0" />
             </VBox.margin>
@@ -170,7 +170,7 @@
                   </HBox.margin>
                </Button>
                <Region HBox.hgrow="ALWAYS" />
-               <Button mnemonicParsing="false" onAction="#attackPlanet" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Deploy">
+               <Button mnemonicParsing="false" onAction="#attackPlanet" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Attack">
                   <HBox.margin>
                      <Insets right="10.0" />
                   </HBox.margin>
