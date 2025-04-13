@@ -7,7 +7,6 @@ import hr.vpetrina.starwars.util.SceneUtils;
 import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 
@@ -19,22 +18,22 @@ public class PickASideController {
 
     @FXML
     private void empireSelected() {
-        SoundUtils.playSound("select_3.mp3");
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         selectedFaction = Faction.EMPIRE;
         lblSide.setText("Empire selected");
     }
 
     @FXML
     private void rebellionSelected() {
-        SoundUtils.playSound("select_3.mp3");
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         selectedFaction = Faction.REBELLION;
         lblSide.setText("Rebellion selected");
     }
 
     @FXML
     private void ready() throws IOException {
-        GameState.setPlayerFaction(selectedFaction);
-        SoundUtils.playSound("select_2.mp3");
+        GameState.setPlayerFactionStatic(selectedFaction);
+        SoundUtils.playSound(SoundUtils.READY_SOUND);
         if (selectedFaction == null) {
             SceneUtils.showWarningDialog(
                     "Game error",

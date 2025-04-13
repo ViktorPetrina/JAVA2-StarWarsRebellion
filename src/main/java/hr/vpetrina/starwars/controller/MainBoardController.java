@@ -112,7 +112,6 @@ public class MainBoardController {
     private List<ImageView> planetImages;
     private Boolean menuOpened = false;
     private static Planet selectedPlanet;
-    private Leader selectedLeader;
 
     @FXML
     public void initialize() {
@@ -122,7 +121,7 @@ public class MainBoardController {
         initializeSecretBase();
         initializeEventListeners();
         GameUtils.initializeLeaders(
-                GameState.getPlayerLeaders(),
+                GameState.getPlayerLeadersStatic(),
                 List.of(leaderName1, leaderName2),
                 List.of(leaderImage1, leaderImage2),
                 getStats()
@@ -144,7 +143,7 @@ public class MainBoardController {
     }
 
     private void initializeEventListeners() {
-        if (GameState.getPlayerFaction() == Faction.EMPIRE || Boolean.TRUE.equals(GameUtils.isSecretBaseSelected())) {
+        if (GameState.getPlayerFactionStatic() == Faction.EMPIRE || Boolean.TRUE.equals(GameUtils.isSecretBaseSelected())) {
             planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> openPlanetMenu(planet)));
         }
         btnLeader1.setOnAction(_ -> addLeaderToPlanet(0));
@@ -154,19 +153,24 @@ public class MainBoardController {
     }
 
     private static void addLeaderToPlanet(int leaderIndex) {
-        var leader = GameState.getPlayerLeaders().get(leaderIndex);
+        var leader = GameState.getPlayerLeadersStatic().get(leaderIndex);
 
         if (selectedPlanet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
             selectedPlanet.getLeaders().add(leader);
         }
 
-        if(GameState.getRebelLeadersStatic().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
+        if (GameState.getRebelLeadersStatic().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
             GameState.getRebelLeadersStatic().add(leader);
         }
 
         leader.setLocation(selectedPlanet);
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-        NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
+        if (GameState.getPlayerFactionStatic().equals(Faction.EMPIRE)) {
+            NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
+        }
+        else {
+            NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
+        }
     }
 
     private void openPlanetMenu(ImageView planetImage) {
@@ -183,7 +187,7 @@ public class MainBoardController {
     }
 
     private void initializeSecretBase() {
-        if (GameState.getPlayerFaction() != Faction.REBELLION) {
+        if (GameState.getPlayerFactionStatic() != Faction.REBELLION) {
             return;
         }
 
@@ -299,7 +303,7 @@ public class MainBoardController {
             return;
         }
 
-        if (Faction.EMPIRE.equals(GameState.getPlayerFaction())) {
+        if (Faction.EMPIRE.equals(GameState.getPlayerFactionStatic())) {
             searchPlanetEmpire();
         }
     }

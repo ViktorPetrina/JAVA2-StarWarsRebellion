@@ -88,7 +88,7 @@ public class ChooseLeaderController {
 
         chooseButtons = Arrays.asList(chooseButton1, chooseButton2, chooseButton3, chooseButton4);
 
-        if (GameState.getPlayerFaction() == Faction.EMPIRE) {
+        if (GameState.getPlayerFactionStatic() == Faction.EMPIRE) {
             GameUtils.initializeLeaders(empireLeaders, leaderNames, leaderImages, stats);
             addButtonEventListeners(empireLeaders);
         }
@@ -163,7 +163,7 @@ public class ChooseLeaderController {
             return;
         }
 
-        GameState.setPlayerLeaders(selectedLeaders);
+        GameState.setPlayerLeadersStatic(selectedLeaders);
         SceneUtils.launchSceneFullscreen(GameUtils.TITLE, SceneUtils.MAIN_WINDOW_NAME);
         SceneUtils.closeWindow(lblLeaders);
     }
