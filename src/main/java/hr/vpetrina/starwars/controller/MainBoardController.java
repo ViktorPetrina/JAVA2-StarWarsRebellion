@@ -173,6 +173,12 @@ public class MainBoardController {
         }
     }
 
+    private static void removeLeaderFromPlanet(Leader leader) {
+        selectedPlanet.getLeaders().removeIf(l -> l.getName().equals(leader.getName()));
+        GameState.getRebelLeadersStatic().removeIf(l -> l.getName().equals(leader.getName()));
+        leader.setLocation(null);
+    }
+
     private void openPlanetMenu(ImageView planetImage) {
         selectPlanet(planetImage);
         lblPlanetName.setText(selectedPlanet.getName());
@@ -310,7 +316,12 @@ public class MainBoardController {
 
 
     private static void searchPlanetEmpire() {
-        if (!selectedPlanet.getLeaders().isEmpty() && GameUtils.initiateCombat(selectedPlanet).equals(Faction.REBELLION)) {
+        if (selectedPlanet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.REBELLION))) {
+            SceneUtils.showInformationDialog(
+                    "Cannot attack!",
+                    "Selected planet has protecting leaders.",
+                    "You cannot attack a planet while it is protected."
+            );
             return;
         }
 
@@ -328,12 +339,17 @@ public class MainBoardController {
                     "You have not found secret rebel base and must continue searching."
             );
         }
+
+
     }
 
     @FXML
     public void attackPlanet() {
-        if (selectedPlanet == null) {
-            return;
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+        if (selectedPlanet != null && !selectedPlanet.getLeaders().isEmpty()) {
+            var removedLeader = GameUtils.initiateCombat(selectedPlanet);
+            removeLeaderFromPlanet(removedLeader);
+            NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
         }
     }
 

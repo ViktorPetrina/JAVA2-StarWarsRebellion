@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class GameUtils {
@@ -136,9 +137,11 @@ public class GameUtils {
     }
 
     public static void restoreGameState(GameState gameState) {
+        planets.forEach(planet -> planet.getLeaders().clear());
+
         GameState.setSecretBaseLocationStatic(gameState.getSecretBaseLocation());
-        GameUtils.setCurrentTurn(gameState.getCurrentTurn());
-        GameUtils.setRebelReputation(gameState.getRebelReputation());
+        currentTurn = gameState.getCurrentTurn();
+        rebelReputation = gameState.getRebelReputation();
         GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
         secretBaseSelected = true;
 
@@ -148,7 +151,8 @@ public class GameUtils {
                     if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
                         planet.getLeaders().add(leader);
                     }
-                }));
+                })
+        );
     }
 
     public static void nextTurn() {
@@ -159,51 +163,53 @@ public class GameUtils {
         ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
         timePositions.get(currentTurn - 1).setImage(null);
 
-        if (GameUtils.gameOver()) {
+        if (Boolean.TRUE.equals(GameUtils.gameOver())) {
             // game over
         }
     }
 
-    public static Faction initiateCombat(Planet planet) {
+    public static Leader initiateCombat(Planet planet) {
         GameState.setSearchingPlanetStatic(planet);
-
-        Faction winner = CombatUtils.doCombat(planet.getLeaders());
-
-        if (winner == Faction.REBELLION) {
+        Leader removedLeader = null;
+        if (Faction.REBELLION.equals(CombatUtils.doCombat(planet.getLeaders()))) {
             SceneUtils.showInformationDialog(
                     "Mission fail!",
                     "You lost.",
                     "The empire lost this combat mission."
             );
+            reputationDown();
         }
         else {
             SceneUtils.showInformationDialog(
                     "Mission success!",
-                    "You won.",
-                    "Now searching the planet for rebel base."
+                    "You won, the rebel leader is captured.",
+                    "You captured the rebel leader and can now search the planet for rebel base."
             );
+            removedLeader = captureLeader(planet);
         }
-
-        return winner;
+        return removedLeader;
     }
 
-    private void reputationUp() {
-        currentTurn++;
-        rebelReputation++;
-        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
-        timePositions.get(rebelReputation - 1).setImage(null);
-
-        if (gameOver()) {
-            // game over
+    private static Leader captureLeader(Planet planet) {
+        if (!planet.getLeaders().isEmpty()) {
+            for (Iterator<Leader> it = planet.getLeaders().iterator(); it.hasNext(); ) {
+                Leader leader = it.next();
+                if (leader.getFaction().equals(Faction.REBELLION)) {
+                    it.remove();
+                    return leader;
+                }
+            }
         }
+        return null;
     }
 
-    private void reputationDown() {
+
+    private static void reputationDown() {
         rebelReputation--;
         ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
         timePositions.get(rebelReputation + 1).setImage(null);
 
-        if (gameOver()) {
+        if (Boolean.TRUE.equals(gameOver())) {
             // game over
         }
     }

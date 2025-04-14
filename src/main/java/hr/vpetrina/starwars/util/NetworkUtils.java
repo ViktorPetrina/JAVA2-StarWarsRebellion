@@ -16,7 +16,7 @@ public class NetworkUtils {
 
     public static void acceptRequests(Integer port) {
         try (ServerSocket serverSocket = new ServerSocket(port)){
-            System.err.printf("Server listening on port: %d%n", serverSocket.getLocalPort());
+            LogUtils.logWarning(String.format("Server listening on port: %d%n", serverSocket.getLocalPort()));
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
@@ -43,7 +43,7 @@ public class NetworkUtils {
                 MainBoardController.disableControls(true);
             }
 
-            if(gameOver) {
+            if(Boolean.TRUE.equals(gameOver)) {
                 Platform.runLater(() -> SceneUtils.showInformationDialog(
                         "Game Over",
                         gameState.getFactionTurn().name() + " won.",
@@ -53,11 +53,11 @@ public class NetworkUtils {
                 MainBoardController.disableControls(true);
             }
 
-            System.out.println("Game state received from Player 1");
+            LogUtils.logInfo("Game state received from Player 1");
             oos.writeObject("Success");
 
-            System.out.println("Winner exists: " + gameOver);
-            System.out.println("Turn: " + gameState.getFactionTurn().toString());
+            LogUtils.logInfo("Winner exists: " + gameOver);
+            LogUtils.logInfo("Turn: " + gameState.getFactionTurn().toString());
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -69,7 +69,7 @@ public class NetworkUtils {
                 ConfigurationReader.getStringValueForKey(ConfigurationKey.HOSTNAME),
                 ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_2_SERVER_PORT))) {
 
-            System.err.printf("Client is connecting to %s:%d%n", clientSocket.getInetAddress(), clientSocket.getPort());
+            LogUtils.logWarning(String.format("Client is connecting to %s:%d%n", clientSocket.getInetAddress(), clientSocket.getPort()));
             sendSerializableRequest(clientSocket, gameState);
 
         } catch (IOException | ClassNotFoundException e) {
@@ -82,7 +82,7 @@ public class NetworkUtils {
                 ConfigurationReader.getStringValueForKey(ConfigurationKey.HOSTNAME),
                 ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_1_SERVER_PORT))) {
 
-            System.err.printf("Client is connecting to %s:%d%n", clientSocket.getInetAddress(), clientSocket.getPort());
+            LogUtils.logWarning(String.format("Client is connecting to %s:%d%n", clientSocket.getInetAddress(), clientSocket.getPort()));
             sendSerializableRequest(clientSocket, gameState);
 
         } catch (IOException | ClassNotFoundException e) {
@@ -94,7 +94,7 @@ public class NetworkUtils {
         ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
         ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
         oos.writeObject(gameState);
-        System.out.println("GameState sent to Player 2");
-        System.out.println(ois.readObject());
+        LogUtils.logInfo("GameState sent to Player 2");
+        LogUtils.logInfo(ois.readObject().toString());
     }
 }
