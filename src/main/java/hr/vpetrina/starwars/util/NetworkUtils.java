@@ -14,6 +14,8 @@ import java.net.Socket;
 
 public class NetworkUtils {
 
+    private NetworkUtils() {}
+
     public static void acceptRequests(Integer port) {
         try (ServerSocket serverSocket = new ServerSocket(port)){
             LogUtils.logWarning(String.format("Server listening on port: %d%n", serverSocket.getLocalPort()));

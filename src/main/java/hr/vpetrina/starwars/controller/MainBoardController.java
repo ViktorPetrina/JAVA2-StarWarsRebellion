@@ -6,6 +6,7 @@ import hr.vpetrina.starwars.model.Leader;
 import hr.vpetrina.starwars.model.Planet;
 import hr.vpetrina.starwars.util.*;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -146,31 +147,10 @@ public class MainBoardController {
         if (GameState.getPlayerFactionStatic() == Faction.EMPIRE || Boolean.TRUE.equals(GameUtils.isSecretBaseSelected())) {
             planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> openPlanetMenu(planet)));
         }
-        btnLeader1.setOnAction(_ -> addLeaderToPlanet(0));
-        btnLeader2.setOnAction(_ -> addLeaderToPlanet(1));
+        btnLeader1.setOnAction(_ -> GameUtils.addLeaderToPlanet(0, selectedPlanet));
+        btnLeader2.setOnAction(_ -> GameUtils.addLeaderToPlanet(1, selectedPlanet));
 
         mainPane.requestFocus();
-    }
-
-    private static void addLeaderToPlanet(int leaderIndex) {
-        var leader = GameState.getPlayerLeadersStatic().get(leaderIndex);
-
-        if (selectedPlanet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
-            selectedPlanet.getLeaders().add(leader);
-        }
-
-        if (GameState.getRebelLeadersStatic().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
-            GameState.getRebelLeadersStatic().add(leader);
-        }
-
-        leader.setLocation(selectedPlanet);
-        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-        if (GameState.getPlayerFactionStatic().equals(Faction.EMPIRE)) {
-            NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
-        }
-        else {
-            NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
-        }
     }
 
     private static void removeLeaderFromPlanet(Leader leader) {
@@ -338,9 +318,9 @@ public class MainBoardController {
                     "No rebel base found.",
                     "You have not found secret rebel base and must continue searching."
             );
+
+            GameUtils.nextTurn();
         }
-
-
     }
 
     @FXML
@@ -349,11 +329,20 @@ public class MainBoardController {
         if (selectedPlanet != null && !selectedPlanet.getLeaders().isEmpty()) {
             var removedLeader = GameUtils.initiateCombat(selectedPlanet);
             removeLeaderFromPlanet(removedLeader);
+
+            GameUtils.nextTurn();
+
             NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
         }
     }
 
     public static void disableControls(boolean b) {
+    }
+
+    public void finishTurn() {
+        SoundUtils.playSound(SoundUtils.READY_SOUND);
+        GameUtils.nextTurn();
+        GameUtils.sendUniversalRequest(GameState.getGameState());
     }
 
     @FXML

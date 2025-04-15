@@ -1,23 +1,24 @@
 package hr.vpetrina.starwars.util;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static java.lang.System.out;
 
 public class LogUtils {
 
     private LogUtils() {}
 
-    private static final Logger logger = Logger.getLogger(LogUtils.class.getName());
+    private static final String RESET = "\u001B[0m";
+    private static final String WHITE = "\u001B[37m";
+    private static final String RED = "\u001B[31m";
 
     public static void logInfo(String message) {
-        logger.log(Level.INFO, message);
+        out.println(WHITE + message + RESET);
     }
 
     public static void logWarning(String message) {
-        logger.log(Level.WARNING, message);
+        out.println(message);
     }
 
     public static void logSevere(String message) {
-        logger.log(Level.SEVERE, message);
+        out.println(RED + message + RESET);
     }
 }

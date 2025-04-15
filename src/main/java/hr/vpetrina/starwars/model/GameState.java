@@ -13,8 +13,8 @@ public class GameState implements Serializable {
 
     private final Planet secretBaseLocation;
     private final Faction factionTurn;
-    private final int currentTurn;
-    private final int rebelReputation;
+    private final Integer currentTurn;
+    private final Integer rebelReputation;
     private final Planet searchingPlanet;
     private final List<Leader> rebelLeaders = new ArrayList<>();
     private final List<Leader> empireLeaders = new ArrayList<>();
@@ -27,8 +27,8 @@ public class GameState implements Serializable {
             int currentTurn,
             int rebelReputation,
             Planet searchingPlanet,
-            List<Leader> rebelLeaders_,
-            List<Leader> empireLeaders_,
+            List<Leader> rebelLeaders,
+            List<Leader> empireLeaders,
             Faction playerFaction,
             List<Leader> playerLeaders
     ) {
@@ -37,8 +37,8 @@ public class GameState implements Serializable {
         this.currentTurn = currentTurn;
         this.rebelReputation = rebelReputation;
         this.searchingPlanet = searchingPlanet;
-        rebelLeaders.addAll(rebelLeaders_);
-        empireLeaders.addAll(empireLeaders_);
+        this.rebelLeaders.addAll(rebelLeaders);
+        this.empireLeaders.addAll(empireLeaders);
         this.playerFaction = playerFaction;
         this.playerLeaders.addAll(playerLeaders);
     }

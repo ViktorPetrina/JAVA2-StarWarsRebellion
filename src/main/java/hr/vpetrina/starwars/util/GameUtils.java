@@ -136,13 +136,54 @@ public class GameUtils {
         ));
     }
 
+    private static Integer leadersAdded = 0;
+
+    public static void addLeaderToPlanet(int leaderIndex, Planet planet) {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+        var leader = GameState.getPlayerLeadersStatic().get(leaderIndex);
+
+        if (planets.stream().anyMatch(p -> p.getLeaders().contains(leader))) {
+            SceneUtils.showInformationDialog(
+                    "Planet leaders",
+                    "Cannot deploy leader!",
+                    "The leader is already deployed, you have to wait for the next turn."
+            );
+            return;
+        }
+
+        if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
+            planet.getLeaders().add(leader);
+        }
+
+        if (GameState.getRebelLeadersStatic().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
+            GameState.getRebelLeadersStatic().add(leader);
+        }
+
+        leader.setLocation(planet);
+        leadersAdded++;
+
+        if (leadersAdded == 2) {
+            nextTurn();
+            sendUniversalRequest(GameState.getGameState());
+        }
+    }
+
+    public static void sendUniversalRequest(GameState gameState) {
+        if (GameState.getPlayerFactionStatic().equals(Faction.EMPIRE)) {
+            NetworkUtils.sendRequestPlayerTwo(gameState);
+        }
+        else {
+            NetworkUtils.sendRequestPlayerOne(gameState);
+        }
+    }
+
     public static void restoreGameState(GameState gameState) {
         planets.forEach(planet -> planet.getLeaders().clear());
 
         GameState.setSecretBaseLocationStatic(gameState.getSecretBaseLocation());
+        GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
         currentTurn = gameState.getCurrentTurn();
         rebelReputation = gameState.getRebelReputation();
-        GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
         secretBaseSelected = true;
 
         gameState.getRebelLeaders().forEach(leader -> planets.stream()
@@ -153,12 +194,21 @@ public class GameUtils {
                     }
                 })
         );
+
+        timePositions.forEach(tp -> tp.setImage(null));
+        ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
+        ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
     }
 
     public static void nextTurn() {
+        LogUtils.logInfo("Next turn! (Current turn: " + (currentTurn + 1) + ")");
+
+        leadersAdded = 0;
+
         if (currentTurn == timePositions.size() - 1) {
             return; // game over
         }
+
         currentTurn++;
         ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
         timePositions.get(currentTurn - 1).setImage(null);
@@ -170,7 +220,7 @@ public class GameUtils {
 
     public static Leader initiateCombat(Planet planet) {
         GameState.setSearchingPlanetStatic(planet);
-        Leader removedLeader = null;
+        Leader removedLeader;
         if (Faction.REBELLION.equals(CombatUtils.doCombat(planet.getLeaders()))) {
             SceneUtils.showInformationDialog(
                     "Mission fail!",
@@ -178,6 +228,7 @@ public class GameUtils {
                     "The empire lost this combat mission."
             );
             reputationDown();
+            removedLeader = captureLeader(planet, Faction.EMPIRE);
         }
         else {
             SceneUtils.showInformationDialog(
@@ -185,16 +236,16 @@ public class GameUtils {
                     "You won, the rebel leader is captured.",
                     "You captured the rebel leader and can now search the planet for rebel base."
             );
-            removedLeader = captureLeader(planet);
+            removedLeader = captureLeader(planet, Faction.REBELLION);
         }
         return removedLeader;
     }
 
-    private static Leader captureLeader(Planet planet) {
+    private static Leader captureLeader(Planet planet, Faction faction) {
         if (!planet.getLeaders().isEmpty()) {
             for (Iterator<Leader> it = planet.getLeaders().iterator(); it.hasNext(); ) {
                 Leader leader = it.next();
-                if (leader.getFaction().equals(Faction.REBELLION)) {
+                if (leader.getFaction().equals(faction)) {
                     it.remove();
                     return leader;
                 }
