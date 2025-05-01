@@ -6,7 +6,7 @@ module hr.vpetrina.starwars.rebellion {
     requires java.desktop;
     requires javafx.media;
     requires java.naming;
-    requires java.logging;
+    requires java.rmi;
 
 
     opens hr.vpetrina.starwars to javafx.fxml;

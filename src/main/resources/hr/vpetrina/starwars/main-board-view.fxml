@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -122,7 +124,7 @@
       </Pane>
             <Pane fx:id="menuPane" layoutX="402.0" layoutY="234.0" prefHeight="419.0" prefWidth="409.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
                <children>
-                  <Button layoutX="25.0" layoutY="98.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Chat" />
+                  <Button layoutX="25.0" layoutY="98.0" mnemonicParsing="false" onAction="#openOrCloseChat" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Chat" />
                   <Button layoutX="25.0" layoutY="161.0" mnemonicParsing="false" onAction="#generateDocumentation" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Generate documentation" />
                   <Button layoutX="25.0" layoutY="347.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Exit" />
                   <Label layoutX="148.0" layoutY="25.0" prefHeight="55.0" prefWidth="114.0" text="Menu" textFill="WHITE">
@@ -149,6 +151,14 @@
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="chatPane" layoutX="204.0" layoutY="439.0" prefHeight="315.0" prefWidth="665.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
+               <children>
+                  <TextField layoutX="14.0" layoutY="14.0" prefHeight="35.0" prefWidth="499.0" promptText="Type message here" />
+                  <TextArea layoutX="13.0" layoutY="61.0" prefHeight="237.0" prefWidth="502.0" />
+                  <Button layoutX="524.0" layoutY="251.0" mnemonicParsing="false" onAction="#openOrCloseChat" prefHeight="47.0" prefWidth="127.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Close" />
+                  <Button layoutX="524.0" layoutY="14.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="127.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Send" />
                </children>
             </Pane>
    </children>

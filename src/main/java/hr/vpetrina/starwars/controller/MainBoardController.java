@@ -118,6 +118,9 @@ public class MainBoardController {
     private Pane planetMenuPane;
 
     @FXML
+    private Pane chatPane;
+
+    @FXML
     public Label lblPlanetName;
     @FXML
     public Label lblPlanetControl;
@@ -129,6 +132,7 @@ public class MainBoardController {
 
     private List<ImageView> planetImages;
     private Boolean menuOpened = false;
+    private Boolean chatOpened = false;
     private static Planet selectedPlanet;
 
     @FXML
@@ -232,12 +236,15 @@ public class MainBoardController {
         planetMenuPane.setVisible(false);
         messagePane.setVisible(false);
         gameOverPane.setVisible(false);
+        chatPane.setVisible(false);
     }
 
     @FXML
     private void keyPressed(KeyEvent keyEvent) {
         if (Objects.requireNonNull(keyEvent.getCode()) == KeyCode.ESCAPE) {
             openOrCloseMenu();
+        } else if (keyEvent.getCode() == KeyCode.C) {
+            openOrCloseChat();
         }
     }
 
@@ -259,8 +266,16 @@ public class MainBoardController {
     }
 
     @FXML
-    private void showChat() {
+    private void openOrCloseChat() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+        if (Boolean.FALSE.equals(chatOpened)) {
+            chatPane.setVisible(true);
+            chatOpened = true;
+        }
+        else {
+            chatPane.setVisible(false);
+            chatOpened = false;
+        }
     }
 
     @FXML
