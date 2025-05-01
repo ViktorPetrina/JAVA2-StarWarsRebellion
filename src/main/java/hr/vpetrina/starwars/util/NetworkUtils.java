@@ -38,12 +38,12 @@ public class NetworkUtils {
 
             Boolean gameOver = GameUtils.gameOver();
 
-            if(gameState.getFactionTurn().name().equals(GameState.getFactionTurnStatic().name())) {
+            /*if(gameState.getFactionTurn().name().equals(GameState.getFactionTurnStatic().name())) {
                 MainBoardController.disableControls(false);
             }
             else {
                 MainBoardController.disableControls(true);
-            }
+            }*/
 
             if(Boolean.TRUE.equals(gameOver)) {
                 Platform.runLater(() -> SceneUtils.showInformationDialog(

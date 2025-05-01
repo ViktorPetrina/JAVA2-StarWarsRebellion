@@ -6,7 +6,6 @@ import hr.vpetrina.starwars.model.Leader;
 import hr.vpetrina.starwars.model.Planet;
 import hr.vpetrina.starwars.util.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -96,6 +96,23 @@ public class MainBoardController {
     public Label leaderStat22;
 
     @FXML
+    public Pane gameOverPane;
+    @FXML
+    public Label lblWhoWon;
+    @FXML
+    public Pane messagePane;
+    @FXML
+    public Label lblMsgTitle;
+    @FXML
+    public Label lblMsgContent;
+    @FXML
+    public Button btnAttackPlanet;
+    @FXML
+    public Button btnSearchPlanet;
+
+    public static final List<Button> buttons = new ArrayList<>();
+
+    @FXML
     private Pane menuPane;
     @FXML
     private Pane planetMenuPane;
@@ -116,9 +133,10 @@ public class MainBoardController {
 
     @FXML
     public void initialize() {
+        initializeButtonList();
         initializePlanets();
         initializeTimePositions();
-        initializeMenu();
+        initializePanes();
         initializeSecretBase();
         initializeEventListeners();
         GameUtils.initializeLeaders(
@@ -127,6 +145,11 @@ public class MainBoardController {
                 List.of(leaderImage1, leaderImage2),
                 getStats()
         );
+    }
+
+    private void initializeButtonList() {
+        buttons.add(btnAttackPlanet);
+        buttons.add(btnSearchPlanet);
     }
 
     private void initializePlanets() {
@@ -182,15 +205,18 @@ public class MainBoardController {
             selectPlanet(planet);
             SoundUtils.playSound(SoundUtils.READY_SOUND);
             if (selectedPlanet != null) {
-                GameState.setSecretBaseLocationStatic(selectedPlanet);
-                lblMessage.setText("Secret base selected! Location: " + selectedPlanet.getName());
-                GameUtils.setSecretBaseSelected(true);
+                setSecretBase(selectedPlanet, lblMessage);
             }
 
             initializeEventListeners();
-            GameState.setFactionTurnStatic(Faction.EMPIRE);
             NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
         }));
+    }
+
+    public static void setSecretBase(Planet planet, Label label) {
+        GameState.setSecretBaseLocationStatic(planet);
+        label.setText("Secret base location: " + planet.getName());
+        GameUtils.setSecretBaseSelected(true);
     }
 
     private void selectPlanet(ImageView planet) {
@@ -201,9 +227,11 @@ public class MainBoardController {
                 .getFirst();
     }
 
-    private void initializeMenu() {
+    private void initializePanes() {
         menuPane.setVisible(false);
         planetMenuPane.setVisible(false);
+        messagePane.setVisible(false);
+        gameOverPane.setVisible(false);
     }
 
     @FXML
@@ -223,6 +251,11 @@ public class MainBoardController {
             menuPane.setVisible(false);
             menuOpened = false;
         }
+    }
+
+    @FXML
+    public void closeMessagePane() {
+        messagePane.setVisible(false);
     }
 
     @FXML
@@ -257,6 +290,8 @@ public class MainBoardController {
     @FXML
     private void loadGame() {
         GameUtils.restoreGameState(FileUtils.loadGameState());
+        lblMessage.setText("Secret base location: " + GameState.getSecretBaseLocationStatic().getName());
+        initializeEventListeners();
     }
 
     private void initializeTimePositions() {
@@ -295,58 +330,98 @@ public class MainBoardController {
     }
 
 
-    private static void searchPlanetEmpire() {
+    private void searchPlanetEmpire() {
         if (selectedPlanet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.REBELLION))) {
-            SceneUtils.showInformationDialog(
-                    "Cannot attack!",
-                    "Selected planet has protecting leaders.",
-                    "You cannot attack a planet while it is protected."
+            showMessage(
+                    "The planet has protecting leaders",
+                    "Planet can not be searched while it has protecting leaders."
             );
             return;
         }
 
         if (selectedPlanet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
-            SceneUtils.showInformationDialog(
-                    "Success!",
-                    "Rebel base found.",
-                    "You have found secret rebel base and won the game!"
-            );
+            showGameOver(Faction.EMPIRE);
         }
         else {
-            SceneUtils.showInformationDialog(
-                    "Fail!",
-                    "No rebel base found.",
-                    "You have not found secret rebel base and must continue searching."
-            );
-
+            showMessage("No secret base", "You must continue searching.");
             GameUtils.nextTurn();
         }
+    }
+
+    public void showMessage(String title, String message) {
+        lblMsgTitle.setText(title);
+        lblMsgContent.setText(message);
+        messagePane.setVisible(true);
+        LogUtils.logInfo("Message pane shown: " + title + ", " + message);
+    }
+
+    public void showGameOver(Faction winner) {
+        if (Faction.REBELLION.equals(winner)) {
+            lblWhoWon.setText("The rebellion won!");
+        }
+        else {
+            lblWhoWon.setText("The empire found the secret base and won!");
+        }
+        gameOverPane.setVisible(true);
     }
 
     @FXML
     public void attackPlanet() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+
+        if (selectedPlanet != null && !GameUtils.hasEmpireLeader(selectedPlanet)) {
+            showMessage("No leaders", "The planet has no empire leaders to carry out the attack");
+            return;
+        }
+
         if (selectedPlanet != null && !selectedPlanet.getLeaders().isEmpty()) {
-            var removedLeader = GameUtils.initiateCombat(selectedPlanet);
+            var removedLeader = initiateCombat(selectedPlanet);
             removeLeaderFromPlanet(removedLeader);
 
-            GameUtils.nextTurn();
+            if (removedLeader.getFaction().equals(Faction.REBELLION)) {
+                showMessage("Mission success!", "The empire captured the rebel leader.");
+            }
+            else {
+                showMessage("Mission fail!", "The empire lost this combat mission.");
+            }
 
+            GameUtils.nextTurn();
             NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
         }
     }
 
-    public static void disableControls(boolean b) {
+    public Leader initiateCombat(Planet planet) {
+        GameState.setSearchingPlanetStatic(planet);
+        Leader removedLeader;
+        if (Faction.REBELLION.equals(CombatUtils.doCombat(planet.getLeaders()))) {
+            GameUtils.reputationDown();
+            removedLeader = GameUtils.captureLeader(planet, Faction.EMPIRE);
+        }
+        else {
+            removedLeader = GameUtils.captureLeader(planet, Faction.REBELLION);
+        }
+        return removedLeader;
     }
 
+    public static void disableControls(boolean b) {
+        buttons.forEach(btn -> btn.setDisable(b));
+        LogUtils.logInfo("Buttons setDisable: " + b);
+    }
+
+    @FXML
     public void finishTurn() {
         SoundUtils.playSound(SoundUtils.READY_SOUND);
         GameUtils.nextTurn();
+
+        if (Boolean.TRUE.equals(GameUtils.gameOver())) {
+            gameOverPane.setVisible(true);
+        }
+
         GameUtils.sendUniversalRequest(GameState.getGameState());
     }
 
     @FXML
-    private void exitGame() {
+    public void exitGame() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         Platform.exit();
     }

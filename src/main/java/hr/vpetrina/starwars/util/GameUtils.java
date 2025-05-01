@@ -1,5 +1,6 @@
 package hr.vpetrina.starwars.util;
 
+import hr.vpetrina.starwars.controller.MainBoardController;
 import hr.vpetrina.starwars.model.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -212,36 +213,9 @@ public class GameUtils {
         currentTurn++;
         ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
         timePositions.get(currentTurn - 1).setImage(null);
-
-        if (Boolean.TRUE.equals(GameUtils.gameOver())) {
-            // game over
-        }
     }
 
-    public static Leader initiateCombat(Planet planet) {
-        GameState.setSearchingPlanetStatic(planet);
-        Leader removedLeader;
-        if (Faction.REBELLION.equals(CombatUtils.doCombat(planet.getLeaders()))) {
-            SceneUtils.showInformationDialog(
-                    "Mission fail!",
-                    "You lost.",
-                    "The empire lost this combat mission."
-            );
-            reputationDown();
-            removedLeader = captureLeader(planet, Faction.EMPIRE);
-        }
-        else {
-            SceneUtils.showInformationDialog(
-                    "Mission success!",
-                    "You won, the rebel leader is captured.",
-                    "You captured the rebel leader and can now search the planet for rebel base."
-            );
-            removedLeader = captureLeader(planet, Faction.REBELLION);
-        }
-        return removedLeader;
-    }
-
-    private static Leader captureLeader(Planet planet, Faction faction) {
+    public static Leader captureLeader(Planet planet, Faction faction) {
         if (!planet.getLeaders().isEmpty()) {
             for (Iterator<Leader> it = planet.getLeaders().iterator(); it.hasNext(); ) {
                 Leader leader = it.next();
@@ -254,15 +228,14 @@ public class GameUtils {
         return null;
     }
 
-
-    private static void reputationDown() {
+    public static void reputationDown() {
         rebelReputation--;
         ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
         timePositions.get(rebelReputation + 1).setImage(null);
+    }
 
-        if (Boolean.TRUE.equals(gameOver())) {
-            // game over
-        }
+    public static boolean hasEmpireLeader(Planet planet) {
+        return planet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.EMPIRE));
     }
 
     public static Boolean gameOver() {

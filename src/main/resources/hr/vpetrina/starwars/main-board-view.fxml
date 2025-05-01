@@ -96,6 +96,21 @@
             </ImageView>
          </children>
       </Pane>
+            <Pane fx:id="messagePane" layoutX="249.0" layoutY="50.0" prefHeight="315.0" prefWidth="636.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
+               <children>
+                  <Button layoutX="25.0" layoutY="241.0" mnemonicParsing="false" onAction="#closeMessagePane" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Close" />
+                  <Label fx:id="lblMsgTitle" layoutX="95.0" layoutY="26.0" prefHeight="55.0" prefWidth="219.0" text="No rebel base" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="33.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblMsgContent" layoutX="29.0" layoutY="81.0" prefHeight="144.0" prefWidth="349.0" text="You must continue searching for the secret base" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
       <Pane id="planet-illum-pane" layoutX="630.0" layoutY="580.0" prefHeight="140.0" prefWidth="140.0">
          <children>
             <ImageView fx:id="imgPlanetIlum" fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" userData="Ilum">
@@ -121,6 +136,21 @@
             </Pane>
             <VBox layoutX="847.0" layoutY="276.0" prefHeight="200.0" prefWidth="100.0" />
             <Button layoutX="1055.0" layoutY="739.0" mnemonicParsing="false" onAction="#finishTurn" prefHeight="39.0" prefWidth="131.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Finish turn" />
+            <Pane fx:id="gameOverPane" layoutX="412.0" layoutY="244.0" prefHeight="226.0" prefWidth="409.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
+               <children>
+                  <Button layoutX="24.0" layoutY="151.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Exit" />
+                  <Label layoutX="95.0" layoutY="26.0" prefHeight="55.0" prefWidth="219.0" text="Game over!" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="38.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblWhoWon" layoutX="46.0" layoutY="81.0" prefHeight="55.0" prefWidth="319.0" text="who won text" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
    </children>
 </Pane>
 </center>
@@ -167,13 +197,13 @@
 
          <HBox prefHeight="49.0" prefWidth="327.0">
             <children>
-               <Button mnemonicParsing="false" onAction="#searchPlanet" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search">
+               <Button fx:id="btnSearchPlanet" mnemonicParsing="false" onAction="#searchPlanet" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Search">
                   <HBox.margin>
                      <Insets left="10.0" />
                   </HBox.margin>
                </Button>
                <Region HBox.hgrow="ALWAYS" />
-               <Button mnemonicParsing="false" onAction="#attackPlanet" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Attack">
+               <Button fx:id="btnAttackPlanet" mnemonicParsing="false" onAction="#attackPlanet" prefHeight="48.0" prefWidth="130.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Attack">
                   <HBox.margin>
                      <Insets right="10.0" />
                   </HBox.margin>
