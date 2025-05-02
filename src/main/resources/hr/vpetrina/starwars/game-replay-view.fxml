@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="hr.vpetrina.starwars.controller.GameReplayViewController">
+
+    <center>
+        <Pane layoutX="11.0" layoutY="157.0" prefHeight="315.0" prefWidth="665.0"
+              style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
+            <TextArea fx:id="eventsTextArea" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="368.0"
+                      prefWidth="572.0" wrapText="true"/>
+        </Pane>
+    </center>
+    
+</BorderPane>

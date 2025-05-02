@@ -8,6 +8,7 @@ import hr.vpetrina.starwars.rmi.ChatRemoteService;
 import hr.vpetrina.starwars.util.*;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -461,5 +462,10 @@ public class MainBoardController {
     public void exitGame() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         Platform.exit();
+    }
+
+    @FXML
+    public void viewEvents() throws IOException {
+        SceneUtils.launchScene("Events replay", SceneUtils.GAME_REPLAY_WINDOW_NAME, 600, 400);
     }
 }

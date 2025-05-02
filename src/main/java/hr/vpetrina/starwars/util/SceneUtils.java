@@ -16,6 +16,7 @@ public class SceneUtils {
     public static final String MAIN_WINDOW_NAME = "main-board-view.fxml";
     public static final String PICK_SIDE_WINDOW_NAME = "pick-a-side-view.fxml";
     public static final String CHOOSE_A_LEADER_WINDOW_NAME = "choose-leaders-view.fxml";
+    public static final String GAME_REPLAY_WINDOW_NAME = "game-replay-view.fxml";
 
     private SceneUtils() {}
 

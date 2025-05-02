@@ -164,25 +164,20 @@ public class XmlUtils {
         Element gameMoveElement = document.createElement(GameMoveTag.GAME_MOVE.getTagName());
         document.getDocumentElement().appendChild(gameMoveElement);
 
-        // Planet
         gameMoveElement.appendChild(createElement(document, GameMoveTag.PLANET.getTagName(), gameMove.getPlanet().getName()));
 
-        // Leaders
         Element leadersElement = document.createElement(GameMoveTag.LEADERS.getTagName());
         for (Leader leader : gameMove.getLeaders()) {
             leadersElement.appendChild(createElement(document, GameMoveTag.LEADER.getTagName(), leader.getName()));
         }
         gameMoveElement.appendChild(leadersElement);
 
-        // MoveType
         gameMoveElement.appendChild(createElement(document, GameMoveTag.MOVE_TYPE.getTagName(), gameMove.getMoveType().name()));
 
-        // Winner (only for ATTACK move and winner not null)
         if (gameMove.getMoveType() == MoveType.ATTACK && gameMove.getWinner() != null) {
             gameMoveElement.appendChild(createElement(document, GameMoveTag.WINNER.getTagName(), gameMove.getWinner().name()));
         }
 
-        // Executor
         gameMoveElement.appendChild(createElement(document, GameMoveTag.EXECUTOR.getTagName(), gameMove.getExecutor().name()));
     }
 
