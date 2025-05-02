@@ -1,0 +1,8 @@
+<!ELEMENT GameMoves (GameMove*)>
+        <!ELEMENT GameMove (Planet, Leaders, MoveType, Winner?, Executor)>
+        <!ELEMENT Planet (#PCDATA)>
+        <!ELEMENT Leaders (Leader*)>
+        <!ELEMENT Leader (#PCDATA)>
+        <!ELEMENT MoveType (#PCDATA)>
+        <!ELEMENT Winner (#PCDATA)>
+        <!ELEMENT Executor (#PCDATA)>

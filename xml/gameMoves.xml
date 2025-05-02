@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE GameMoves SYSTEM "dtd/gameMoves.dtd">
+<GameMoves>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+</GameMoves>

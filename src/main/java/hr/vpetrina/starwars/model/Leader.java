@@ -15,5 +15,9 @@ public class Leader implements Serializable {
     private Planet location;
     private Boolean isCaptured;
     private String imagePath;
+
+    public Leader(String name) {
+        this.name = name;
+    }
 }
 

@@ -141,6 +141,11 @@ public class GameUtils {
 
     public static void addLeaderToPlanet(int leaderIndex, Planet planet) {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+        var gameMove = new GameMove();
+        gameMove.setPlanet(planet);
+        gameMove.setMoveType(MoveType.DEPLOY);
+        gameMove.setExecutor(GameState.getFactionTurnStatic());
+
         var leader = GameState.getPlayerLeadersStatic().get(leaderIndex);
 
         if (planets.stream().anyMatch(p -> p.getLeaders().contains(leader))) {
@@ -153,7 +158,7 @@ public class GameUtils {
         }
 
         if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
-            planet.getLeaders().add(leader);
+            gameMove.getLeaders().add(leader);
         }
 
         if (GameState.getRebelLeadersStatic().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
@@ -161,7 +166,10 @@ public class GameUtils {
         }
 
         leader.setLocation(planet);
+        gameMove.getLeaders().add(leader);
         leadersAdded++;
+
+        XmlUtils.saveNewMove(gameMove);
 
         if (leadersAdded == 2) {
             nextTurn();

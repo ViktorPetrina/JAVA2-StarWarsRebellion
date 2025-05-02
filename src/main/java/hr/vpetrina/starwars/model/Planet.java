@@ -14,5 +14,9 @@ public class Planet implements Serializable {
     private String name;
     private ControlStatus controlStatus;
     private List<Leader> leaders;
+
+    public Planet(String name) {
+        this.name = name;
+    }
 }
 

@@ -367,7 +367,6 @@ public class MainBoardController {
         }
     }
 
-
     private void searchPlanetEmpire() {
         if (selectedPlanet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.REBELLION))) {
             showMessage(
