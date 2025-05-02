@@ -10,4 +10,49 @@
         <MoveType>DEPLOY</MoveType>
         <Executor>REBELLION</Executor>
     </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
 </GameMoves>
