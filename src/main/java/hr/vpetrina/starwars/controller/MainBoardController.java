@@ -4,21 +4,22 @@ import hr.vpetrina.starwars.model.Faction;
 import hr.vpetrina.starwars.model.GameState;
 import hr.vpetrina.starwars.model.Leader;
 import hr.vpetrina.starwars.model.Planet;
+import hr.vpetrina.starwars.rmi.ChatRemoteService;
 import hr.vpetrina.starwars.util.*;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MainBoardController {
 
@@ -113,6 +114,11 @@ public class MainBoardController {
     public static final List<Button> buttons = new ArrayList<>();
 
     @FXML
+    public TextArea chatMessagesTextArea;
+    @FXML
+    public TextField chatMessageTextField;
+
+    @FXML
     private Pane menuPane;
     @FXML
     private Pane planetMenuPane;
@@ -135,8 +141,11 @@ public class MainBoardController {
     private Boolean chatOpened = false;
     private static Planet selectedPlanet;
 
+    private ChatRemoteService chatRemoteService;
+
     @FXML
     public void initialize() {
+        initializeChatService();
         initializeButtonList();
         initializePlanets();
         initializeTimePositions();
@@ -149,6 +158,20 @@ public class MainBoardController {
                 List.of(leaderImage1, leaderImage2),
                 getStats()
         );
+    }
+
+    private void initializeChatService() {
+        Optional<ChatRemoteService> chatRemoteServiceOptional = ChatUtils.initializeChatRemoteService();
+        chatRemoteServiceOptional.ifPresent(remoteService -> {
+            chatRemoteService = remoteService;
+            Timeline chatMessagesRefreshTimeLine = ChatUtils.getChatRefreshTimeline(chatRemoteService, chatMessagesTextArea);
+            chatMessagesRefreshTimeLine.play();
+        });
+    }
+
+    @FXML
+    private void sendMessage() {
+        ChatUtils.sendChatMessage(chatRemoteService, chatMessageTextField);
     }
 
     private void initializeButtonList() {

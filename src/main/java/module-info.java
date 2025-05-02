@@ -12,5 +12,6 @@ module hr.vpetrina.starwars.rebellion {
     opens hr.vpetrina.starwars to javafx.fxml;
     exports hr.vpetrina.starwars;
     exports hr.vpetrina.starwars.controller;
+    exports hr.vpetrina.starwars.rmi;
     opens hr.vpetrina.starwars.controller to javafx.fxml;
 }
