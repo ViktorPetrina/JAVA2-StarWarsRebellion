@@ -1,9 +1,6 @@
 package hr.vpetrina.starwars.controller;
 
-import hr.vpetrina.starwars.model.Faction;
-import hr.vpetrina.starwars.model.GameState;
-import hr.vpetrina.starwars.model.Leader;
-import hr.vpetrina.starwars.model.Planet;
+import hr.vpetrina.starwars.model.*;
 import hr.vpetrina.starwars.rmi.ChatRemoteService;
 import hr.vpetrina.starwars.util.*;
 import javafx.animation.Timeline;
@@ -245,6 +242,13 @@ public class MainBoardController {
         GameState.setSecretBaseLocationStatic(planet);
         label.setText("Secret base location: " + planet.getName());
         GameUtils.setSecretBaseSelected(true);
+
+        var gameMove = new GameMove();
+        gameMove.setExecutor(Faction.REBELLION);
+        gameMove.setMoveType(MoveType.SECRET_BASE_PICK);
+        gameMove.setPlanet(planet);
+
+        XmlUtils.saveNewMove(gameMove);
     }
 
     private void selectPlanet(ImageView planet) {
@@ -374,14 +378,32 @@ public class MainBoardController {
                     "The planet has protecting leaders",
                     "Planet can not be searched while it has protecting leaders."
             );
+
             return;
         }
 
         if (selectedPlanet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
             showGameOver(Faction.EMPIRE);
+
+            var gameMove = new GameMove();
+            gameMove.setExecutor(Faction.EMPIRE);
+            gameMove.setMoveType(MoveType.SEARCH);
+            gameMove.setPlanet(selectedPlanet);
+            gameMove.setWinner(Faction.EMPIRE);
+
+            XmlUtils.saveNewMove(gameMove);
         }
         else {
             showMessage("No secret base", "You must continue searching.");
+
+            var gameMove = new GameMove();
+            gameMove.setExecutor(Faction.EMPIRE);
+            gameMove.setMoveType(MoveType.SEARCH);
+            gameMove.setPlanet(selectedPlanet);
+            gameMove.setWinner(Faction.REBELLION);
+
+            XmlUtils.saveNewMove(gameMove);
+
             GameUtils.nextTurn();
         }
     }
@@ -396,6 +418,7 @@ public class MainBoardController {
     public void showGameOver(Faction winner) {
         if (Faction.REBELLION.equals(winner)) {
             lblWhoWon.setText("The rebellion won!");
+            // dodat u xml kraj igre i ostale potrebne parametre
         }
         else {
             lblWhoWon.setText("The empire found the secret base and won!");

@@ -174,7 +174,8 @@ public class XmlUtils {
 
         gameMoveElement.appendChild(createElement(document, GameMoveTag.MOVE_TYPE.getTagName(), gameMove.getMoveType().name()));
 
-        if (gameMove.getMoveType() == MoveType.ATTACK && gameMove.getWinner() != null) {
+        if ((gameMove.getMoveType() == MoveType.ATTACK || gameMove.getMoveType() == MoveType.SEARCH)
+                && gameMove.getWinner() != null) {
             gameMoveElement.appendChild(createElement(document, GameMoveTag.WINNER.getTagName(), gameMove.getWinner().name()));
         }
 
