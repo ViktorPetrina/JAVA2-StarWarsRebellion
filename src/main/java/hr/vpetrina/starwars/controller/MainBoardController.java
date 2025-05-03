@@ -384,26 +384,11 @@ public class MainBoardController {
 
         if (selectedPlanet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
             showGameOver(Faction.EMPIRE);
-
-            var gameMove = new GameMove();
-            gameMove.setExecutor(Faction.EMPIRE);
-            gameMove.setMoveType(MoveType.SEARCH);
-            gameMove.setPlanet(selectedPlanet);
-            gameMove.setWinner(Faction.EMPIRE);
-
-            XmlUtils.saveNewMove(gameMove);
+            XmlUtils.saveNewMove(new GameMove(selectedPlanet, MoveType.SEARCH, Faction.EMPIRE, Faction.EMPIRE));
         }
         else {
             showMessage("No secret base", "You must continue searching.");
-
-            var gameMove = new GameMove();
-            gameMove.setExecutor(Faction.EMPIRE);
-            gameMove.setMoveType(MoveType.SEARCH);
-            gameMove.setPlanet(selectedPlanet);
-            gameMove.setWinner(Faction.REBELLION);
-
-            XmlUtils.saveNewMove(gameMove);
-
+            XmlUtils.saveNewMove(new GameMove(selectedPlanet, MoveType.SEARCH, Faction.REBELLION, Faction.EMPIRE));
             GameUtils.nextTurn();
         }
     }
@@ -418,7 +403,6 @@ public class MainBoardController {
     public void showGameOver(Faction winner) {
         if (Faction.REBELLION.equals(winner)) {
             lblWhoWon.setText("The rebellion won!");
-            // dodat u xml kraj igre i ostale potrebne parametre
         }
         else {
             lblWhoWon.setText("The empire found the secret base and won!");
@@ -441,9 +425,14 @@ public class MainBoardController {
 
             if (removedLeader.getFaction().equals(Faction.REBELLION)) {
                 showMessage("Mission success!", "The empire captured the rebel leader.");
+
+                var gameMove = new GameMove(selectedPlanet, MoveType.ATTACK, Faction.EMPIRE, Faction.EMPIRE);
+                gameMove.getLeaders().add(removedLeader);
+                XmlUtils.saveNewMove(gameMove);
             }
             else {
                 showMessage("Mission fail!", "The empire lost this combat mission.");
+                XmlUtils.saveNewMove(new GameMove(selectedPlanet, MoveType.ATTACK, Faction.REBELLION, Faction.EMPIRE));
             }
 
             GameUtils.nextTurn();
@@ -489,6 +478,7 @@ public class MainBoardController {
 
     @FXML
     public void viewEvents() throws IOException {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         SceneUtils.launchScene("Events replay", SceneUtils.GAME_REPLAY_WINDOW_NAME, 600, 400);
     }
 }

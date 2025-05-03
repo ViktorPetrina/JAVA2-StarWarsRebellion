@@ -2,21 +2,9 @@
 <!DOCTYPE GameMoves SYSTEM "dtd/gameMoves.dtd">
 <GameMoves>
     <GameMove>
-        <Planet>Mustafar</Planet>
-        <Leaders>
-            <Leader>Luke Skywalker</Leader>
-            <Leader>Luke Skywalker</Leader>
-        </Leaders>
-        <MoveType>DEPLOY</MoveType>
-        <Executor>REBELLION</Executor>
-    </GameMove>
-    <GameMove>
-        <Planet>Mustafar</Planet>
-        <Leaders>
-            <Leader>Leia Organa</Leader>
-            <Leader>Leia Organa</Leader>
-        </Leaders>
-        <MoveType>DEPLOY</MoveType>
+        <Planet>Tatooine</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
         <Executor>REBELLION</Executor>
     </GameMove>
     <GameMove>
@@ -29,7 +17,7 @@
         <Executor>REBELLION</Executor>
     </GameMove>
     <GameMove>
-        <Planet>Hoth</Planet>
+        <Planet>Tatooine</Planet>
         <Leaders>
             <Leader>Leia Organa</Leader>
             <Leader>Leia Organa</Leader>
@@ -40,8 +28,17 @@
     <GameMove>
         <Planet>Mustafar</Planet>
         <Leaders>
-            <Leader>Luke Skywalker</Leader>
-            <Leader>Luke Skywalker</Leader>
+            <Leader>Boba Fett</Leader>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+            <Leader>Darth Sidious</Leader>
         </Leaders>
         <MoveType>DEPLOY</MoveType>
         <Executor>REBELLION</Executor>
@@ -49,10 +46,17 @@
     <GameMove>
         <Planet>Mustafar</Planet>
         <Leaders>
-            <Leader>Leia Organa</Leader>
-            <Leader>Leia Organa</Leader>
+            <Leader>Luke Skywalker</Leader>
         </Leaders>
-        <MoveType>DEPLOY</MoveType>
-        <Executor>REBELLION</Executor>
+        <MoveType>ATTACK</MoveType>
+        <Winner>EMPIRE</Winner>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders/>
+        <MoveType>SEARCH</MoveType>
+        <Winner>REBELLION</Winner>
+        <Executor>EMPIRE</Executor>
     </GameMove>
 </GameMoves>

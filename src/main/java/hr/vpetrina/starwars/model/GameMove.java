@@ -17,4 +17,17 @@ public class GameMove implements Serializable {
     private MoveType moveType;
     private Faction winner;
     private Faction executor;
+
+    public GameMove(Planet planet, MoveType moveType, Faction winner, Faction executor) {
+        this.planet = planet;
+        this.moveType = moveType;
+        this.winner = winner;
+        this.executor = executor;
+    }
+
+    public GameMove(Planet planet, MoveType moveType, Faction executor) {
+        this.planet = planet;
+        this.moveType = moveType;
+        this.executor = executor;
+    }
 }
