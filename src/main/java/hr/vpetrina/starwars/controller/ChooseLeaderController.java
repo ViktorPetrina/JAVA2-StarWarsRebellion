@@ -1,5 +1,6 @@
 package hr.vpetrina.starwars.controller;
 
+import hr.vpetrina.starwars.constant.Leaders;
 import hr.vpetrina.starwars.model.*;
 import hr.vpetrina.starwars.util.GameUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
@@ -18,8 +19,8 @@ public class ChooseLeaderController {
 
     // 1000, 1200 dimensions
 
-    private static final List<Leader> rebelLeaders = GameUtils.getRebelLeaders();
-    private static final List<Leader> empireLeaders = GameUtils.getEmpireLeaders();
+    private static final List<Leader> rebelLeaders = Leaders.getRebelLeaders();
+    private static final List<Leader> empireLeaders = Leaders.getEmpireLeaders();
 
     @FXML
     public Label lblLeaders;

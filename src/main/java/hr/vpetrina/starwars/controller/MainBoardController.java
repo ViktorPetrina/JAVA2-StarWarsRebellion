@@ -1,5 +1,6 @@
 package hr.vpetrina.starwars.controller;
 
+import hr.vpetrina.starwars.constant.Planets;
 import hr.vpetrina.starwars.model.*;
 import hr.vpetrina.starwars.rmi.ChatRemoteService;
 import hr.vpetrina.starwars.util.*;
@@ -110,12 +111,12 @@ public class MainBoardController {
     @FXML
     public Button btnSearchPlanet;
 
-    public static final List<Button> buttons = new ArrayList<>();
-
     @FXML
     public TextArea chatMessagesTextArea;
     @FXML
     public TextField chatMessageTextField;
+    @FXML
+    public Button btnFinishTurn;
 
     @FXML
     private Pane menuPane;
@@ -135,10 +136,12 @@ public class MainBoardController {
     @FXML
     private Pane mainPane;
 
+    protected static final List<Button> buttons = new ArrayList<>();
+
     private List<ImageView> planetImages;
+    private static Planet selectedPlanet;
     private Boolean menuOpened = false;
     private Boolean chatOpened = false;
-    private static Planet selectedPlanet;
 
     private ChatRemoteService chatRemoteService;
 
@@ -174,14 +177,10 @@ public class MainBoardController {
         });
     }
 
-    @FXML
-    private void sendMessage() {
-        ChatUtils.sendChatMessage(chatRemoteService, chatMessageTextField);
-    }
-
     private void initializeButtonList() {
         buttons.add(btnAttackPlanet);
         buttons.add(btnSearchPlanet);
+        buttons.add(btnFinishTurn);
     }
 
     private void initializePlanets() {
@@ -195,7 +194,7 @@ public class MainBoardController {
                 imgPlanetKashyyyk
         );
 
-        GameUtils.setPlanets(GameUtils.generatePlanets());
+        GameUtils.setPlanets(Planets.getPlanets());
     }
 
     private void initializeEventListeners() {
@@ -208,10 +207,40 @@ public class MainBoardController {
         mainPane.requestFocus();
     }
 
-    private static void removeLeaderFromPlanet(Leader leader) {
-        selectedPlanet.getLeaders().removeIf(l -> l.getName().equals(leader.getName()));
-        GameState.getRebelLeadersStatic().removeIf(l -> l.getName().equals(leader.getName()));
-        leader.setLocation(null);
+    private void initializeSecretBase() {
+        if (GameState.getPlayerFactionStatic() != Faction.REBELLION) {
+            return;
+        }
+
+        lblMessage.setText("Choose a location for your secret base!");
+        planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> {
+            selectPlanet(planet);
+            SoundUtils.playSound(SoundUtils.READY_SOUND);
+            if (selectedPlanet != null) {
+                GameUtils.setSecretBase(selectedPlanet, lblMessage);
+            }
+
+            initializeEventListeners();
+            NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
+        }));
+    }
+
+    private void initializeTimePositions() {
+        GameUtils.setTimePositions(List.of(
+                timePositionOne, timePositionTwo, timePositionThree, timePositionFour,
+                timePositionFive, timePositionSix, timePositionSeven, timePositionEight,
+                timePositionNine, timePositionTen, timePositionEleven, timePositionTwelve,
+                timePositionThirteen, timePositionFourteen, timePositionFifteen, timePositionSixteen
+        ));
+
+        ImageUtils.setImage(
+                GameUtils.getTimePositions().get(GameUtils.getCurrentTurn()),
+                ImageUtils.TIME_TRACKER_IMAGE
+        );
+        ImageUtils.setImage(
+                GameUtils.getTimePositions().get(GameUtils.getRebelReputation()),
+                ImageUtils.REPUTATION_TRACKER_IMAGE
+        );
     }
 
     private void openPlanetMenu(ImageView planetImage) {
@@ -227,36 +256,9 @@ public class MainBoardController {
         SoundUtils.playSound(SoundUtils.MENU_SOUND);
     }
 
-    private void initializeSecretBase() {
-        if (GameState.getPlayerFactionStatic() != Faction.REBELLION) {
-            return;
-        }
-
-        lblMessage.setText("Choose a location for your secret base!");
-        planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> {
-            selectPlanet(planet);
-            SoundUtils.playSound(SoundUtils.READY_SOUND);
-            if (selectedPlanet != null) {
-                setSecretBase(selectedPlanet, lblMessage);
-            }
-
-            initializeEventListeners();
-            NetworkUtils.sendRequestPlayerOne(GameState.getGameState());
-        }));
-    }
-
-    public static void setSecretBase(Planet planet, Label label) {
-        GameState.setSecretBaseLocationStatic(planet);
-        label.setText("Secret base location: " + planet.getName());
-        GameUtils.setSecretBaseSelected(true);
-
-        var gameMove = new GameMove();
-        gameMove.setExecutor(Faction.REBELLION);
-        gameMove.setMoveType(MoveType.SECRET_BASE_PICK);
-        gameMove.setPlanet(planet);
-
-        XmlUtils.saveNewMove(gameMove);
-        ThreadUtils.saveLastEvent(gameMove);
+    @FXML
+    private void sendMessage() {
+        ChatUtils.sendChatMessage(chatRemoteService, chatMessageTextField);
     }
 
     private void selectPlanet(ImageView planet) {
@@ -345,24 +347,6 @@ public class MainBoardController {
         initializeEventListeners();
     }
 
-    private void initializeTimePositions() {
-        GameUtils.setTimePositions(List.of(
-                timePositionOne, timePositionTwo, timePositionThree, timePositionFour,
-                timePositionFive, timePositionSix, timePositionSeven, timePositionEight,
-                timePositionNine, timePositionTen, timePositionEleven, timePositionTwelve,
-                timePositionThirteen, timePositionFourteen, timePositionFifteen, timePositionSixteen
-        ));
-
-        ImageUtils.setImage(
-                GameUtils.getTimePositions().get(GameUtils.getCurrentTurn()),
-                ImageUtils.TIME_TRACKER_IMAGE
-        );
-        ImageUtils.setImage(
-                GameUtils.getTimePositions().get(GameUtils.getRebelReputation()),
-                ImageUtils.REPUTATION_TRACKER_IMAGE
-        );
-    }
-
     private List<List<Label>> getStats() {
         List<Label> leader1Stats = Arrays.asList(leaderStat11, leaderStat12);
         List<Label> leader2Stats = Arrays.asList(leaderStat21, leaderStat22);
@@ -381,27 +365,13 @@ public class MainBoardController {
     }
 
     private void searchPlanetEmpire() {
-        if (selectedPlanet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.REBELLION))) {
-            showMessage(
+        switch (GameUtils.searchPlanet(selectedPlanet)) {
+            case IS_PROTECTED -> showMessage(
                     "The planet has protecting leaders",
                     "Planet can not be searched while it has protecting leaders."
             );
-
-            return;
-        }
-
-        if (selectedPlanet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
-            showGameOver(Faction.EMPIRE);
-            var gameMove = new GameMove(selectedPlanet, MoveType.SEARCH, Faction.EMPIRE, Faction.EMPIRE);
-            XmlUtils.saveNewMove(gameMove);
-            ThreadUtils.saveLastEvent(gameMove);
-        }
-        else {
-            showMessage("No secret base", "You must continue searching.");
-            var gameMove = new GameMove(selectedPlanet, MoveType.SEARCH, Faction.REBELLION, Faction.EMPIRE);
-            XmlUtils.saveNewMove(gameMove);
-            ThreadUtils.saveLastEvent(gameMove);
-            GameUtils.nextTurn();
+            case NO_SECRET_BASE -> showMessage("No secret base", "You must continue searching.");
+            case HAS_SECRET_BASE -> showGameOver(Faction.EMPIRE);
         }
     }
 
@@ -425,52 +395,15 @@ public class MainBoardController {
     @FXML
     public void attackPlanet() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-
-        if (selectedPlanet != null && !GameUtils.hasEmpireLeader(selectedPlanet)) {
-            showMessage("No leaders", "The planet has no empire leaders to carry out the attack");
-            return;
+        switch (CombatUtils.attackPlanet(selectedPlanet)) {
+            case NO_LEADERS -> showMessage("No leaders", "The planet has no empire leaders to carry out the attack");
+            case FAILURE -> showMessage("Mission fail!", "The empire lost this combat mission.");
+            case SUCCESS -> showMessage("Mission success!", "The empire captured the rebel leader.");
         }
-
-        if (selectedPlanet != null && !selectedPlanet.getLeaders().isEmpty()) {
-            var removedLeader = initiateCombat(selectedPlanet);
-            removeLeaderFromPlanet(removedLeader);
-
-            if (removedLeader.getFaction().equals(Faction.REBELLION)) {
-                showMessage("Mission success!", "The empire captured the rebel leader.");
-
-                var gameMove = new GameMove(selectedPlanet, MoveType.ATTACK, Faction.EMPIRE, Faction.EMPIRE);
-                gameMove.getLeaders().add(removedLeader);
-                XmlUtils.saveNewMove(gameMove);
-                ThreadUtils.saveLastEvent(gameMove);
-            }
-            else {
-                showMessage("Mission fail!", "The empire lost this combat mission.");
-                var gameMove = new GameMove(selectedPlanet, MoveType.ATTACK, Faction.REBELLION, Faction.EMPIRE);
-                XmlUtils.saveNewMove(gameMove);
-                ThreadUtils.saveLastEvent(gameMove);
-            }
-
-            GameUtils.nextTurn();
-            NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
-        }
-    }
-
-    public Leader initiateCombat(Planet planet) {
-        GameState.setSearchingPlanetStatic(planet);
-        Leader removedLeader;
-        if (Faction.REBELLION.equals(CombatUtils.doCombat(planet.getLeaders()))) {
-            GameUtils.reputationDown();
-            removedLeader = GameUtils.captureLeader(planet, Faction.EMPIRE);
-        }
-        else {
-            removedLeader = GameUtils.captureLeader(planet, Faction.REBELLION);
-        }
-        return removedLeader;
     }
 
     public static void disableControls(boolean b) {
         buttons.forEach(btn -> btn.setDisable(b));
-        LogUtils.logInfo("Buttons setDisable: " + b);
     }
 
     @FXML

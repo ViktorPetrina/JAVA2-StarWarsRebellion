@@ -1,13 +1,11 @@
 package hr.vpetrina.starwars.util;
 
-import hr.vpetrina.starwars.controller.MainBoardController;
 import hr.vpetrina.starwars.model.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,100 +41,6 @@ public class GameUtils {
         }
     }
 
-    public static List<Leader> getRebelLeaders() {
-        return new ArrayList<>(List.of(
-                new Leader(
-                        "Luke Skywalker",
-                        Faction.REBELLION,
-                        new Stats(3, 2),
-                        Health.ALIVE,
-                        null,
-                        false,
-                        "/hr/vpetrina/starwars/images/luke_skywalker.jpg"
-                ),
-                new Leader(
-                        "Leia Organa",
-                        Faction.REBELLION,
-                        new Stats(1, 3),
-                        Health.ALIVE,
-                        null,
-                        false,
-                        "/hr/vpetrina/starwars/images/leia_organa.jpg"
-                ),
-                new Leader(
-                        "Han Solo",
-                        Faction.REBELLION,
-                        new Stats(3, 1),
-                        Health.ALIVE,
-                        null,
-                        false,
-                        "/hr/vpetrina/starwars/images/han_solo.png"
-                ),
-                new Leader(
-                        "Jan Donna",
-                        Faction.REBELLION,
-                        new Stats(0, 4),
-                        Health.ALIVE,
-                        null,
-                        false,
-                        "/hr/vpetrina/starwars/images/jan_dodonna.png"
-                )
-        ));
-    }
-
-    public static List<Leader> getEmpireLeaders() {
-        return new ArrayList<>(List.of(
-                new Leader(
-                        "Boba Fett",
-                        Faction.EMPIRE,
-                        new Stats(3, 1),
-                        Health.ALIVE,
-                        null,
-                        false,
-                        "/hr/vpetrina/starwars/images/boba_fett.jpg"
-                ),
-                new Leader(
-                        "Darth Sidious",
-                        Faction.EMPIRE,
-                        new Stats(2, 3),
-                        Health.ALIVE,
-                        null,
-                        false,
-                        "/hr/vpetrina/starwars/images/darth_sidious.jpeg"
-                ),
-                new Leader(
-                        "Darth Vader",
-                        Faction.EMPIRE,
-                        new Stats(3, 2),
-                        Health.ALIVE,
-                        null,
-                        false,
-                        "/hr/vpetrina/starwars/images/darth_vader.jpeg"
-                ),
-                new Leader(
-                        "General Tagge",
-                        Faction.REBELLION,
-                        new Stats(0, 4),
-                        Health.ALIVE,
-                        null,
-                        false,
-                        "/hr/vpetrina/starwars/images/general_tagge.png"
-                )
-        ));
-    }
-
-    public static List<Planet> generatePlanets() {
-        return new ArrayList<>(List.of(
-           new Planet("Naboo", ControlStatus.NEUTRAL, new ArrayList<>()),
-           new Planet("Kashyyyk", ControlStatus.NEUTRAL, new ArrayList<>()),
-           new Planet("Tatooine", ControlStatus.NEUTRAL, new ArrayList<>()),
-           new Planet("Hoth", ControlStatus.NEUTRAL, new ArrayList<>()),
-           new Planet("Coruscant", ControlStatus.NEUTRAL, new ArrayList<>()),
-           new Planet("Mustafar", ControlStatus.NEUTRAL, new ArrayList<>()),
-           new Planet("Ilum", ControlStatus.NEUTRAL, new ArrayList<>())
-        ));
-    }
-
     private static Integer leadersAdded = 0;
 
     public static void addLeaderToPlanet(int leaderIndex, Planet planet) {
@@ -155,7 +59,7 @@ public class GameUtils {
         }
 
         if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
-            gameMove.getLeaders().add(leader);
+            planet.getLeaders().add(leader);
         }
 
         if (GameState.getRebelLeadersStatic().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
@@ -242,6 +146,41 @@ public class GameUtils {
 
     public static boolean hasEmpireLeader(Planet planet) {
         return planet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.EMPIRE));
+    }
+
+    public static void setSecretBase(Planet planet, Label label) {
+        GameState.setSecretBaseLocationStatic(planet);
+        label.setText("Secret base location: " + planet.getName());
+        secretBaseSelected = true;
+
+        var gameMove = new GameMove();
+        gameMove.setExecutor(Faction.REBELLION);
+        gameMove.setMoveType(MoveType.SECRET_BASE_PICK);
+        gameMove.setPlanet(planet);
+
+        XmlUtils.saveNewMove(gameMove);
+        ThreadUtils.saveLastEvent(gameMove);
+    }
+
+    public static PlanetSearchResult searchPlanet(Planet planet) {
+        if (planet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.REBELLION))) {
+            return PlanetSearchResult.IS_PROTECTED;
+        }
+
+        if (planet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
+            var gameMove = new GameMove(planet, MoveType.SEARCH, Faction.EMPIRE, Faction.EMPIRE);
+            XmlUtils.saveNewMove(gameMove);
+            ThreadUtils.saveLastEvent(gameMove);
+            return PlanetSearchResult.HAS_SECRET_BASE;
+        }
+        else {
+
+            var gameMove = new GameMove(planet, MoveType.SEARCH, Faction.REBELLION, Faction.EMPIRE);
+            XmlUtils.saveNewMove(gameMove);
+            ThreadUtils.saveLastEvent(gameMove);
+            GameUtils.nextTurn();
+            return PlanetSearchResult.NO_SECRET_BASE;
+        }
     }
 
     public static Boolean gameOver() {

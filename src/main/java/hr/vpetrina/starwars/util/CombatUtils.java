@@ -1,7 +1,6 @@
 package hr.vpetrina.starwars.util;
 
-import hr.vpetrina.starwars.model.Faction;
-import hr.vpetrina.starwars.model.Leader;
+import hr.vpetrina.starwars.model.*;
 
 import java.util.List;
 import java.util.Random;
@@ -11,7 +10,64 @@ public class CombatUtils {
 
     private CombatUtils() {}
 
-    public static Faction doCombat(List<Leader> leaders) {
+    public static CombatResult attackPlanet(Planet planet) {
+        var result = CombatResult.NO_LEADERS;
+
+        if (planet != null && !GameUtils.hasEmpireLeader(planet)) {
+            return result;
+        }
+
+        if (planet != null && !planet.getLeaders().isEmpty()) {
+            var removedLeader = CombatUtils.initiateCombat(planet);
+            removeLeaderFromPlanet(removedLeader, planet);
+
+            if (removedLeader.getFaction().equals(Faction.REBELLION)) {
+
+
+                var gameMove = new GameMove(planet, MoveType.ATTACK, Faction.EMPIRE, Faction.EMPIRE);
+                gameMove.getLeaders().add(removedLeader);
+                XmlUtils.saveNewMove(gameMove);
+                ThreadUtils.saveLastEvent(gameMove);
+
+                result = CombatResult.SUCCESS;
+            }
+            else {
+
+                var gameMove = new GameMove(planet, MoveType.ATTACK, Faction.REBELLION, Faction.EMPIRE);
+                XmlUtils.saveNewMove(gameMove);
+                ThreadUtils.saveLastEvent(gameMove);
+
+                result = CombatResult.FAILURE;
+            }
+
+            GameUtils.nextTurn();
+            NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
+            return result;
+        }
+
+        return result;
+    }
+
+    private static void removeLeaderFromPlanet(Leader leader, Planet planet) {
+        planet.getLeaders().removeIf(l -> l.getName().equals(leader.getName()));
+        GameState.getRebelLeadersStatic().removeIf(l -> l.getName().equals(leader.getName()));
+        leader.setLocation(null);
+    }
+
+    private static Leader initiateCombat(Planet planet) {
+        GameState.setSearchingPlanetStatic(planet);
+        Leader removedLeader;
+        if (Faction.REBELLION.equals(CombatUtils.doCombat(planet.getLeaders()))) {
+            GameUtils.reputationDown();
+            removedLeader = GameUtils.captureLeader(planet, Faction.EMPIRE);
+        }
+        else {
+            removedLeader = GameUtils.captureLeader(planet, Faction.REBELLION);
+        }
+        return removedLeader;
+    }
+
+    private static Faction doCombat(List<Leader> leaders) {
         Faction winner;
 
         AtomicReference<Integer> empireSkills = new AtomicReference<>(0);

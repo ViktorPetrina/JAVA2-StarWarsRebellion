@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane fx:id="mainPane" onKeyPressed="#keyPressed" prefHeight="1001.0" prefWidth="1571.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
+<BorderPane fx:id="mainPane" onKeyPressed="#keyPressed" prefHeight="1001.0" prefWidth="1571.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
 <center>
    <Pane id="background-pane" maxHeight="800" maxWidth="1200" minHeight="800" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style=" -fx-padding: 5px; -fx-border-color: orange; -fx-border-width: 5px; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -98,15 +90,15 @@
             </ImageView>
          </children>
       </Pane>
-            <Pane fx:id="messagePane" layoutX="249.0" layoutY="50.0" prefHeight="315.0" prefWidth="636.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
+            <Pane fx:id="messagePane" layoutX="249.0" layoutY="50.0" prefHeight="233.0" prefWidth="427.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
                <children>
-                  <Button layoutX="25.0" layoutY="241.0" mnemonicParsing="false" onAction="#closeMessagePane" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Close" />
-                  <Label fx:id="lblMsgTitle" layoutX="95.0" layoutY="26.0" prefHeight="55.0" prefWidth="219.0" text="No rebel base" textFill="WHITE">
+                  <Button layoutX="29.0" layoutY="157.0" mnemonicParsing="false" onAction="#closeMessagePane" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Close" />
+                  <Label fx:id="lblMsgTitle" layoutX="25.0" layoutY="26.0" prefHeight="55.0" prefWidth="405.0" text="No rebel base" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="33.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblMsgContent" layoutX="29.0" layoutY="81.0" prefHeight="144.0" prefWidth="349.0" text="You must continue searching for the secret base" textFill="WHITE">
+                  <Label fx:id="lblMsgContent" layoutX="25.0" layoutY="70.0" prefHeight="63.0" prefWidth="367.0" text="You must continue searching for the secret base" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -137,7 +129,7 @@
                </children>
             </Pane>
             <VBox layoutX="847.0" layoutY="276.0" prefHeight="200.0" prefWidth="100.0" />
-            <Button layoutX="1055.0" layoutY="739.0" mnemonicParsing="false" onAction="#finishTurn" prefHeight="39.0" prefWidth="131.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Finish turn" />
+            <Button fx:id="btnFinishTurn" layoutX="1055.0" layoutY="739.0" mnemonicParsing="false" onAction="#finishTurn" prefHeight="39.0" prefWidth="131.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Finish turn" />
             <Pane fx:id="gameOverPane" layoutX="412.0" layoutY="244.0" prefHeight="226.0" prefWidth="409.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
                <children>
                   <Button layoutX="24.0" layoutY="151.0" mnemonicParsing="false" onAction="#exitGame" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Exit" />
