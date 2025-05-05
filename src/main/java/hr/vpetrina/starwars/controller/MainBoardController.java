@@ -5,7 +5,6 @@ import hr.vpetrina.starwars.rmi.ChatRemoteService;
 import hr.vpetrina.starwars.util.*;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,6 +22,8 @@ public class MainBoardController {
 
     @FXML
     public Label lblMessage;
+    @FXML
+    public Label lblLastEvent;
 
     @FXML
     public ImageView imgPlanetKashyyyk;
@@ -150,12 +151,18 @@ public class MainBoardController {
         initializePanes();
         initializeSecretBase();
         initializeEventListeners();
+        initializeLastEventTimeline();
         GameUtils.initializeLeaders(
                 GameState.getPlayerLeadersStatic(),
                 List.of(leaderName1, leaderName2),
                 List.of(leaderImage1, leaderImage2),
                 getStats()
         );
+    }
+
+    private void initializeLastEventTimeline() {
+        Timeline showTheLastGameMoveTimeline = ThreadUtils.getTheLastEventRefreshTimeline(lblLastEvent);
+        showTheLastGameMoveTimeline.play();
     }
 
     private void initializeChatService() {
@@ -249,6 +256,7 @@ public class MainBoardController {
         gameMove.setPlanet(planet);
 
         XmlUtils.saveNewMove(gameMove);
+        ThreadUtils.saveLastEvent(gameMove);
     }
 
     private void selectPlanet(ImageView planet) {
@@ -384,11 +392,15 @@ public class MainBoardController {
 
         if (selectedPlanet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
             showGameOver(Faction.EMPIRE);
-            XmlUtils.saveNewMove(new GameMove(selectedPlanet, MoveType.SEARCH, Faction.EMPIRE, Faction.EMPIRE));
+            var gameMove = new GameMove(selectedPlanet, MoveType.SEARCH, Faction.EMPIRE, Faction.EMPIRE);
+            XmlUtils.saveNewMove(gameMove);
+            ThreadUtils.saveLastEvent(gameMove);
         }
         else {
             showMessage("No secret base", "You must continue searching.");
-            XmlUtils.saveNewMove(new GameMove(selectedPlanet, MoveType.SEARCH, Faction.REBELLION, Faction.EMPIRE));
+            var gameMove = new GameMove(selectedPlanet, MoveType.SEARCH, Faction.REBELLION, Faction.EMPIRE);
+            XmlUtils.saveNewMove(gameMove);
+            ThreadUtils.saveLastEvent(gameMove);
             GameUtils.nextTurn();
         }
     }
@@ -429,10 +441,13 @@ public class MainBoardController {
                 var gameMove = new GameMove(selectedPlanet, MoveType.ATTACK, Faction.EMPIRE, Faction.EMPIRE);
                 gameMove.getLeaders().add(removedLeader);
                 XmlUtils.saveNewMove(gameMove);
+                ThreadUtils.saveLastEvent(gameMove);
             }
             else {
                 showMessage("Mission fail!", "The empire lost this combat mission.");
-                XmlUtils.saveNewMove(new GameMove(selectedPlanet, MoveType.ATTACK, Faction.REBELLION, Faction.EMPIRE));
+                var gameMove = new GameMove(selectedPlanet, MoveType.ATTACK, Faction.REBELLION, Faction.EMPIRE);
+                XmlUtils.saveNewMove(gameMove);
+                ThreadUtils.saveLastEvent(gameMove);
             }
 
             GameUtils.nextTurn();

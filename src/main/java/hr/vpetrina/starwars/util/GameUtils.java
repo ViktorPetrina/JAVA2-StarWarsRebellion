@@ -167,6 +167,7 @@ public class GameUtils {
 
         gameMove.getLeaders().add(leader);
         XmlUtils.saveNewMove(gameMove);
+        ThreadUtils.saveLastEvent(gameMove);
 
         if (leadersAdded == 2) {
             nextTurn();
