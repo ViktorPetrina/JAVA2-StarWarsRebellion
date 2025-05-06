@@ -117,6 +117,8 @@ public class MainBoardController {
     public TextField chatMessageTextField;
     @FXML
     public Button btnFinishTurn;
+    @FXML
+    public Label lblTurn;
 
     @FXML
     private Pane menuPane;
@@ -137,6 +139,7 @@ public class MainBoardController {
     private Pane mainPane;
 
     protected static final List<Button> buttons = new ArrayList<>();
+    public static final List<Label> labels = new ArrayList<>();
 
     private List<ImageView> planetImages;
     private static Planet selectedPlanet;
@@ -148,7 +151,7 @@ public class MainBoardController {
     @FXML
     public void initialize() {
         initializeChatService();
-        initializeButtonList();
+        initializeStaticLists();
         initializePlanets();
         initializeTimePositions();
         initializePanes();
@@ -177,10 +180,14 @@ public class MainBoardController {
         });
     }
 
-    private void initializeButtonList() {
+    private void initializeStaticLists() {
         buttons.add(btnAttackPlanet);
         buttons.add(btnSearchPlanet);
         buttons.add(btnFinishTurn);
+        buttons.add(btnLeader1);
+        buttons.add(btnLeader2);
+
+        labels.add(lblTurn);
     }
 
     private void initializePlanets() {
@@ -201,9 +208,6 @@ public class MainBoardController {
         if (GameState.getPlayerFactionStatic() == Faction.EMPIRE || Boolean.TRUE.equals(GameUtils.isSecretBaseSelected())) {
             planetImages.forEach(planet -> planet.setOnMouseClicked(_ -> openPlanetMenu(planet)));
         }
-        btnLeader1.setOnAction(_ -> GameUtils.addLeaderToPlanet(0, selectedPlanet));
-        btnLeader2.setOnAction(_ -> GameUtils.addLeaderToPlanet(1, selectedPlanet));
-
         mainPane.requestFocus();
     }
 
@@ -241,6 +245,22 @@ public class MainBoardController {
                 GameUtils.getTimePositions().get(GameUtils.getRebelReputation()),
                 ImageUtils.REPUTATION_TRACKER_IMAGE
         );
+    }
+
+    @FXML
+    private void deployLeader1() {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+        if (GameUtils.addLeaderToPlanet(0, selectedPlanet) == 0) {
+            showMessage("Cannot deploy leader", "The leader is already deployed.");
+        }
+    }
+
+    @FXML
+    private void deployLeader2() {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+        if (GameUtils.addLeaderToPlanet(1, selectedPlanet) == 0) {
+            showMessage("Cannot deploy leader", "The leader is already deployed.");
+        }
     }
 
     private void openPlanetMenu(ImageView planetImage) {
@@ -344,6 +364,7 @@ public class MainBoardController {
     private void loadGame() {
         GameUtils.restoreGameState(FileUtils.loadGameState());
         lblMessage.setText("Secret base location: " + GameState.getSecretBaseLocationStatic().getName());
+        lblTurn.setText("Turn: " + GameState.getFactionTurnStatic().name());
         initializeEventListeners();
     }
 
@@ -355,16 +376,12 @@ public class MainBoardController {
 
     @FXML
     public void searchPlanet() {
-        if (selectedPlanet == null) {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+        if (GameState.getPlayerFactionStatic().equals(Faction.REBELLION)) {
+            showMessage("Invalid action", "Only empire can search planets.");
             return;
         }
 
-        if (Faction.EMPIRE.equals(GameState.getPlayerFactionStatic())) {
-            searchPlanetEmpire();
-        }
-    }
-
-    private void searchPlanetEmpire() {
         switch (GameUtils.searchPlanet(selectedPlanet)) {
             case IS_PROTECTED -> showMessage(
                     "The planet has protecting leaders",
@@ -372,14 +389,25 @@ public class MainBoardController {
             );
             case NO_SECRET_BASE -> showMessage("No secret base", "You must continue searching.");
             case HAS_SECRET_BASE -> showGameOver(Faction.EMPIRE);
+            case NO_LEADERS -> showMessage("No leaders", "You must deploy a leader to search.");
         }
+    }
+
+    @FXML
+    public void attackPlanet() {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
+        switch (CombatUtils.attackPlanet(selectedPlanet)) {
+            case NO_LEADERS -> showMessage("No leaders", "The planet has no leaders to carry out the attack");
+            case FAILURE -> showMessage("Empire lost!", "The empire lost this combat mission.");
+            case SUCCESS -> showMessage("Empire won!", "The empire captured the rebel leader.");
+        }
+        NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
     }
 
     public void showMessage(String title, String message) {
         lblMsgTitle.setText(title);
         lblMsgContent.setText(message);
         messagePane.setVisible(true);
-        LogUtils.logInfo("Message pane shown: " + title + ", " + message);
     }
 
     public void showGameOver(Faction winner) {
@@ -392,16 +420,6 @@ public class MainBoardController {
         gameOverPane.setVisible(true);
     }
 
-    @FXML
-    public void attackPlanet() {
-        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-        switch (CombatUtils.attackPlanet(selectedPlanet)) {
-            case NO_LEADERS -> showMessage("No leaders", "The planet has no empire leaders to carry out the attack");
-            case FAILURE -> showMessage("Mission fail!", "The empire lost this combat mission.");
-            case SUCCESS -> showMessage("Mission success!", "The empire captured the rebel leader.");
-        }
-    }
-
     public static void disableControls(boolean b) {
         buttons.forEach(btn -> btn.setDisable(b));
     }
@@ -409,12 +427,13 @@ public class MainBoardController {
     @FXML
     public void finishTurn() {
         SoundUtils.playSound(SoundUtils.READY_SOUND);
-        GameUtils.nextTurn();
+        var result = GameUtils.nextTurn(lblTurn);
 
-        if (Boolean.TRUE.equals(GameUtils.gameOver())) {
-            gameOverPane.setVisible(true);
+        if (result.equals(NextTurnResult.GAME_OVER)){
+            showGameOver(Faction.REBELLION);
         }
 
+        disableControls(true);
         GameUtils.sendUniversalRequest(GameState.getGameState());
     }
 

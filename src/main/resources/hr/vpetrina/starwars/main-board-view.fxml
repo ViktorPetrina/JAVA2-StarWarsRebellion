@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" onKeyPressed="#keyPressed" prefHeight="1001.0" prefWidth="1571.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
+<BorderPane fx:id="mainPane" onKeyPressed="#keyPressed" prefHeight="1001.0" prefWidth="1571.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.vpetrina.starwars.controller.MainBoardController">
 <center>
    <Pane id="background-pane" maxHeight="800" maxWidth="1200" minHeight="800" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style=" -fx-padding: 5px; -fx-border-color: orange; -fx-border-width: 5px; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -93,12 +101,12 @@
             <Pane fx:id="messagePane" layoutX="249.0" layoutY="50.0" prefHeight="233.0" prefWidth="427.0" style="-fx-background-color: black; -fx-border-color: orange; -fx-border-width: 5px;">
                <children>
                   <Button layoutX="29.0" layoutY="157.0" mnemonicParsing="false" onAction="#closeMessagePane" prefHeight="35.0" prefWidth="360.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5; -fx-background-radius: 5;" text="Close" />
-                  <Label fx:id="lblMsgTitle" layoutX="25.0" layoutY="26.0" prefHeight="55.0" prefWidth="405.0" text="No rebel base" textFill="WHITE">
+                  <Label fx:id="lblMsgTitle" layoutX="29.0" layoutY="14.0" prefHeight="55.0" prefWidth="405.0" text="No rebel base" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblMsgContent" layoutX="25.0" layoutY="70.0" prefHeight="63.0" prefWidth="367.0" text="You must continue searching for the secret base" textFill="WHITE">
+                  <Label fx:id="lblMsgContent" layoutX="26.0" layoutY="54.0" prefHeight="94.0" prefWidth="367.0" text="You must continue searching for the secret base" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -159,7 +167,7 @@
    <top>
       <VBox alignment="CENTER">
          <HBox alignment="CENTER" spacing="70"> <!-- spacing added here -->
-            <Label fx:id="lblMessage" style="-fx-font-weight: bold;" text="secret base" textFill="WHITE">
+            <Label fx:id="lblMessage" style="-fx-font-weight: bold;" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
@@ -184,7 +192,7 @@
                <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Espionage:" />
                <Label fx:id="leaderStat12" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="0" />
             </HBox>
-            <Button fx:id="btnLeader1" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Deploy" />
+            <Button fx:id="btnLeader1" onAction="#deployLeader1" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Deploy" />
             <VBox.margin>
                <Insets top="20.0" />
             </VBox.margin>
@@ -198,7 +206,7 @@
                <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Espionage:" />
                <Label fx:id="leaderStat22" style="-fx-font-size: 14px; -fx-text-fill: #333;" text="0" />
             </HBox>
-            <Button fx:id="btnLeader2" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Deploy" />
+            <Button fx:id="btnLeader2" onAction="#deployLeader2" style="-fx-font-size: 14px; -fx-background-color: #6a6a6a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="Deploy" />
             <VBox.margin>
                <Insets top="20.0" />
             </VBox.margin>
@@ -262,4 +270,11 @@
 
       </VBox>
    </left>
+   <bottom>
+      <Label fx:id="lblTurn" style="-fx-font-weight: bold;" text="Turn: REBELLION" textFill="WHITE" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+   </bottom>
 </BorderPane>

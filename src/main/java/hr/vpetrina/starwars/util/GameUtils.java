@@ -43,19 +43,12 @@ public class GameUtils {
 
     private static Integer leadersAdded = 0;
 
-    public static void addLeaderToPlanet(int leaderIndex, Planet planet) {
-        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-
-        var gameMove = new GameMove(planet, MoveType.DEPLOY, GameState.getFactionTurnStatic());
+    public static Integer addLeaderToPlanet(int leaderIndex, Planet planet) {
+        var gameMove = new GameMove(planet, MoveType.DEPLOY, GameState.getPlayerFactionStatic());
         var leader = GameState.getPlayerLeadersStatic().get(leaderIndex);
 
         if (planets.stream().anyMatch(p -> p.getLeaders().contains(leader))) {
-            SceneUtils.showInformationDialog(
-                    "Planet leaders",
-                    "Cannot deploy leader!",
-                    "The leader is already deployed, you have to wait for the next turn."
-            );
-            return;
+            return 0;
         }
 
         if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
@@ -73,10 +66,7 @@ public class GameUtils {
         XmlUtils.saveNewMove(gameMove);
         ThreadUtils.saveLastEvent(gameMove);
 
-        if (leadersAdded == 2) {
-            nextTurn();
-            sendUniversalRequest(GameState.getGameState());
-        }
+        return leadersAdded;
     }
 
     public static void sendUniversalRequest(GameState gameState) {
@@ -93,6 +83,7 @@ public class GameUtils {
 
         GameState.setSecretBaseLocationStatic(gameState.getSecretBaseLocation());
         GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
+        GameState.setFactionTurnStatic(gameState.getFactionTurn());
         currentTurn = gameState.getCurrentTurn();
         rebelReputation = gameState.getRebelReputation();
         secretBaseSelected = true;
@@ -111,18 +102,29 @@ public class GameUtils {
         ImageUtils.setImage(timePositions.get(rebelReputation), ImageUtils.REPUTATION_TRACKER_IMAGE);
     }
 
-    public static void nextTurn() {
+    public static NextTurnResult nextTurn(Label label) {
         LogUtils.logInfo("Next turn! (Current turn: " + (currentTurn + 1) + ")");
 
         leadersAdded = 0;
 
         if (currentTurn == timePositions.size() - 1) {
-            return; // game over
+            return NextTurnResult.GAME_OVER;
         }
 
         currentTurn++;
         ImageUtils.setImage(timePositions.get(currentTurn), ImageUtils.TIME_TRACKER_IMAGE);
         timePositions.get(currentTurn - 1).setImage(null);
+        GameState.setFactionTurnStatic(switchFaction());
+        label.setText("Turn: " + GameState.getFactionTurnStatic());
+
+        return NextTurnResult.NEXT_TURN;
+    }
+
+    private static Faction switchFaction() {
+        if (GameState.getPlayerFactionStatic().equals(Faction.EMPIRE))
+            return Faction.REBELLION;
+        else
+            return Faction.EMPIRE;
     }
 
     public static Leader captureLeader(Planet planet, Faction faction) {
@@ -144,10 +146,6 @@ public class GameUtils {
         timePositions.get(rebelReputation + 1).setImage(null);
     }
 
-    public static boolean hasEmpireLeader(Planet planet) {
-        return planet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.EMPIRE));
-    }
-
     public static void setSecretBase(Planet planet, Label label) {
         GameState.setSecretBaseLocationStatic(planet);
         label.setText("Secret base location: " + planet.getName());
@@ -163,27 +161,31 @@ public class GameUtils {
     }
 
     public static PlanetSearchResult searchPlanet(Planet planet) {
-        if (planet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(Faction.REBELLION))) {
+        if (hasFactionLeaders(planet, Faction.REBELLION)) {
             return PlanetSearchResult.IS_PROTECTED;
         }
-
-        if (planet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
+        else if (!hasFactionLeaders(planet, Faction.EMPIRE)) {
+            return PlanetSearchResult.NO_LEADERS;
+        }
+        else if (planet.getName().equals(GameState.getSecretBaseLocationStatic().getName())) {
             var gameMove = new GameMove(planet, MoveType.SEARCH, Faction.EMPIRE, Faction.EMPIRE);
             XmlUtils.saveNewMove(gameMove);
             ThreadUtils.saveLastEvent(gameMove);
             return PlanetSearchResult.HAS_SECRET_BASE;
         }
         else {
-
             var gameMove = new GameMove(planet, MoveType.SEARCH, Faction.REBELLION, Faction.EMPIRE);
             XmlUtils.saveNewMove(gameMove);
             ThreadUtils.saveLastEvent(gameMove);
-            GameUtils.nextTurn();
             return PlanetSearchResult.NO_SECRET_BASE;
         }
     }
 
-    public static Boolean gameOver() {
+    public static boolean hasFactionLeaders(Planet planet, Faction faction) {
+        return planet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(faction));
+    }
+
+    public static Boolean rebellionWon() {
         return currentTurn >= rebelReputation;
     }
 }

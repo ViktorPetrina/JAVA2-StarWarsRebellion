@@ -13,9 +13,11 @@ public class CombatUtils {
     public static CombatResult attackPlanet(Planet planet) {
         var result = CombatResult.NO_LEADERS;
 
-        if (planet != null && !GameUtils.hasEmpireLeader(planet)) {
+        if (planet != null && !GameUtils.hasFactionLeaders(planet, Faction.EMPIRE)) {
             return result;
         }
+
+        var executorFaction = GameState.getPlayerFactionStatic();
 
         if (planet != null && !planet.getLeaders().isEmpty()) {
             var removedLeader = CombatUtils.initiateCombat(planet);
@@ -23,8 +25,7 @@ public class CombatUtils {
 
             if (removedLeader.getFaction().equals(Faction.REBELLION)) {
 
-
-                var gameMove = new GameMove(planet, MoveType.ATTACK, Faction.EMPIRE, Faction.EMPIRE);
+                var gameMove = new GameMove(planet, MoveType.ATTACK, Faction.EMPIRE, executorFaction);
                 gameMove.getLeaders().add(removedLeader);
                 XmlUtils.saveNewMove(gameMove);
                 ThreadUtils.saveLastEvent(gameMove);
@@ -33,15 +34,13 @@ public class CombatUtils {
             }
             else {
 
-                var gameMove = new GameMove(planet, MoveType.ATTACK, Faction.REBELLION, Faction.EMPIRE);
+                var gameMove = new GameMove(planet, MoveType.ATTACK, Faction.REBELLION, executorFaction);
                 XmlUtils.saveNewMove(gameMove);
                 ThreadUtils.saveLastEvent(gameMove);
 
                 result = CombatResult.FAILURE;
             }
 
-            GameUtils.nextTurn();
-            NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
             return result;
         }
 

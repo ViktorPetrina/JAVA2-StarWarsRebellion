@@ -18,8 +18,6 @@ public class NetworkUtils {
 
     public static void acceptRequests(Integer port) {
         try (ServerSocket serverSocket = new ServerSocket(port)){
-            LogUtils.logWarning(String.format("Server listening on port: %d%n", serverSocket.getLocalPort()));
-
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.err.printf("Client connected from port %s%n", clientSocket.getPort());
@@ -32,34 +30,20 @@ public class NetworkUtils {
 
     private static void processSerializableClient(final Socket clientSocket) {
         try (ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-             ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());){
+             ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream())) {
+
             GameState gameState = (GameState)ois.readObject();
             GameUtils.restoreGameState(gameState);
 
-            Boolean gameOver = GameUtils.gameOver();
+            LogUtils.logInfo("faction turn: " + gameState.getFactionTurn());
 
-            /*if(gameState.getFactionTurn().name().equals(GameState.getFactionTurnStatic().name())) {
-                MainBoardController.disableControls(false);
-            }
-            else {
-                MainBoardController.disableControls(true);
-            }*/
+            MainBoardController.disableControls(false);
 
-            if(Boolean.TRUE.equals(gameOver)) {
-                Platform.runLater(() -> SceneUtils.showInformationDialog(
-                        "Game Over",
-                        gameState.getFactionTurn().name() + " won.",
-                        "Player that is " + gameState.getFactionTurn().name() + " faction wins!"
-                ));
+            Platform.runLater(() -> MainBoardController.labels.getFirst().setText(
+                    "Turn: " + GameState.getFactionTurnStatic())
+            );
 
-                MainBoardController.disableControls(true);
-            }
-
-            LogUtils.logInfo("Game state received from Player 1");
             oos.writeObject("Success");
-
-            LogUtils.logInfo("Winner exists: " + gameOver);
-            LogUtils.logInfo("Turn: " + gameState.getFactionTurn().toString());
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -71,7 +55,6 @@ public class NetworkUtils {
                 ConfigurationReader.getStringValueForKey(ConfigurationKey.HOSTNAME),
                 ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_2_SERVER_PORT))) {
 
-            LogUtils.logWarning(String.format("Client is connecting to %s:%d%n", clientSocket.getInetAddress(), clientSocket.getPort()));
             sendSerializableRequest(clientSocket, gameState);
 
         } catch (IOException | ClassNotFoundException e) {
@@ -84,7 +67,6 @@ public class NetworkUtils {
                 ConfigurationReader.getStringValueForKey(ConfigurationKey.HOSTNAME),
                 ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_1_SERVER_PORT))) {
 
-            LogUtils.logWarning(String.format("Client is connecting to %s:%d%n", clientSocket.getInetAddress(), clientSocket.getPort()));
             sendSerializableRequest(clientSocket, gameState);
 
         } catch (IOException | ClassNotFoundException e) {
@@ -99,4 +81,5 @@ public class NetworkUtils {
         LogUtils.logInfo("GameState sent to Player 2");
         LogUtils.logInfo(ois.readObject().toString());
     }
+
 }
