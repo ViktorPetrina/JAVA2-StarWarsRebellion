@@ -17,6 +17,8 @@ public class GameUtils {
     @Getter @Setter
     private static int currentTurn = 0;
     @Getter @Setter
+    private static int capturedLeaderTurn = -1;
+    @Getter @Setter
     private static int rebelReputation = 13;
     @Getter @Setter
     private static List<ImageView> timePositions;
@@ -41,33 +43,38 @@ public class GameUtils {
         }
     }
 
-    private static Integer leadersAdded = 0;
-
-    public static Integer addLeaderToPlanet(int leaderIndex, Planet planet) {
+    public static DeployLeaderResult addLeaderToPlanet(int leaderIndex, Planet planet) {
         var gameMove = new GameMove(planet, MoveType.DEPLOY, GameState.getPlayerFactionStatic());
         var leader = GameState.getPlayerLeadersStatic().get(leaderIndex);
 
-        if (planets.stream().anyMatch(p -> p.getLeaders().contains(leader))) {
-            return 0;
+        if (leader.equals(GameState.getCapturedLeaderStatic())) {
+            return DeployLeaderResult.IS_CAPTURED;
         }
 
-        if (planet.getLeaders().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
+        planets.forEach(p -> p.getLeaders().remove(leader));
+
+        if (!planet.getLeaders().contains(leader)) {
             planet.getLeaders().add(leader);
         }
 
-        if (GameState.getRebelLeadersStatic().stream().noneMatch(l -> l.getName().equals(leader.getName()))) {
+        if (!GameState.getRebelLeadersStatic().contains(leader)) {
             GameState.getRebelLeadersStatic().add(leader);
         }
 
         leader.setLocation(planet);
-        leadersAdded++;
+
+        GameState.getRebelLeadersStatic().stream()
+                .filter(l -> l.equals(leader))
+                .findFirst()
+                .ifPresent(l -> l.setLocation(planet));
 
         gameMove.getLeaders().add(leader);
         XmlUtils.saveNewMove(gameMove);
         ThreadUtils.saveLastEvent(gameMove);
 
-        return leadersAdded;
+        return DeployLeaderResult.SUCCESSFULLY_DEPLOYED;
     }
+
 
     public static void sendUniversalRequest(GameState gameState) {
         if (GameState.getPlayerFactionStatic().equals(Faction.EMPIRE)) {
@@ -84,6 +91,7 @@ public class GameUtils {
         GameState.setSecretBaseLocationStatic(gameState.getSecretBaseLocation());
         GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
         GameState.setFactionTurnStatic(gameState.getFactionTurn());
+        GameState.setCapturedLeaderStatic(gameState.getCapturedLeader());
         currentTurn = gameState.getCurrentTurn();
         rebelReputation = gameState.getRebelReputation();
         secretBaseSelected = true;
@@ -105,9 +113,7 @@ public class GameUtils {
     public static NextTurnResult nextTurn(Label label) {
         LogUtils.logInfo("Next turn! (Current turn: " + (currentTurn + 1) + ")");
 
-        leadersAdded = 0;
-
-        if (currentTurn == timePositions.size() - 1) {
+        if (currentTurn >= timePositions.size() - 1) {
             return NextTurnResult.GAME_OVER;
         }
 
@@ -117,7 +123,20 @@ public class GameUtils {
         GameState.setFactionTurnStatic(switchFaction());
         label.setText("Turn: " + GameState.getFactionTurnStatic());
 
+        checkCapturedLeader();
+
         return NextTurnResult.NEXT_TURN;
+    }
+
+    public static void checkCapturedLeader() {
+        if (GameState.getCapturedLeaderStatic() != null && capturedLeaderTurn != -1 && currentTurn >= capturedLeaderTurn + 2) {
+            releaseLeader();
+        }
+    }
+
+    private static void releaseLeader() {
+        GameState.setCapturedLeaderStatic(null);
+        capturedLeaderTurn = -1;
     }
 
     private static Faction switchFaction() {
@@ -183,9 +202,5 @@ public class GameUtils {
 
     public static boolean hasFactionLeaders(Planet planet, Faction faction) {
         return planet.getLeaders().stream().anyMatch(leader -> leader.getFaction().equals(faction));
-    }
-
-    public static Boolean rebellionWon() {
-        return currentTurn >= rebelReputation;
     }
 }

@@ -7,7 +7,6 @@ import hr.vpetrina.starwars.model.Player;
 import hr.vpetrina.starwars.util.GameUtils;
 import hr.vpetrina.starwars.util.NetworkUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
-import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -19,7 +18,7 @@ public class StarWarsRebellionApplication extends Application {
     public void start(Stage stage) throws IOException {
         SceneUtils.launchScene(
                 GameUtils.TITLE + " " + GameState.getCurrentPlayer(),
-                SceneUtils.PICK_SIDE_WINDOW_NAME,
+                SceneUtils.PICK_SIDE_WINDOW_FILE_NAME,
                 800, 600);
 
         Thread serverThread;

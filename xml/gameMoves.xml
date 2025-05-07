@@ -966,4 +966,583 @@
         <Winner>REBELLION</Winner>
         <Executor>EMPIRE</Executor>
     </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Kashyyyk</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Kashyyyk</Planet>
+        <Leaders/>
+        <MoveType>SEARCH</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>ATTACK</MoveType>
+        <Winner>EMPIRE</Winner>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders/>
+        <MoveType>SEARCH</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Naboo</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Naboo</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Naboo</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders/>
+        <MoveType>SEARCH</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Naboo</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders/>
+        <MoveType>SEARCH</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Naboo</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>ATTACK</MoveType>
+        <Winner>EMPIRE</Winner>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>ATTACK</MoveType>
+        <Winner>EMPIRE</Winner>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Naboo</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Hoth</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>ATTACK</MoveType>
+        <Winner>EMPIRE</Winner>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>ATTACK</MoveType>
+        <Winner>EMPIRE</Winner>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>ATTACK</MoveType>
+        <Winner>EMPIRE</Winner>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>ATTACK</MoveType>
+        <Winner>EMPIRE</Winner>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Mustafar</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
 </GameMoves>

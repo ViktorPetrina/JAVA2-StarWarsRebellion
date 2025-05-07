@@ -165,7 +165,7 @@ public class ChooseLeaderController {
         }
 
         GameState.setPlayerLeadersStatic(selectedLeaders);
-        SceneUtils.launchSceneFullscreen(GameUtils.TITLE, SceneUtils.MAIN_WINDOW_NAME);
+        SceneUtils.launchSceneFullscreen(GameUtils.TITLE, SceneUtils.MAIN_WINDOW_FILE_NAME);
         SceneUtils.closeWindow(lblLeaders);
     }
 }

@@ -11,7 +11,7 @@ public class CombatUtils {
     private CombatUtils() {}
 
     public static CombatResult attackPlanet(Planet planet) {
-        var result = CombatResult.NO_LEADERS;
+        var result = new CombatResult(CombatOutcome.NO_LEADERS, null);
 
         if (planet != null && !GameUtils.hasFactionLeaders(planet, Faction.EMPIRE)) {
             return result;
@@ -20,8 +20,10 @@ public class CombatUtils {
         var executorFaction = GameState.getPlayerFactionStatic();
 
         if (planet != null && !planet.getLeaders().isEmpty()) {
+
             var removedLeader = CombatUtils.initiateCombat(planet);
             removeLeaderFromPlanet(removedLeader, planet);
+            result.setCapturedLeader(removedLeader);
 
             if (removedLeader.getFaction().equals(Faction.REBELLION)) {
 
@@ -30,7 +32,7 @@ public class CombatUtils {
                 XmlUtils.saveNewMove(gameMove);
                 ThreadUtils.saveLastEvent(gameMove);
 
-                result = CombatResult.SUCCESS;
+                result.setOutcome(CombatOutcome.SUCCESS);
             }
             else {
 
@@ -38,7 +40,7 @@ public class CombatUtils {
                 XmlUtils.saveNewMove(gameMove);
                 ThreadUtils.saveLastEvent(gameMove);
 
-                result = CombatResult.FAILURE;
+                result.setOutcome(CombatOutcome.FAILURE);
             }
 
             return result;

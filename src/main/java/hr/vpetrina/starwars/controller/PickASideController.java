@@ -45,7 +45,7 @@ public class PickASideController {
 
         SceneUtils.launchScene(
                 GameUtils.TITLE,
-                SceneUtils.CHOOSE_A_LEADER_WINDOW_NAME,
+                SceneUtils.CHOOSE_A_LEADER_WINDOW_FILE_NAME,
                 1000, 700);
 
         SceneUtils.closeWindow(lblSide);

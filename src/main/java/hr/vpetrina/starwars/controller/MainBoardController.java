@@ -6,6 +6,7 @@ import hr.vpetrina.starwars.rmi.ChatRemoteService;
 import hr.vpetrina.starwars.util.*;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -229,6 +230,14 @@ public class MainBoardController {
         }));
     }
 
+    private void initializePanes() {
+        menuPane.setVisible(false);
+        planetMenuPane.setVisible(false);
+        messagePane.setVisible(false);
+        gameOverPane.setVisible(false);
+        chatPane.setVisible(false);
+    }
+
     private void initializeTimePositions() {
         GameUtils.setTimePositions(List.of(
                 timePositionOne, timePositionTwo, timePositionThree, timePositionFour,
@@ -250,16 +259,16 @@ public class MainBoardController {
     @FXML
     private void deployLeader1() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-        if (GameUtils.addLeaderToPlanet(0, selectedPlanet) == 0) {
-            showMessage("Cannot deploy leader", "The leader is already deployed.");
+        if (GameUtils.addLeaderToPlanet(0, selectedPlanet).equals(DeployLeaderResult.IS_CAPTURED)) {
+            showMessage("Leader is captured", "Leader is captured for two turns");
         }
     }
 
     @FXML
     private void deployLeader2() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-        if (GameUtils.addLeaderToPlanet(1, selectedPlanet) == 0) {
-            showMessage("Cannot deploy leader", "The leader is already deployed.");
+        if (GameUtils.addLeaderToPlanet(1, selectedPlanet).equals(DeployLeaderResult.IS_CAPTURED)) {
+            showMessage("Leader is captured", "Leader is captured for two turns");
         }
     }
 
@@ -287,14 +296,6 @@ public class MainBoardController {
                 .filter(p -> p.getName().equals(planet.getUserData().toString()))
                 .toList()
                 .getFirst();
-    }
-
-    private void initializePanes() {
-        menuPane.setVisible(false);
-        planetMenuPane.setVisible(false);
-        messagePane.setVisible(false);
-        gameOverPane.setVisible(false);
-        chatPane.setVisible(false);
     }
 
     @FXML
@@ -391,17 +392,29 @@ public class MainBoardController {
             case HAS_SECRET_BASE -> showGameOver(Faction.EMPIRE);
             case NO_LEADERS -> showMessage("No leaders", "You must deploy a leader to search.");
         }
+
+        finishTurn();
+        GameUtils.sendUniversalRequest(GameState.getGameState());
     }
 
     @FXML
     public void attackPlanet() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-        switch (CombatUtils.attackPlanet(selectedPlanet)) {
+
+        var result = CombatUtils.attackPlanet(selectedPlanet);
+
+        switch (result.getOutcome()) {
             case NO_LEADERS -> showMessage("No leaders", "The planet has no leaders to carry out the attack");
             case FAILURE -> showMessage("Empire lost!", "The empire lost this combat mission.");
-            case SUCCESS -> showMessage("Empire won!", "The empire captured the rebel leader.");
+            case SUCCESS -> {
+                showMessage("Empire won!", "The empire captured the rebel leader.");
+                GameState.setCapturedLeaderStatic(result.getCapturedLeader());
+                GameUtils.setCapturedLeaderTurn(GameUtils.getCurrentTurn());
+            }
         }
-        NetworkUtils.sendRequestPlayerTwo(GameState.getGameState());
+
+        finishTurn();
+        GameUtils.sendUniversalRequest(GameState.getGameState());
     }
 
     public void showMessage(String title, String message) {
@@ -446,6 +459,6 @@ public class MainBoardController {
     @FXML
     public void viewEvents() throws IOException {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-        SceneUtils.launchScene("Events replay", SceneUtils.GAME_REPLAY_WINDOW_NAME, 600, 400);
+        SceneUtils.launchScene("Events replay", SceneUtils.GAME_REPLAY_WINDOW_FILE_NAME, 600, 400);
     }
 }
