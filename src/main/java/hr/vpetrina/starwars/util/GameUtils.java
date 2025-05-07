@@ -92,6 +92,7 @@ public class GameUtils {
         GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
         GameState.setFactionTurnStatic(gameState.getFactionTurn());
         GameState.setCapturedLeaderStatic(gameState.getCapturedLeader());
+
         currentTurn = gameState.getCurrentTurn();
         rebelReputation = gameState.getRebelReputation();
         secretBaseSelected = true;
@@ -113,7 +114,10 @@ public class GameUtils {
     public static NextTurnResult nextTurn(Label label) {
         LogUtils.logInfo("Next turn! (Current turn: " + (currentTurn + 1) + ")");
 
-        if (currentTurn >= timePositions.size() - 1) {
+        LogUtils.logInfo("Current turn: " + currentTurn);
+        LogUtils.logInfo("Rebel reputation: " + rebelReputation);
+
+        if (currentTurn >= rebelReputation - 1) {
             return NextTurnResult.GAME_OVER;
         }
 

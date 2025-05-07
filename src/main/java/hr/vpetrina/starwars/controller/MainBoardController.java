@@ -6,7 +6,6 @@ import hr.vpetrina.starwars.rmi.ChatRemoteService;
 import hr.vpetrina.starwars.util.*;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,6 +18,7 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 public class MainBoardController {
 
@@ -132,15 +132,15 @@ public class MainBoardController {
     @FXML
     public Label lblPlanetName;
     @FXML
-    public Label lblPlanetControl;
-    @FXML
     public Label lblPlanetLeaders;
 
     @FXML
     private Pane mainPane;
 
     protected static final List<Button> buttons = new ArrayList<>();
-    public static final List<Label> labels = new ArrayList<>();
+    public static Label lblTurnStatic;
+    public static Label lblWhoWonStatic;
+    public static Pane gameOverPaneStatic;
 
     private List<ImageView> planetImages;
     private static Planet selectedPlanet;
@@ -152,7 +152,7 @@ public class MainBoardController {
     @FXML
     public void initialize() {
         initializeChatService();
-        initializeStaticLists();
+        initializeStatics();
         initializePlanets();
         initializeTimePositions();
         initializePanes();
@@ -181,14 +181,16 @@ public class MainBoardController {
         });
     }
 
-    private void initializeStaticLists() {
+    private void initializeStatics() {
         buttons.add(btnAttackPlanet);
         buttons.add(btnSearchPlanet);
         buttons.add(btnFinishTurn);
         buttons.add(btnLeader1);
         buttons.add(btnLeader2);
 
-        labels.add(lblTurn);
+        lblTurnStatic = lblTurn;
+        lblWhoWonStatic = lblWhoWon;
+        gameOverPaneStatic = gameOverPane;
     }
 
     private void initializePlanets() {
@@ -262,6 +264,7 @@ public class MainBoardController {
         if (GameUtils.addLeaderToPlanet(0, selectedPlanet).equals(DeployLeaderResult.IS_CAPTURED)) {
             showMessage("Leader is captured", "Leader is captured for two turns");
         }
+
     }
 
     @FXML
@@ -275,11 +278,15 @@ public class MainBoardController {
     private void openPlanetMenu(ImageView planetImage) {
         selectPlanet(planetImage);
         lblPlanetName.setText(selectedPlanet.getName());
-        lblPlanetControl.setText(selectedPlanet.getControlStatus().toString());
 
-        StringBuilder sb = new StringBuilder();
-        selectedPlanet.getLeaders().forEach(leader -> sb.append(leader.getName()).append('\n'));
-        lblPlanetLeaders.setText(sb.toString());
+        if (selectedPlanet.getLeaders().isEmpty()) {
+            lblPlanetLeaders.setText("None");
+        }
+        else {
+            StringBuilder sb = new StringBuilder();
+            selectedPlanet.getLeaders().forEach(leader -> sb.append(leader.getName()).append('\n'));
+            lblPlanetLeaders.setText(sb.toString());
+        }
 
         planetMenuPane.setVisible(true);
         SoundUtils.playSound(SoundUtils.MENU_SOUND);
@@ -390,7 +397,10 @@ public class MainBoardController {
             );
             case NO_SECRET_BASE -> showMessage("No secret base", "You must continue searching.");
             case HAS_SECRET_BASE -> showGameOver(Faction.EMPIRE);
-            case NO_LEADERS -> showMessage("No leaders", "You must deploy a leader to search.");
+            case NO_LEADERS -> {
+                showMessage("No leaders", "You must deploy a leader to search.");
+                return;
+            }
         }
 
         finishTurn();
@@ -404,7 +414,10 @@ public class MainBoardController {
         var result = CombatUtils.attackPlanet(selectedPlanet);
 
         switch (result.getOutcome()) {
-            case NO_LEADERS -> showMessage("No leaders", "The planet has no leaders to carry out the attack");
+            case NO_LEADERS -> {
+                showMessage("No leaders", "The planet has no leaders to carry out the attack");
+                return;
+            }
             case FAILURE -> showMessage("Empire lost!", "The empire lost this combat mission.");
             case SUCCESS -> {
                 showMessage("Empire won!", "The empire captured the rebel leader.");
@@ -431,6 +444,9 @@ public class MainBoardController {
             lblWhoWon.setText("The empire found the secret base and won!");
         }
         gameOverPane.setVisible(true);
+        GameState.getGameOverStatic().setWinner(winner);
+        GameState.getGameOverStatic().setIsOver(true);
+        GameUtils.sendUniversalRequest(GameState.getGameState());
     }
 
     public static void disableControls(boolean b) {

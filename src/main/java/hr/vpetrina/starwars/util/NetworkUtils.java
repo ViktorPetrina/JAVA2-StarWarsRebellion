@@ -3,6 +3,7 @@ package hr.vpetrina.starwars.util;
 import hr.vpetrina.starwars.controller.MainBoardController;
 import hr.vpetrina.starwars.jndi.ConfigurationKey;
 import hr.vpetrina.starwars.jndi.ConfigurationReader;
+import hr.vpetrina.starwars.model.Faction;
 import hr.vpetrina.starwars.model.GameState;
 import javafx.application.Platform;
 
@@ -35,13 +36,23 @@ public class NetworkUtils {
             GameState gameState = (GameState)ois.readObject();
             GameUtils.restoreGameState(gameState);
 
-            LogUtils.logInfo("faction turn: " + gameState.getFactionTurn());
-
             MainBoardController.disableControls(false);
 
-            Platform.runLater(() -> MainBoardController.labels.getFirst().setText(
+            Platform.runLater(() -> MainBoardController.lblTurnStatic.setText(
                     "Turn: " + GameState.getFactionTurnStatic())
             );
+
+            if (gameState.getGameOver().getIsOver()) {
+                Platform.runLater(() -> {
+                    if (Faction.REBELLION.equals(gameState.getGameOver().getWinner())) {
+                        MainBoardController.lblWhoWonStatic.setText("The rebellion won!");
+                    }
+                    else {
+                        MainBoardController.lblWhoWonStatic.setText("The empire found the secret base and won!");
+                    }
+                    MainBoardController.gameOverPaneStatic.setVisible(true);
+                });
+            }
 
             oos.writeObject("Success");
 

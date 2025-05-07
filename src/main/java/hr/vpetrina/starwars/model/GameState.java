@@ -21,6 +21,7 @@ public class GameState implements Serializable {
     private final Faction playerFaction;
     private final List<Leader> playerLeaders = new ArrayList<>();
     private final Leader capturedLeader;
+    private final GameOver gameOver;
 
     private GameState(
             Faction turn,
@@ -32,7 +33,8 @@ public class GameState implements Serializable {
             List<Leader> empireLeaders,
             Faction playerFaction,
             List<Leader> playerLeaders,
-            Leader capturedLeader
+            Leader capturedLeader,
+            GameOver gameOver
     ) {
         this.secretBaseLocation = secretBaseLocation;
         this.factionTurn = turn;
@@ -44,6 +46,7 @@ public class GameState implements Serializable {
         this.empireLeaders.addAll(empireLeaders);
         this.playerFaction = playerFaction;
         this.playerLeaders.addAll(playerLeaders);
+        this.gameOver = gameOver;
     }
 
     @Getter @Setter
@@ -64,6 +67,8 @@ public class GameState implements Serializable {
     private static List<Leader> rebelLeadersStatic = new ArrayList<>();
     @Getter @Setter
     private static List<Leader> empireLeadersStatic = new ArrayList<>();
+    @Getter @Setter
+    private static GameOver gameOverStatic = new GameOver(false, null);
 
     public static GameState getGameState() {
         return new GameState(
@@ -76,7 +81,8 @@ public class GameState implements Serializable {
                 empireLeadersStatic,
                 playerFactionStatic,
                 playerLeadersStatic,
-                capturedLeaderStatic
+                capturedLeaderStatic,
+                gameOverStatic
         );
     }
 }
