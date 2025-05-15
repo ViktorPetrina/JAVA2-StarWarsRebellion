@@ -374,8 +374,7 @@ public class MainBoardController {
 
     @FXML
     private void loadGame() {
-        GameUtils.restoreGameState(FileUtils.loadGameState());
-        GameUtils.setSecretBaseSelected(true);
+        GameUtils.restoreGameState(FileUtils.loadGameState(), false);
         lblMessage.setText("Secret base location: " + GameState.getSecretBaseLocationStatic().getName());
         lblTurn.setText("Turn: " + GameState.getFactionTurnStatic().name());
 

@@ -85,13 +85,17 @@ public class GameUtils {
         }
     }
 
-    public static void restoreGameState(GameState gameState) {
+    public static void restoreGameState(GameState gameState, Boolean overNetwork) {
         planets.forEach(planet -> planet.getLeaders().clear());
 
         GameState.setSecretBaseLocationStatic(gameState.getSecretBaseLocation());
         GameState.setRebelLeadersStatic(gameState.getRebelLeaders());
         GameState.setFactionTurnStatic(gameState.getFactionTurn());
         GameState.setCapturedLeaderStatic(gameState.getCapturedLeader());
+
+        if (Boolean.FALSE.equals(overNetwork)) {
+            GameState.setPlayerLeadersStatic(gameState.getPlayerLeaders());
+        }
 
         currentTurn = gameState.getCurrentTurn();
         rebelReputation = gameState.getRebelReputation();

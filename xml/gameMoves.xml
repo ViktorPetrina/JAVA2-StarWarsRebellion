@@ -167,4 +167,48 @@
         <MoveType>DEPLOY</MoveType>
         <Executor>EMPIRE</Executor>
     </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Leia Organa</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Luke Skywalker</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Darth Sidious</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders>
+            <Leader>Boba Fett</Leader>
+        </Leaders>
+        <MoveType>DEPLOY</MoveType>
+        <Executor>EMPIRE</Executor>
+    </GameMove>
+    <GameMove>
+        <Planet>Tatooine</Planet>
+        <Leaders/>
+        <MoveType>SECRET_BASE_PICK</MoveType>
+        <Executor>REBELLION</Executor>
+    </GameMove>
 </GameMoves>

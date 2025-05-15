@@ -34,7 +34,7 @@ public class NetworkUtils {
              ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream())) {
 
             GameState gameState = (GameState)ois.readObject();
-            GameUtils.restoreGameState(gameState);
+            GameUtils.restoreGameState(gameState, true);
 
             MainBoardController.disableControls(false);
 
