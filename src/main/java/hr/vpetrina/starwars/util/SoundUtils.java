@@ -10,11 +10,12 @@ public class SoundUtils {
     private static MediaPlayer musicPlayer;
     private static MediaPlayer soundPlayer;
 
+    public static final String GAME_OVER = "background_music_outro.mp3";
     public static final String SELECT_SOUND = "select_3.mp3";
     public static final String READY_SOUND = "select_2.mp3";
     public static final String RESET_SOUND = "select_1.mp3";
     public static final String MENU_SOUND = "select_4.mp3";
-    public static final String MUSIC_SOUND = "background_music.mp3";
+    public static final String BACKGROUND_MUSIC_SOUND = "background_music.mp3";
 
     private SoundUtils() {}
 
@@ -22,6 +23,12 @@ public class SoundUtils {
         String soundPath = Objects
                 .requireNonNull(StarWarsRebellionApplication.class.getResource("sounds/" + name))
                 .toExternalForm();
+
+        if (musicPlayer != null) {
+            musicPlayer.stop();
+            musicPlayer.dispose();
+        }
+
         Media media = new Media(soundPath);
         musicPlayer = new MediaPlayer(media);
         musicPlayer.play();
@@ -31,6 +38,12 @@ public class SoundUtils {
         String soundPath = Objects
                 .requireNonNull(StarWarsRebellionApplication.class.getResource("sounds/" + name))
                 .toExternalForm();
+
+        if (soundPlayer != null) {
+            soundPlayer.stop();
+            soundPlayer.dispose();
+        }
+
         Media media = new Media(soundPath);
         soundPlayer = new MediaPlayer(media);
         soundPlayer.play();

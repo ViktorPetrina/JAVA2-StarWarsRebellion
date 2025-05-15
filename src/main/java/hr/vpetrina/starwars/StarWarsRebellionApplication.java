@@ -24,7 +24,7 @@ public class StarWarsRebellionApplication extends Application {
 
         Thread serverThread;
         if (Player.PLAYER_ONE.equals(GameState.getCurrentPlayer())) {
-            //SoundUtils.playMusic(SoundUtils.MUSIC_SOUND);
+            SoundUtils.playMusic(SoundUtils.BACKGROUND_MUSIC_SOUND);
             serverThread = new Thread(() -> NetworkUtils.acceptRequests(
                     ConfigurationReader.getIntegerValueForKey(ConfigurationKey.PLAYER_1_SERVER_PORT)));
         }

@@ -280,6 +280,7 @@ public class MainBoardController {
     }
 
     private void openPlanetMenu(ImageView planetImage) {
+        SoundUtils.playSound(SoundUtils.MENU_SOUND);
         selectPlanet(planetImage);
         lblPlanetName.setText(selectedPlanet.getName());
 
@@ -293,11 +294,11 @@ public class MainBoardController {
         }
 
         planetMenuPane.setVisible(true);
-        SoundUtils.playSound(SoundUtils.MENU_SOUND);
     }
 
     @FXML
     private void sendMessage() {
+        SoundUtils.playSound(SoundUtils.MENU_SOUND);
         ChatUtils.sendChatMessage(chatRemoteService, chatMessageTextField);
     }
 
@@ -332,6 +333,7 @@ public class MainBoardController {
 
     @FXML
     public void closeMessagePane() {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         messagePane.setVisible(false);
     }
 
@@ -369,11 +371,14 @@ public class MainBoardController {
 
     @FXML
     private void saveGame() {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         FileUtils.saveGameState(GameState.getGameState());
+        SceneUtils.showInformationDialog("Save game", "Save game was successful", "");
     }
 
     @FXML
     private void loadGame() {
+        SoundUtils.playSound(SoundUtils.SELECT_SOUND);
         GameUtils.restoreGameState(FileUtils.loadGameState(), false);
         lblMessage.setText("Secret base location: " + GameState.getSecretBaseLocationStatic().getName());
         lblTurn.setText("Turn: " + GameState.getFactionTurnStatic().name());
@@ -419,7 +424,6 @@ public class MainBoardController {
     @FXML
     public void attackPlanet() {
         SoundUtils.playSound(SoundUtils.SELECT_SOUND);
-
         var result = CombatUtils.attackPlanet(selectedPlanet);
 
         switch (result.getOutcome()) {
@@ -446,6 +450,7 @@ public class MainBoardController {
     }
 
     public void showGameOver(Faction winner) {
+        SoundUtils.playMusic(SoundUtils.GAME_OVER);
         if (Faction.REBELLION.equals(winner)) {
             lblWhoWon.setText("The rebellion won!");
         }
