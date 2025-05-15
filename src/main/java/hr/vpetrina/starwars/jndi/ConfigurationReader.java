@@ -9,6 +9,8 @@ import java.util.Properties;
 
 public class ConfigurationReader {
 
+    private ConfigurationReader() {}
+    
     private static final Properties properties;
 
     static {

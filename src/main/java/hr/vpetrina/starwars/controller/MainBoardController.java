@@ -159,6 +159,10 @@ public class MainBoardController {
         initializeSecretBase();
         initializeEventListeners();
         initializeLastEventTimeline();
+        initializeLeaders();
+    }
+
+    private void initializeLeaders() {
         GameUtils.initializeLeaders(
                 GameState.getPlayerLeadersStatic(),
                 List.of(leaderName1, leaderName2),
@@ -371,9 +375,12 @@ public class MainBoardController {
     @FXML
     private void loadGame() {
         GameUtils.restoreGameState(FileUtils.loadGameState());
+        GameUtils.setSecretBaseSelected(true);
         lblMessage.setText("Secret base location: " + GameState.getSecretBaseLocationStatic().getName());
         lblTurn.setText("Turn: " + GameState.getFactionTurnStatic().name());
+
         initializeEventListeners();
+        initializeLeaders();
     }
 
     private List<List<Label>> getStats() {
@@ -391,10 +398,13 @@ public class MainBoardController {
         }
 
         switch (GameUtils.searchPlanet(selectedPlanet)) {
-            case IS_PROTECTED -> showMessage(
+            case IS_PROTECTED -> {
+                showMessage(
                     "The planet has protecting leaders",
                     "Planet can not be searched while it has protecting leaders."
-            );
+                );
+                return;
+            }
             case NO_SECRET_BASE -> showMessage("No secret base", "You must continue searching.");
             case HAS_SECRET_BASE -> showGameOver(Faction.EMPIRE);
             case NO_LEADERS -> {

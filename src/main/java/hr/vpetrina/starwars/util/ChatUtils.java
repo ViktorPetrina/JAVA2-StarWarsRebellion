@@ -1,5 +1,6 @@
 package hr.vpetrina.starwars.util;
 
+import hr.vpetrina.starwars.exception.ChatException;
 import hr.vpetrina.starwars.jndi.ConfigurationKey;
 import hr.vpetrina.starwars.jndi.ConfigurationReader;
 import hr.vpetrina.starwars.model.GameState;
@@ -36,7 +37,7 @@ public class ChatUtils {
                 chatMessageTextArea.setText(textMessagesBuilder.toString());
 
             } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
+                throw new ChatException(ex);
             }
         }), new KeyFrame(Duration.seconds(1)));
 
@@ -49,7 +50,7 @@ public class ChatUtils {
         try {
             chatRemoteService.sendChatMessage(GameState.getCurrentPlayer().name() + ": " + chatMessage);
         } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            throw new ChatException(e);
         }
     }
 
@@ -66,7 +67,7 @@ public class ChatUtils {
             chatRemoteServiceOptional = Optional.of((ChatRemoteService) registry.lookup(ChatRemoteService.REMOTE_OBJECT_NAME));
 
         } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
+            LogUtils.logSevere("Error while initializing remote service: " + e.getMessage());
         }
 
         return chatRemoteServiceOptional;

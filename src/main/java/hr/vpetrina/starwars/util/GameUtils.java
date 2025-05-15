@@ -112,11 +112,6 @@ public class GameUtils {
     }
 
     public static NextTurnResult nextTurn(Label label) {
-        LogUtils.logInfo("Next turn! (Current turn: " + (currentTurn + 1) + ")");
-
-        LogUtils.logInfo("Current turn: " + currentTurn);
-        LogUtils.logInfo("Rebel reputation: " + rebelReputation);
-
         if (currentTurn >= rebelReputation - 1) {
             return NextTurnResult.GAME_OVER;
         }

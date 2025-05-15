@@ -7,6 +7,7 @@ import hr.vpetrina.starwars.model.Player;
 import hr.vpetrina.starwars.util.GameUtils;
 import hr.vpetrina.starwars.util.NetworkUtils;
 import hr.vpetrina.starwars.util.SceneUtils;
+import hr.vpetrina.starwars.util.SoundUtils;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

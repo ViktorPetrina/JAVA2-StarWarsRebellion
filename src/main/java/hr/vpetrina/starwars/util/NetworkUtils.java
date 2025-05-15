@@ -21,11 +21,11 @@ public class NetworkUtils {
         try (ServerSocket serverSocket = new ServerSocket(port)){
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                System.err.printf("Client connected from port %s%n", clientSocket.getPort());
+                LogUtils.logInfo(String.format("Client connected from port %s%n", clientSocket.getPort()));
                 new Thread(() ->  processSerializableClient(clientSocket)).start();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.logSevere(e.getMessage());
         }
     }
 
@@ -42,7 +42,7 @@ public class NetworkUtils {
                     "Turn: " + GameState.getFactionTurnStatic())
             );
 
-            if (gameState.getGameOver().getIsOver()) {
+            if (Boolean.TRUE.equals(gameState.getGameOver().getIsOver())) {
                 Platform.runLater(() -> {
                     if (Faction.REBELLION.equals(gameState.getGameOver().getWinner())) {
                         MainBoardController.lblWhoWonStatic.setText("The rebellion won!");
@@ -57,7 +57,7 @@ public class NetworkUtils {
             oos.writeObject("Success");
 
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            LogUtils.logSevere(e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class NetworkUtils {
             sendSerializableRequest(clientSocket, gameState);
 
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            LogUtils.logSevere(e.getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ public class NetworkUtils {
             sendSerializableRequest(clientSocket, gameState);
 
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            LogUtils.logSevere(e.getMessage());
         }
     }
 

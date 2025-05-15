@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class AbstractGameMoveThread {
 
     protected synchronized void saveTheLastGameMove(GameMove gameMove) throws FileNotFoundException, ConcurrentAccessException {
-        while(Boolean.TRUE.equals(FileUtils.FILE_ACCESS_IN_PROGRESS)) {
+        while(Boolean.TRUE.equals(FileUtils.FILE_ACCESS_IN_PROGRESS.get())) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -43,7 +43,7 @@ public abstract class AbstractGameMoveThread {
 
     protected synchronized List<GameMove> loadGameMoves() throws ConcurrentAccessException {
 
-        while (Boolean.TRUE.equals(FileUtils.FILE_ACCESS_IN_PROGRESS)) {
+        while (Boolean.TRUE.equals(FileUtils.FILE_ACCESS_IN_PROGRESS.get())) {
             try {
                 wait();
             } catch (InterruptedException e) {
